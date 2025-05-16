@@ -120,19 +120,18 @@ const[Language, setLanguage] = useState<'VI' | 'EN'>('VI');
   return (
     <>
         <header className="max-lg:hidden h-12  max-[1441px]:h-7 w-auto bg-[rgb(118,78,42)] ">
-            <div className=' flex justify-between items-center w-auto h-12 px-50 max-[1441px]:h-7 max-[1441px]:px-30'>
-              <div className=' flex items-center font-medium gap-5 text-2xl text-red-50 max-[1441px]:text-[14px]'> <IconFC name={'address'}/>
-                <p>{address}</p>
-              </div>  
-              <div className='gap-1 flex items-center font-medium text-red-50 text-2xl max-[1441px]:text-[14px]'> <IconFC name={'phone'}/>
-                <p>{phone}</p></div>
+            <div className=' flex justify-between items-center w-auto h-12 px-50 text-[#fff] max-[1441px]:h-7 max-[1441px]:px-30'>
+              <a href=""><div className=' flex items-center font-medium gap-5 text-2xl  max-[1441px]:text-[14px]'> <IconFC name={'address'}/>
+                <p>{address}</p> </div>  </a>
+             <a href=""> <div className='gap-1 flex items-center font-medium   text-2xl max-[1441px]:text-[14px]'> <IconFC name={'phone'}/>
+                <p>{phone}</p></div></a>
+
               </div>
         </header>
         <div className=' flex justify-between items-center px-50 max-[1441px]:px-30 max-[1025px]:!px-20 max-[769px]:!px-10 max-[426px]:!px-9 max-[376px]:!px-2'>
             <button className='flex bg-[#5d4024] text-red-50 border-none px-[40px] py-[16px] text-2xl max-[1441px]:px-[20px] max-[1441px]:py-[8px] max-[1441px]:text-[18px]  transition duration-500 hover:bg-[rgb(179,135,92)] max-[426px]:text-[13px] max-[426px]:!px-[4px] '><span className='pr-5 max-[1441px]:pr-3 max-[426px]:pr-1 items-center justify-center'>Đặt phòng</span> 
-            <svg className='w-[25px] max-[1441px]:w-[15px]' fill="currentColor" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
-                        <path d="M335 408.1C330.3 404.3 328 398.2 328 392s2.344-12.28 7.031-16.97L430.1 280H24C10.75 280 0 269.2 0 255.1C0 242.7 10.75 232 24 232h406.1l-95.03-95.03c-9.375-9.375-9.375-24.56 0-33.94s24.56-9.375 33.94 0l136 136c9.375 9.375 9.375 24.56 0 33.94l-136 136C359.6 418.3 344.4 418.3 335 408.1z"></path>
-                    </svg></button>
+                <IconFC name={'arrow'}/>
+            </button>
             <img className=' h-40 max-[1441px]:h-30 max-[1310px]:h-24 max-[425px]:h-15' src={LogoBooking} alt="Logo"  />
             <div className='  icon flex items-center gap-[20px] text-[25px] max-[1441px]:gap-[10px] max-[1441px]:text-[13px]' >
                 <a className='max-lg:hidden  Facebook' href="#">
@@ -147,7 +146,7 @@ const[Language, setLanguage] = useState<'VI' | 'EN'>('VI');
                 <div className=' max-lg:hidden pl-5 flex items-center gap-[2px]'>
                    {LanguageSwitch()}
                 </div>
-
+                
                 <button onClick={handleToggle} className=''>
                     <div className=' text-3xl max-[1025px]:text-[20px] pl-5 max-[1441px]:text-[30px] max-[1310px]:text-[20px]'>
                         {isNavOpen ? <i className="showMenuNav fa-solid fa-xmark"></i> : <i className=" fa-solid fa-bars hover:text-[#FCC24E] transition duration-500"></i>}
@@ -163,9 +162,9 @@ const[Language, setLanguage] = useState<'VI' | 'EN'>('VI');
             </div>
 
 
-            <div className={ ` top-24 flex max-[380px]:top-15 max-[380px]:w-[230px] w-30% h-full bg-amber-100  min-[770px]:hidden absolute   ${isNavOpen ? 'transition duration-550 inline ease-in-out translate-x-0 min-[769px]:translate-x-[-500px]' : 'transition inline duration-500   translate-x-[-1500px] '} `}>
+            <div className={ `  top-24 flex max-[380px]:top-15 max-[380px]:w-[230px] w-30% h-full bg-[#fff]  min-[770px]:hidden absolute   ${isNavOpen ? 'transition duration-550 inline ease-in-out translate-x-0 min-[769px]:translate-x-[-500px]' : 'transition inline duration-500   translate-x-[-1500px] '} `}>
                
-               <div className=' flex w-10 pl-6 text-2xl'>
+               <div className=' py-2 flex w-10 pl-6 text-2xl'>
                  {LanguageSwitch()}
                </div>
                   
@@ -175,12 +174,12 @@ const[Language, setLanguage] = useState<'VI' | 'EN'>('VI');
                {Nav.map((Nav) => (
                 <li key={Nav.id} className=''>
                 <a
-                    className="   text-[#784717]"
+                    className="    "
                     href={Nav.link}
                     > 
 
-                    <div className=' flex gap-[10px] justify-center items-center'><a className=''><IconFC name={Nav.icon}/></a>
-                      <div className='py-1 w-50  max-[380px]:w-37 max-[380px]:text-[13px]   text-[18px] '>{Nav.title}
+                    <div className=' flex gap-[10px] justify-center items-center'><a className='text-[#FCC24E]'><IconFC name={Nav.icon}/></a>
+                      <div className='py-3 w-50  max-[380px]:py-2   max-[380px]:w-37 max-[380px]:text-[13px]   text-[18px] '>{Nav.title}
                         {Nav.sub && Nav.sub.length > 0 && (
                          <a   onClick={() => handleSubMenuToggle(Nav.id)} className=' float-right '>{isSubMenuOpen === Nav.id ? <IconFC name={'chevrondown'}/> : <IconFC name={'chevronup'}/>}</a> 
                           )}  
@@ -205,19 +204,25 @@ const[Language, setLanguage] = useState<'VI' | 'EN'>('VI');
                </div>
                
 
-                <div className='px-[10px] py-[15px] items-start flex w-80  max-[378px]:w-60 max-[378px]:text-[12px] gap-[10px] text-[#d3863a] text-[15px] max-[380px]:text-[15px] pl-5'>
-                <i className='text-[#784717] text-2xl max-[380px]:text-[15px] p-0 m-0 '><IconFC name={'address'}/></i>
+                <div className='px-[10px] py-[15px] items-start flex w-80  max-[378px]:w-60 max-[378px]:text-[12px] gap-[10px]   text-[15px] max-[380px]:text-[15px] pl-5'>
+                <i className=' text-[#FCC24E] text-2xl max-[380px]:text-[15px] p-0 m-0 '><IconFC name={'address'}/></i>
                 <p className=''>{address}</p>
                </div>
-                <div className='  flex w-80 items-start gap-[10px] max-[378px]:w-60 max-[378px]:text-[12px] text-[#d3863a] text-[15px] max-[380px]:text-[15px] pl-5'>
-                  <i className='text-[#784717] text-2xl max-[380px]:text-[15px]   '><IconFC name={'phone'}/></i>
+                <div className='  flex w-80 items-start gap-[10px] max-[378px]:w-60 max-[378px]:text-[12px]   text-[15px] max-[380px]:text-[15px] pl-5'>
+                  <i className='text-[#FCC24E] text-2xl max-[380px]:text-[15px]   '><IconFC name={'phone'}/></i>
                   <p className=''>{phone}</p>
                   </div>
-
                   <div className=' flex pt-5 align-center justify-center gap-[10px]  '>
-                    <IconFC name='facebook'  />
-                    <IconFC name='instagram'/>
-                    <IconFC name='Tripadvisortter'/>
+                    <a className='  Facebook' href="#">
+                            <IconFC name='facebook' />
+                        </a>  
+                        <a className='  Instagram' href="#">
+                            <IconFC name='instagram'/>
+                        </a>
+                        <a className='    Tripadvisor  ' href='#'  >
+                            <IconFC name='Tripadvisortter' />
+                        </a>
+                 
                   </div>
                
                
@@ -225,7 +230,7 @@ const[Language, setLanguage] = useState<'VI' | 'EN'>('VI');
                
             </div>
 
-            <div className={` flex w-full h-full   absolute top-50 max-[1450px]:top-37    max-[1310px]:top-30 max-[770px]:top-25  bg-cyan-50  ${isNavOpen ? 'transition duration-500 inline translate-x-0 max-[770px]:translate-x-[-1450px]' : 'transition duration-500 translate-x-[-2600px]  max-[1450px]:translate-x-[-1450px] '} `}>
+            <div className={` flex w-full h-full  absolute top-50 max-[1450px]:top-37    max-[1310px]:top-30 max-[770px]:top-25  bg-[#fff]  ${isNavOpen ? 'transition duration-500 inline translate-x-0 max-[770px]:translate-x-[-1450px]' : 'transition duration-500 translate-x-[-4000px]  max-[1450px]:translate-x-[-1450px] '} `}>
                 <div className=' flex '>
                    
                       <ul className= 'gap-[20px]  px-70 max- max-[1450px]:px-30 max-[1450px]:pr-20 '>

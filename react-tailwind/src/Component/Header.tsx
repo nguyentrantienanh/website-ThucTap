@@ -68,7 +68,7 @@ const handleToggle = () => {
  
     /*Nav*/ 
   const NavBar = Nav.map(Nav => (
-    <li key={Nav.id} className='relative group flex items-center justify-center max-[1025px]:border-t-2 border-t-3 border-transparent hover:border-[rgb(118,78,42)] transition duration-800'>
+    <li key={Nav.id} className=' py-4 sticky group flex items-center justify-center max-[1025px]:border-t-2 border-t-3 border-transparent hover:border-[rgb(118,78,42)] transition duration-800'>
       <a
         className="flex flex-col items-center text-[#784717]"
         href={Nav.link}
@@ -78,12 +78,12 @@ const handleToggle = () => {
        <a className='text-[#FCC24E] text-5xl max-[1441px]:text-2xl max-[1025px]:text-[18px] '><IconFC name={Nav.icon}/></a>
         <div className='text-2xl max-[1441px]:text-[18px] max-[1025px]:text-[14px]'>{Nav.title}</div>
       </a>
-      <div className='absolute left-0 top-full hidden group-hover:block shadow-xl min-w-max z-10'>
+      <div className='absolute left-0 top-full hidden mt-1 transition  group-hover:block   shadow-xl min-w-max bg-[#fff]'>
         <ul>
           <div className='  divide-y-1 divide-gray-300'>
             
             {Nav.sub && Nav.sub.map((subItem, index) => (
-              <li key={index} className=' p-2 hover:bg-yellow-800 transition duration-300 text-gray-700 hover:text-yellow-50 hover:border-none'>
+              <li key={index} className=' p-2 hover:bg-yellow-800  transition duration-300 text-gray-700 hover:text-yellow-50 hover:border-none'>
                 <a href={subItem.link}>{subItem.title}</a>
               </li>
             ))}
@@ -154,9 +154,12 @@ const[Language, setLanguage] = useState<'VI' | 'EN'>('VI');
                 </button>       
             </div>
         </div>
-            <ul className='  max-[1441px]:gap-[80px] max-[1100px]:gap-[30px] max-[1310px]:gap-[50px] max-[1025px]:px-10 max-[1025px]:gap-[50px] flex justify-center items-center gap-[200px] max-lg:hidden border-t-1 border-[#dfdfdf]'>
+        
+            <div className='sticky top-0 z-10 bg-[#fff]'>
+              <ul className='max-[1441px]:gap-[80px] max-[1100px]:gap-[30px] max-[1310px]:gap-[50px] max-[1025px]:px-10 max-[1025px]:gap-[50px] flex justify-center items-center gap-[200px] max-lg:hidden border-t-1 border-[#dfdfdf]'>
             {NavBar}
             </ul>
+         </div>
 
             <div className={`top-24 max-[380px]:top-15  w-full h-full bg-black opacity-30  min-[770px]:hidden absolute  ${isNavOpen ? 'transition duration-500  translate-x-0 min-[769px]:translate-x-[800px]' : 'transition duration-500  translate-x-[1450px] '} `}>
             </div>
@@ -201,9 +204,7 @@ const[Language, setLanguage] = useState<'VI' | 'EN'>('VI');
                  </li>    
               ))}
                   </ul>
-               </div>
-               
-
+               </div>             
                 <div className='px-[10px] py-[15px] items-start flex w-80  max-[378px]:w-60 max-[378px]:text-[12px] gap-[10px]   text-[15px] max-[380px]:text-[15px] pl-5'>
                 <i className=' text-[#FCC24E] text-2xl max-[380px]:text-[15px] p-0 m-0 '><IconFC name={'address'}/></i>
                 <p className=''>{address}</p>
@@ -223,16 +224,10 @@ const[Language, setLanguage] = useState<'VI' | 'EN'>('VI');
                             <IconFC name='Tripadvisortter' />
                         </a>
                  
-                  </div>
-               
-               
-               
-               
+                  </div> 
             </div>
-
             <div className={` flex w-full h-full  absolute top-50 max-[1450px]:top-37    max-[1310px]:top-30 max-[770px]:top-25  bg-[#fff]  ${isNavOpen ? 'transition duration-500 inline translate-x-0 max-[770px]:translate-x-[-1450px]' : 'transition duration-500 translate-x-[-4000px]  max-[1450px]:translate-x-[-1450px] '} `}>
                 <div className=' flex '>
-                   
                       <ul className= 'gap-[20px]  px-70 max- max-[1450px]:px-30 max-[1450px]:pr-20 '>
                     {Nav.map((Nav) => (
                       <li key={Nav.id} className=''>
@@ -240,7 +235,6 @@ const[Language, setLanguage] = useState<'VI' | 'EN'>('VI');
                           className="   text-[#784717]"
                           href={Nav.link}
                           > 
-
                           <div className=' flex gap-[10px] justify-center items-center'><a className=' min-[770px]:hidden'><IconFC name={Nav.icon}/></a>
                             <div className='py-3 w-120 max-[1450px]:w-70  max-[1450px]:py-1 max-[1310px]:w-45  px-1 text-[38px] max-[1450px]:text-[20px] max-[1310px]:text-[15px]  max-[770px]:text-lg '>{Nav.title}
                               {Nav.sub && Nav.sub.length > 0 && (
@@ -250,11 +244,11 @@ const[Language, setLanguage] = useState<'VI' | 'EN'>('VI');
                         </div>
                       </a>
                     <div className={` top-full ${isSubMenuOpen === Nav.id ? '  ' :'  hidden  ' } `}>
-                    <ul className='w-full max-[770px]:w-[200px] '>
+                    <ul className='w-full   max-[770px]:w-[200px] '>
                       {Nav.sub && Nav.sub.length > 0 && (
                         <div className=' border-t-2 hover:border-transparent transition duration-400 cursor-pointer divide-y-1 divide-gray-300'>
                         {Nav.sub && Nav.sub.map((subItem, index) => (
-                          <li key={index} className='max-[1310px]:py-1 py-2 px-1 hover:bg-yellow-800 transition duration-300 text-gray-700 hover:text-yellow-50 hover:border-none'>
+                          <li key={index} className=' bg-amber-300 max-[1310px]:py-1 py-2 px-1 hover:bg-yellow-800 transition duration-300 text-gray-700 hover:text-yellow-50 hover:border-none'>
                             <a className=" pl-1  text-[30px] max-[1450px]:text-[15px] max-[1310px]:text-[12px]  max-[770px]:text-sm" href={subItem.link}>{subItem.title}</a>
                           </li>
                         ))}
@@ -264,7 +258,6 @@ const[Language, setLanguage] = useState<'VI' | 'EN'>('VI');
                      </li>
                   ))}
                   </ul>
-                  
                   <div>
                     <div className=''>
                         <iframe className=' max-[1310px]:pl-10 w-[1400px]  h-[700px] max-[1450px]:w-[900px] max-[1450px]:h-[380px] max-[1310px]:w-[600px] max-[1310px]:h-[300PX] max-[770px]:hidden' data-src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d15596.876986944912!2d109.1959979!3d12.233429!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x317067afcd045dbf%3A0x4feb318618fc1dcf!2sAdamas%20Boutique%20Hotel!5e0!3m2!1svi!2s!4v1714620728105!5m2!1svi!2s"       loading="lazy"  src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d15596.876986944912!2d109.1959979!3d12.233429!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x317067afcd045dbf%3A0x4feb318618fc1dcf!2sAdamas%20Boutique%20Hotel!5e0!3m2!1svi!2s!4v1714620728105!5m2!1svi!2s"></iframe>

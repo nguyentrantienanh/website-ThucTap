@@ -68,7 +68,7 @@ const handleToggle = () => {
  
     /*Nav*/ 
   const NavBar = Nav.map(Nav => (
-    <li key={Nav.id} className=' py-4 sticky group flex items-center justify-center max-[1025px]:border-t-2 border-t-3 border-transparent hover:border-[rgb(118,78,42)] transition duration-800'>
+    <li key={Nav.id} className=' py-4 group flex items-center justify-center max-[1025px]:border-t-2 border-t-3 border-transparent hover:border-[rgb(118,78,42)] transition duration-800'>
       <a
         className="flex flex-col items-center text-[#784717]"
         href={Nav.link}
@@ -102,7 +102,7 @@ const handleToggle = () => {
 const[Language, setLanguage] = useState<'VI' | 'EN'>('VI');
  const LanguageSwitch = () => {
   return (
-  <div className='flex gap-2 items-center text-[#784717] text-[28px] max-[1441px]:text-[14px] max-[1025px]:text-[14px] max-[770px]:text-[20px] max-[378px]:text-[13px]'>
+  <div className='flex gap-2 items-center text-[#784717] text-[28px] max-[1441px]:text-[14px] max-[1025px]:text-[14px]  max-[378px]:text-[13px]'>
       <span onClick={() => setLanguage('VI')}  className={`cursor-pointer ${Language === 'VI' ? 'text-gray-400':'hover:text-[#FCC24E]'}   transition duration-500`}>
         VI
       </span>
@@ -119,7 +119,7 @@ const[Language, setLanguage] = useState<'VI' | 'EN'>('VI');
 
   return (
     <>
-        <header className="max-lg:hidden h-12  max-[1441px]:h-7 w-auto bg-[rgb(118,78,42)] ">
+        <header className="max-[1025px]:hidden h-12  max-[1441px]:h-7 w-auto bg-[rgb(118,78,42)] ">
             <div className=' flex justify-between items-center w-auto h-12 px-50 text-[#fff] max-[1441px]:h-7 max-[1441px]:px-30'>
               <a href=""><div className=' flex items-center font-medium gap-5 text-2xl  max-[1441px]:text-[14px]'> <IconFC name={'address'}/>
                 <p>{address}</p> </div>  </a>
@@ -128,22 +128,22 @@ const[Language, setLanguage] = useState<'VI' | 'EN'>('VI');
 
               </div>
         </header>
-        <div className=' flex justify-between items-center px-50 max-[1441px]:px-30 max-[1025px]:!px-20 max-[769px]:!px-10 max-[426px]:!px-9 max-[376px]:!px-2'>
+        <div className=' max-[1025px]:sticky  max-[1025px]:top-0   bg-[#fff] flex justify-between items-center px-50 max-[1441px]:px-30 max-[1025px]:!px-10  max-[769px]:!px-10 max-[426px]:!px-9 max-[376px]:!px-2'>
             <button className='flex bg-[#5d4024] text-red-50 border-none px-[40px] py-[16px] text-2xl max-[1441px]:px-[20px] max-[1441px]:py-[8px] max-[1441px]:text-[18px]  transition duration-500 hover:bg-[rgb(179,135,92)] max-[426px]:text-[13px] max-[426px]:!px-[4px] '><span className='pr-5 max-[1441px]:pr-3 max-[426px]:pr-1 items-center justify-center'>Đặt phòng</span> 
                 <IconFC name={'arrow'}/>
             </button>
-            <img className=' h-40 max-[1441px]:h-30 max-[1310px]:h-24 max-[425px]:h-15' src={LogoBooking} alt="Logo"  />
+            <img className=' h-40 max-[1441px]:h-30 max-[1310px]:h-24 max-[1025px]:h-15  ' src={LogoBooking} alt="Logo"  />
             <div className='  icon flex items-center gap-[20px] text-[25px] max-[1441px]:gap-[10px] max-[1441px]:text-[13px]' >
-                <a className='max-lg:hidden  Facebook' href="#">
+                <a className='max-[1025px]:hidden  Facebook' href="#">
                             <IconFC name='facebook' />
                         </a>  
-                        <a className='max-lg:hidden  Instagram' href="#">
+                        <a className='max-[1025px]:hidden  Instagram' href="#">
                             <IconFC name='instagram'/>
                         </a>
-                        <a className='max-lg:hidden   Tripadvisor  ' href='#'  >
+                        <a className='max-[1025px]:hidden  Tripadvisor  ' href='#'  >
                             <IconFC name='Tripadvisortter' />
                         </a>
-                <div className=' max-lg:hidden pl-5 flex items-center gap-[2px]'>
+                <div className='max-[1025px]:hidden pl-5 flex items-center gap-[2px]'>
                    {LanguageSwitch()}
                 </div>
                 
@@ -156,16 +156,17 @@ const[Language, setLanguage] = useState<'VI' | 'EN'>('VI');
         </div>
         
             <div className='sticky top-0 z-10 bg-[#fff]'>
-              <ul className='max-[1441px]:gap-[80px] max-[1100px]:gap-[30px] max-[1310px]:gap-[50px] max-[1025px]:px-10 max-[1025px]:gap-[50px] flex justify-center items-center gap-[200px] max-lg:hidden border-t-1 border-[#dfdfdf]'>
+              <ul className='max-[1441px]:gap-[80px] max-[1100px]:gap-[30px] max-[1310px]:gap-[50px] max-[1025px]:px-10 max-[1025px]:gap-[50px] flex justify-center items-center gap-[200px] max-[1025px]:hidden border-t-1 border-[#dfdfdf]'>
             {NavBar}
             </ul>
          </div>
-
-            <div className={`top-24 max-[380px]:top-15  w-full h-full bg-black opacity-30  min-[770px]:hidden absolute  ${isNavOpen ? 'transition duration-500  translate-x-0 min-[769px]:translate-x-[800px]' : 'transition duration-500  translate-x-[1450px] '} `}>
+        {/*menu mobile*/}
+            <div className={`        top-15 max-[380px]:top-15 z-99 w-full h-full bg-black opacity-30  min-[1030px]:hidden absolute  ${isNavOpen ? 'transition duration-500  translate-x-0 min-[1025px]:translate-x-[800px]' : 'transition duration-500  translate-x-[1450px] '} `}>
             </div>
 
-
-            <div className={ `  top-24 flex max-[380px]:top-15 max-[380px]:w-[230px] w-30% h-full bg-[#fff]  min-[770px]:hidden absolute   ${isNavOpen ? 'transition duration-550 inline ease-in-out translate-x-0 min-[769px]:translate-x-[-500px]' : 'transition inline duration-500   translate-x-[-1500px] '} `}>
+            {/*menu mobile*/}
+            
+            <div className={ `    z-99   top-15 flex max-[380px]:top-15 max-[380px]:w-[230px] w-30% h-full bg-[#fff]  min-[1030px]:hidden absolute   ${isNavOpen ? 'transition duration-550 inline ease-in-out translate-x-0 min-[1025px]:translate-x-[-500px]' : 'transition inline duration-500   translate-x-[-1500px] '} `}>
                
                <div className=' py-2 flex w-10 pl-6 text-2xl'>
                  {LanguageSwitch()}
@@ -226,7 +227,8 @@ const[Language, setLanguage] = useState<'VI' | 'EN'>('VI');
                  
                   </div> 
             </div>
-            <div className={` flex w-full h-full  absolute top-50 max-[1450px]:top-37    max-[1310px]:top-30 max-[770px]:top-25  bg-[#fff]  ${isNavOpen ? 'transition duration-500 inline translate-x-0 max-[770px]:translate-x-[-1450px]' : 'transition duration-500 translate-x-[-4000px]  max-[1450px]:translate-x-[-1450px] '} `}>
+            {/*menu latop*/}
+            <div className={`  z-99  flex w-full h-full  absolute top-50 max-[1450px]:top-37    max-[1310px]:top-30 max-[1025px]:top-25  bg-[#fff]  ${isNavOpen ? 'transition duration-500 inline translate-x-0 max-[1025px]:translate-x-[-1450px]' : 'transition duration-500 translate-x-[-4000px]  max-[1450px]:translate-x-[-1450px] '} `}>
                 <div className=' flex '>
                       <ul className= 'gap-[20px]  px-70 max- max-[1450px]:px-30 max-[1450px]:pr-20 '>
                     {Nav.map((Nav) => (
@@ -235,8 +237,8 @@ const[Language, setLanguage] = useState<'VI' | 'EN'>('VI');
                           className="   text-[#784717]"
                           href={Nav.link}
                           > 
-                          <div className=' flex gap-[10px] justify-center items-center'><a className=' min-[770px]:hidden'><IconFC name={Nav.icon}/></a>
-                            <div className='py-3 w-120 max-[1450px]:w-70  max-[1450px]:py-1 max-[1310px]:w-45  px-1 text-[38px] max-[1450px]:text-[20px] max-[1310px]:text-[15px]  max-[770px]:text-lg '>{Nav.title}
+                          <div className=' flex gap-[10px] justify-center items-center'><a className=' min-[1025px]:hidden'><IconFC name={Nav.icon}/></a>
+                            <div className='py-3 w-120 max-[1450px]:w-70  max-[1450px]:py-1 max-[1310px]:w-45  px-1 text-[38px] max-[1450px]:text-[20px] max-[1310px]:text-[15px]  max-[1025px]:text-lg '>{Nav.title}
                               {Nav.sub && Nav.sub.length > 0 && (
                                <a   onClick={() => handleSubMenuToggle(Nav.id)} className=' float-right '>{isSubMenuOpen === Nav.id ? <IconFC name={'chevrondown'}/> : <IconFC name={'chevronup'}/>}</a> 
                                 )}  
@@ -244,12 +246,12 @@ const[Language, setLanguage] = useState<'VI' | 'EN'>('VI');
                         </div>
                       </a>
                     <div className={` top-full ${isSubMenuOpen === Nav.id ? '  ' :'  hidden  ' } `}>
-                    <ul className='w-full   max-[770px]:w-[200px] '>
+                    <ul className='w-full     '>
                       {Nav.sub && Nav.sub.length > 0 && (
                         <div className=' border-t-2 hover:border-transparent transition duration-400 cursor-pointer divide-y-1 divide-gray-300'>
                         {Nav.sub && Nav.sub.map((subItem, index) => (
                           <li key={index} className=' bg-amber-300 max-[1310px]:py-1 py-2 px-1 hover:bg-yellow-800 transition duration-300 text-gray-700 hover:text-yellow-50 hover:border-none'>
-                            <a className=" pl-1  text-[30px] max-[1450px]:text-[15px] max-[1310px]:text-[12px]  max-[770px]:text-sm" href={subItem.link}>{subItem.title}</a>
+                            <a className=" pl-1  text-[30px] max-[1450px]:text-[15px] max-[1310px]:text-[12px]  max-[1025px]:text-sm" href={subItem.link}>{subItem.title}</a>
                           </li>
                         ))}
                       </div>)}
@@ -260,7 +262,7 @@ const[Language, setLanguage] = useState<'VI' | 'EN'>('VI');
                   </ul>
                   <div>
                     <div className=''>
-                        <iframe className=' max-[1310px]:pl-10 w-[1400px]  h-[700px] max-[1450px]:w-[900px] max-[1450px]:h-[380px] max-[1310px]:w-[600px] max-[1310px]:h-[300PX] max-[770px]:hidden' data-src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d15596.876986944912!2d109.1959979!3d12.233429!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x317067afcd045dbf%3A0x4feb318618fc1dcf!2sAdamas%20Boutique%20Hotel!5e0!3m2!1svi!2s!4v1714620728105!5m2!1svi!2s"       loading="lazy"  src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d15596.876986944912!2d109.1959979!3d12.233429!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x317067afcd045dbf%3A0x4feb318618fc1dcf!2sAdamas%20Boutique%20Hotel!5e0!3m2!1svi!2s!4v1714620728105!5m2!1svi!2s"></iframe>
+                        <iframe className=' max-[1310px]:pl-10 w-[1400px]  h-[700px] max-[1450px]:w-[900px] max-[1450px]:h-[380px] max-[1310px]:w-[600px] max-[1310px]:h-[300PX] max-[1025px]:hidden' data-src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d15596.876986944912!2d109.1959979!3d12.233429!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x317067afcd045dbf%3A0x4feb318618fc1dcf!2sAdamas%20Boutique%20Hotel!5e0!3m2!1svi!2s!4v1714620728105!5m2!1svi!2s"       loading="lazy"  src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d15596.876986944912!2d109.1959979!3d12.233429!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x317067afcd045dbf%3A0x4feb318618fc1dcf!2sAdamas%20Boutique%20Hotel!5e0!3m2!1svi!2s!4v1714620728105!5m2!1svi!2s"></iframe>
                       </div>
                   </div>
               </div>

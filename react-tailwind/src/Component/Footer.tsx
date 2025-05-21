@@ -6,7 +6,7 @@ function Footer() {
     const phone = "+84 123 456 789";
   return (
     <footer className=" border-t-2 border-[#ffffff] w-auto">
-        <div className="grid grid-cols-3 max-[770px]:grid-cols-2 max-[580px]:grid-cols-1 gap-7   text-[#fff] bg-[#6e4925] justify-between max-[770px]:   px-50  py-10   max-[1450px]:px-20   max-[1030px]:px-0   ">
+        <div className="grid grid-cols-3 max-[770px]:grid-cols-2 max-[580px]:grid-cols-1 gap-7   text-[#fff] bg-[#6e4925] justify-between   px-50  py-10   max-[1450px]:px-20   max-[1030px]:px-0   ">
             <section className="flex flex-col gap-4 max-[1450px]:gap-3 text-[21px] max-[1450px]:text-[14px] px-5 ">
                 <h1 className="font-medium text-[28px] max-[1450px]:text-[20px]">ADAMAS BOUTIQUE HOTEL</h1>
                 <p className="text-[15px]"> CÔNG TY TNHH PHÁT TRIỂN TÙNG NAM </p>

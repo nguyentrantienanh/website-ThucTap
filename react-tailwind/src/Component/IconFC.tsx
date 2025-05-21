@@ -59,11 +59,20 @@ else if( props.name === 'internet') {
 else if ( props.name === 'clock') {
        return <i className="fa-solid fa-clock"></i>
 }
-else if ( props.name === 'arowright') {
+else if ( props.name === 'arrowright') {
        return <i className="fa-solid fa-arrow-right"></i>
 }
-else if ( props.name === 'arowleft') {
+else if ( props.name === 'arrowleft') {
        return <i className="fa-solid fa-arrow-left"></i>
+}
+else if ( props.name === 'gym') {
+       return <i className="fa-solid fa-dumbbell"></i>
+}
+else if ( props.name === 'steaming') {
+       return <i className="fa-brands fa-canadian-maple-leaf"></i>
+}
+else if ( props.name === 'swimming') {
+       return <i className="fa-solid fa-person-swimming"></i>
 }
 else {
         return null;

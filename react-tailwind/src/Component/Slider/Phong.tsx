@@ -214,13 +214,14 @@ function Phong() {
           </div>
         </div>
         <div className="bg-[#fff] w-[30%] max-[770px]:w-full flex">
-          <div className={`w-full  max-[1450px]:py-0 max-[1030px]:px-4 gap-3 max-[1450px]:gap-0.5 flex flex-col min-h-full transition-all duration-800 ${
-            isRoomChange ? "opacity-20" : "opacity-100 transition-all duration-800"}`}>
-            <h1 className="text-[60px] font-medium mt-10 max-[1030px]:mt-3 max-[1450px]:text-[34px] text-[#764E2A] max-[770px]:text-[24px]">Phòng nghỉ</h1>
+          <div className={`w-full  max-[1450px]:py-0 max-[1030px]:px-4 gap-3 max-[1450px]:gap-0.5 flex flex-col min-h-full transition-all duration-800 `}>
+            <div className={`${isRoomChange ? "opacity-40" : "opacity-100 transition-all duration-500"}`}>
+              <h1 className="text-[60px] font-medium mt-10 max-[1030px]:mt-3 max-[1450px]:text-[34px] text-[#764E2A] max-[770px]:text-[24px]">Phòng nghỉ</h1>
             <p className="text-[48px] py-2 max-[1450px]:text-[20px] max-[1030px]:py-0 text-[#764E2A] max-[770px]:text-[18px]">{currentRoom.name}</p>
             <p className="text-[31px] py-2 max-[1450px]:text-[16px] max-[1030px]:py-0 max-[1030px]:text-[14px] text-[#bc6a23] max-[770px]:text-[14px]">{currentRoom.description}</p>
             <p className="border-b-4 w-[20%] pt-5 max-[1030px]:border-b-3 max-[1030px]:pt-3 text-[#764E2A]"></p>
             <p className="text-[20px]  py-4 max-[1450px]:text-[14px] max-[1030px]:py-0 max-[1030px]:text-[13px] line-clamp-5 max-[770px]:line-clamp-4 text-ellipsis h-40 max-[770px]:h-20 max-[770px]:text-[14px]">{currentRoom.longDescription}</p>
+            </div>
             <ul className="w-full flex gap-3 mt-auto  pb-4 max-[1030px]:invisible  ">
               {roomTypes.map((room, index) => (
                 <li

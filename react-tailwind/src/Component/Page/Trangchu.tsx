@@ -4,9 +4,11 @@ import PhongSlider from "../Slider/Phong";
 import Amthuc from "../Slider/Amthuc";
 import gym from "../../assets/trangchu/gym.jpg";
 import IconFC from "../IconFC";
- 
+import Uudaidatbiet from "../Slider/Uudaidatbiet";
+import AdamasBoutique from "../Slider/AdamasBoutique";
 
 function Trangchu() {
+  // hiệu ứng scroll hiện phần giới thiệu
   const [isVisible, setIsVisible] = useState(false);
     const handleScroll = () => {
       if (window.scrollY > 10) {
@@ -16,6 +18,7 @@ function Trangchu() {
       }
     };
     window.addEventListener("scroll", handleScroll);
+ 
   return (
     <>
       <div className="flex flex-col justify-center items-center h-full bg-[#ffffff]">
@@ -32,10 +35,8 @@ function Trangchu() {
         </div>
       </div>
       <PhongSlider />
-      <Amthuc />
-       
-         
-        <div className={`   max-[430px]:mt-[-5%] items-center px-180 text-center   py-3   bg-[rgb(233,233,233)]  isVisible ? "min-[1025px]:opacity-100  " : "min-[1025px]:opacity-0  "
+      <Amthuc /> 
+        <div className={`  top-10 max-[430px]:mt-[-5%] items-center px-180 text-center   py-3   bg-[rgb(233,233,233)]  isVisible ? "min-[1025px]:opacity-100  " : "min-[1025px]:opacity-0  "
           }`} >
           <h1 className="text-[48px] font-bold max-[1450px]:text-[34px] max-[1025px]:text-[24px] max-[430px]:text-[14px] ">Tiện ích đẳng cấp</h1>
           <p className="text-[20px] mt-[20px] max-[1025px]:mt-[10px] max-[1450px]:text-[14px]">
@@ -62,6 +63,8 @@ function Trangchu() {
           <button className="bg-amber-300 py-5 px-5"> Xem thêm <IconFC name="arrowright"/></button>
         </div>
        </div>
+      <Uudaidatbiet />
+      <AdamasBoutique />
     </>
   );
 }

@@ -111,8 +111,11 @@ function Amthuc() {
    
     useEffect(() => {
       const timer = setTimeout(() => {
-        goTocuisines((currentcuisinesIndex + 1) % cuisines.length);
-      }, 5000); 
+       const PrevIndex = currentcuisinesIndex === 0
+       ? cuisines.length - 1
+        : currentcuisinesIndex - 1;
+      goTocuisines(PrevIndex);
+      }, 2000); 
       return () => clearTimeout(timer);
    
     }, [currentcuisinesIndex, currentImageIndex]);
@@ -133,13 +136,15 @@ function Amthuc() {
         <>
       <section className="flex  max-[770px]:flex-col-reverse flex-direction: column-reverse;  mt-10 w-full pl-[5%]  max-[1450px]:pl-0 max-[770px]:pl-0 max-[770px]:pr-0 h-full max-[1450px]:h-125 max-[1030px]:h-100 max-[770px]:h-full max-[770px]:w-full">
         <div className="bg-[#fff] w-[30%] max-[770px]:w-full flex max-[770px]:h-55">
-          <div className={`w-full pl-10  max-[1450px]:py-0 max-[1030px]:px-4 gap-3 max-[1450px]:gap-0.5 flex flex-col min-h-full transition-all duration-800 ${
-            iscuisinesChange ? "opacity-20" : "opacity-100 transition-all duration-800"}`}>
-            <h1 className="text-[60px] font-medium mt-10 max-[1030px]:mt-3 max-[1450px]:text-[34px] text-[#764E2A] max-[770px]:text-[24px] ">Ẩm thực</h1>
+          <div className={`w-full pl-10  max-[1450px]:py-0 max-[1030px]:px-4 gap-3 max-[1450px]:gap-0.5 flex flex-col min-h-full transition-all duration-800 `}>
+            <div className={`${iscuisinesChange ? "opacity-40" : "opacity-100 transition-all duration-500"}`}>
+              <h1 className="text-[60px] font-medium mt-10 max-[1030px]:mt-3 max-[1450px]:text-[34px] text-[#764E2A] max-[770px]:text-[24px] ">Ẩm thực</h1>
             <p className="text-[48px] py-2 max-[1450px]:text-[20px] max-[1030px]:py-0 text-[#764E2A] max-[770px]:text-[18px] ">{currentCuisines.name}</p>
              <p className="text-[31px] py-2 max-[1450px]:text-[16px] max-[1030px]:py-0 max-[1030px]:text-[14px] text-[#bc6a23] max-[770px]:text-[14px]">{currentCuisines.description}</p>
             <p className="border-b-4 w-[20%] pt-5 max-[1030px]:border-b-3 max-[1030px]:pt-3 text-[#764E2A] "></p>
-            <p className="text-[20px]  py-4 max-[1450px]:text-[14px] max-[1030px]:py-0 max-[1030px]:text-[13px] line-clamp-5 max-[770px]:line-clamp-3 text-ellipsis max-[770px]:text-[14px] ">{currentCuisines.longDescription}</p>
+            <p className="text-[20px]  py-4 max-[1450px]:text-[14px] max-[1030px]:py-0 max-[1030px]:text-[13px]    max-[770px]:line-clamp-3 text-ellipsis max-[770px]:text-[14px] ">{currentCuisines.longDescription}</p>
+            </div>
+            
             <ul className="w-full flex gap-3 mt-auto ml-[80%] max-[1450px]:ml-[70%] pb-4 max-[1030px]:invisible  ">
               {cuisines.map((cuisines, index) => (
                 <li
@@ -161,7 +166,7 @@ function Amthuc() {
        <div className="  relative w-[70%] max-[770px]:w-full  flex justify-center items-center flex-col">
           <div className="w-full h-full  flex justify-center">
             <img
-              className={` w-full h-230 max-[1450px]:h-200  max-[1450px]:w-full max-[770px]:mr-0 max-[770px]:h-110 max-[430px]:h-60 max-[380px]:h-53 max-[330px]:h-45 max-[1030px]:mr-0 object-cover ${
+              className={`w-full h-230 max-[1450px]:h-full  max-[1450px]:w-full mr-10 max-[770px]:mr-0 max-[770px]:h-110 max-[430px]:h-60 max-[380px]:h-53 max-[330px]:h-45 max-[1030px]:mr-0 object-cover${
                 isClick
                   ? "opacity-90 transition duration-500"
                   : "opacity-100 transition duration-500"

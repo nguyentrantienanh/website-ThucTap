@@ -4,8 +4,8 @@ import uudai from "../../assets/Uudai/PROMOTION-30.jpg";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Swiper as SwiperType } from "swiper"; 
 import "./uudai.css";
-import { useState } from "react";
-import { Pagination, Autoplay } from "swiper/modules";
+import { useState} from "react";
+import {  Autoplay } from "swiper/modules";
 import IconFC from "../IconFC";
  
 const images = [
@@ -42,15 +42,17 @@ function Uudaidatbiet() {
     }
     setTimeout(() => {
       setButtonClicked(false);
-    }, 300); // Thay đổi thời gian theo ý muốn
+    }, 300); 
   };
-
+  
+    
   return (
     <>
-    <div className=" ml-[-5%]  flex w-full h-210  ">
-        <div className="w-[70%] h-full flex   ">
-        <Swiper className=" !pr-10 "
-        modules={[Autoplay, Pagination]}
+    <div className=" ml-[-5%]  flex w-full h-220 p-5 max-[1450px]:h-120 max-[1030px]:h-100 max-[1030px]:w-300 max-[770px]:flex-col max-[770px]:w-[120%] max-[770px]:h-150  max-[770px]:ml-[-3%] ">
+      <div className="w-[70%] h-full max-[1450px]:h-120 flex max-[1025px]:w-[65%] max-[770px]:w-full max-[770px]:h-full">
+      <Swiper
+        className="!pr-0 !pl-0"
+        modules={[Autoplay]}
         slidesPerView={1.5}
         spaceBetween={80}
         loop={true}
@@ -58,36 +60,52 @@ function Uudaidatbiet() {
         dir="rtl"
         onSlideChange={(swiper) => setActiveIndex(swiper.realIndex)}
         onSwiper={(swiper) => setSwiperInstance(swiper)}
+        breakpoints={{
+          0: {
+            slidesPerView: 1,
+            spaceBetween: 0,
+          },
+          770: {
+            slidesPerView: 1.5,
+            spaceBetween: 20,
+          },
+          1030: {
+            slidesPerView: 1.5,
+            spaceBetween: 40,
+          },
+          1440: {
+            slidesPerView: 1.5,
+            spaceBetween: 80,
+          },
+        }}
       >
-        <div className=" w-full h-full">
+        <div className="w-full h-full max-[1450px]:h-120 max-[1030px]:h-90">
           {images.map((img) => (
             <SwiperSlide key={img.id}>
-              <div className="w-100% h-full shadow-lg shadow-[#000]  ">
+              <div className="w-full h-full max-[1450px]:h-119 max-[1030px]:h-90 max-[770px]:h-100 max-[770px]:w-full shadow-lg shadow-[#6c6c6c]">
                 <img
                   src={img.src}
                   alt={img.description}
-                  className=" w-full h-full object-cover  "
+                  className="w-full h-full object-cover"
                 />
               </div>
-              
             </SwiperSlide>
           ))}
-          
         </div>
       </Swiper>
-        </div>
+    </div>
      
-      <div className="pl-10 w-[30%] h-full bg-[#ffffff] ">
+      <div className="pl-10 max-[1030px]:pl-2  w-[30%] max-[770px]:w-full h-full bg-[#ffffff] ">
         <div className={`min-h-full flex flex-col justify-between `}>
-            <div className={`flex flex-col gap-5 pt-[15%] ${buttonClicked ? "opacity-30" : "opacity-100"} transition-all duration-500`}>
-            <h1 className="text-[48px] font-bold">
+            <div className={`flex flex-col gap-5 max-[1450px]:gap-1 pt-[15%] max-[770px]:pt-0 ${buttonClicked ? "opacity-30" : "opacity-100"} transition-all duration-500`}>
+            <h1 className="text-[48px] font-bold text-[rgb(118,78,42)] hover:text-[rgb(255,242,125)] transition-all duration-500 max-[1450px]:text-[34px] max-[1030px]:text-[24px]  ">
                 Ưu đãi đặc biệt
             </h1>
-          <p className="text-[31px] ">{images[activeIndex].description}</p>
-           <p className="border-b-4 w-[20%] pt-5 max-[1030px]:border-b-3 max-[1030px]:pt-3 text-[#764E2A]"></p>
-          <p className="text-[20px]">{images[activeIndex].longDescription}</p>
+          <p className="text-[31px] text-[rgb(118,78,42)] font-normal max-[1450px]:text-[20px] max-[1030px]:text-[18px]">{images[activeIndex].description}</p>
+           <p className="border-b-4 w-[20%]   max-[1450px]:py-2 text-[#764E2A]"></p>
+          <p className="text-[20px] max-[1450px]:text-[14px] max-[1030px]:line-clamp-4 max-[1030px]:text-ellipsis  max-[1030px]:w-70  max-[770px]:w-full ">{images[activeIndex].longDescription}</p>
           </div>
-          <ul className=" flex gap-2  pb-4 ">
+          <ul className=" flex gap-2  pb-4 max-[1030px]:invisible ">
                 {images.map((img, index) => (
                     <li
                       key={img.id}
@@ -104,7 +122,7 @@ function Uudaidatbiet() {
       </div>
     </div>
     
-       <div className="mt-[-100px] max-[770px]:mt-0 max-[1450px]:mt-[-65px] ml-[83%] max-[770px]:m-0  max-[1450px]:ml-[83%] max-[1030px]:ml-[75%] min-w-max flex flex-col gap-3">
+       <div className=" mb-10 mt-[-100px] max-[770px]:mt-0 max-[1450px]:mt-[-65px] ml-[83%] max-[770px]:m-0  max-[1450px]:ml-[83%] max-[1030px]:ml-[75%] min-w-max flex flex-col gap-3">
         <div
           className="mt-2 relative  max-[770px]:static text-[18px] text-[#fff] cursor-pointer"
           onClick={handleNextClick}
@@ -114,7 +132,7 @@ function Uudaidatbiet() {
               ${buttonClicked ? "opacity-0" : "opacity-100"}`}
           >
             <div className="flex flex-col justify-start min-w-0 max-w-full">
-              <span className="font-extrabold text-[30px] max-[1450px]:text-[16px] whitespace-nowrap">
+              <span className="font-extrabold text-[25px] max-[1450px]:text-[16px] whitespace-nowrap">
                 Ưu đãi đặc biệt
               </span>
               <span className="font-light text-[23px] max-[1450px]:text-[12px] whitespace-nowrap">

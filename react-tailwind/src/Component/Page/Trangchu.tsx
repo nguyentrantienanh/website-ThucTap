@@ -6,6 +6,8 @@ import gym from "../../assets/trangchu/gym.jpg";
 import IconFC from "../IconFC";
 import Uudaidatbiet from "../Slider/Uudaidatbiet";
 import AdamasBoutique from "../Slider/AdamasBoutique";
+import { Swiper, SwiperSlide  } from "swiper/react";
+import "../../App.css";  
 
 function Trangchu() {
   // hiệu ứng scroll hiện phần giới thiệu
@@ -18,6 +20,22 @@ function Trangchu() {
       }
     };
     window.addEventListener("scroll", handleScroll);
+
+    const tienIch = [
+      {
+        icon: "gym",
+        title: "Phòng tập thể dục",
+      }
+      ,
+      {
+        icon: "steaming",
+        title: "Phòng xông hơi",
+      },
+      {
+        icon: "swimming",
+        title: "Hồ bơi vô cực",
+      },
+    ];
  
   return (
     <>
@@ -36,31 +54,48 @@ function Trangchu() {
       </div>
       <PhongSlider />
       <Amthuc /> 
-        <div className={`  top-10 max-[430px]:mt-[-5%] items-center px-180 text-center   py-3   bg-[rgb(233,233,233)]  isVisible ? "min-[1025px]:opacity-100  " : "min-[1025px]:opacity-0  "
+        <div className={`  top-10 max-[430px]:mt-[-5%] items-center px-180 max-[1450px]:px-0 text-center   py-3   bg-[rgb(233,233,233)]  isVisible ? "min-[1025px]:opacity-100  " : "min-[1025px]:opacity-0  "
           }`} >
-          <h1 className="text-[48px] font-bold max-[1450px]:text-[34px] max-[1025px]:text-[24px] max-[430px]:text-[14px] ">Tiện ích đẳng cấp</h1>
-          <p className="text-[20px] mt-[20px] max-[1025px]:mt-[10px] max-[1450px]:text-[14px]">
+          <h1 className="text-[48px] font-bold max-[1450px]:text-[34px] max-[1025px]:text-[24px] max-[430px]:text-[14px] text-[#764E2A] ">Tiện ích đẳng cấp</h1>
+          <p className="text-[20px] mt-[20px] max-[1025px]:mt-[10px] max-[1450px]:text-[14px] px-[20%] max-[1025px]:px-[2%]">
            Từ những dịch vụ tiện ích đến không gian sang trọng, Adamas mang đến một kỳ nghỉ không thể quên, nơi mà bạn sẽ tận hưởng mọi khoảnh khắc với sự hài lòng và sự thoải mái không giới hạn.
           </p>
         </div>
-       <div>
+       <div className="bg-[#f3f3f3] pb-5">
         <img src={gym}  className="w-full  object-cover"/>
-        <div className="flex items-center justify-center gap-[10%]  text-3xl bg-[#ffffff] my-5  ">
-         
-            
-            <a className=" "><IconFC name="gym" />Phòng tập thể dục</a>
-         
-         
-            
-            <a className=" "><IconFC name="steaming" />Phòng xông hơi</a>
-       
-          
-           
-            <a className=" "> <IconFC name="swimming" />Hồ bơi vô cực</a>
-      
+        {/* Swiper tiện ích */}
+        <div className="p-8 max-[1030px]:p-2 my-5">
+          <Swiper
+            slidesPerView={3}
+            spaceBetween={40}
+            loop={false}
+            allowTouchMove={false} 
+            breakpoints={{
+              0: {
+                slidesPerView: 2,
+                loop: true,
+                allowTouchMove: true, 
+              },
+              900: {
+                slidesPerView: 3,
+                loop: false,
+                allowTouchMove: false,
+              },
+            }}
+            className="text-3xl !py-2 max-[1450px]:text-[17px]"
+          >
+             {tienIch.map((item, idx) => (
+              <SwiperSlide key={idx}>
+                <a className="flex flex-col items-center justify-center gap-2">
+                  <IconFC name={item.icon as any} />
+                  {item.title}
+                </a>
+              </SwiperSlide>
+            ))}
+          </Swiper>
         </div>
-        <div className="flex items-center justify-center gap-[10%]  text-3xl bg-[#ffffff] my-5  ">
-          <button className="bg-amber-300 py-5 px-5"> Xem thêm <IconFC name="arrowright"/></button>
+        <div className="flex py-10 max-[1450px]:py-5 max-[1450px]:text-[17px] max-[1030px]:py-2 items-center justify-center text-[25px] text-[#fff]     ">
+          <button className=" py-2 px-5 bg-[#764E2A] "> Xem thêm <IconFC name="arrowright"/></button>
         </div>
        </div>
       <Uudaidatbiet />

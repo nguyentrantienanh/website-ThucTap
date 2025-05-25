@@ -185,7 +185,7 @@ function Amthuc() {
           </div>
       </section>
       {/*nut laptop */}
-      <div className=" h-20 mt-[-100px] max-[1450px]:mt-[-65px] mr-[83%] max-[770px]:hidden  max-[1450px]:mr-[83%] min-w-max flex flex-col gap-3">
+      <div className=" h-30 mt-[-100px] max-[1450px]:mt-[-65px] mr-[83%] max-[770px]:hidden  max-[1450px]:mr-[83%] min-w-max flex flex-col gap-3">
         
         
         <div className="mt-2 relative    text-[18px] text-[#fff] cursor-pointer"
@@ -226,8 +226,8 @@ function Amthuc() {
       
       </div>
           {/*nut mobi */}
-          <div className="h-20">
-       <div className="  mt-[-100px] hidden max-[770px]:mt-0 max-[770px]:inline   ml-[83%] max-[770px]:m-0  min-w-max flex-col gap-3">
+          <div className="hidden max-[770px]:inline  ">
+       <div className=" h-20 mt-[-100px] max-[770px]:mt-0    ml-[83%] max-[770px]:m-0  min-w-max flex-col gap-3">
         <div className="mt-2 relative  max-[770px]:static text-[18px] text-[#fff] cursor-pointer"
           onClick={() =>
        

@@ -1,0 +1,18 @@
+{
+    "footer information": {   
+        "company": "TUNG NAM DEVELOPMENT COMPANY LIMITED",
+        "address": "20A Tran Quang Khai, Loc Tho Ward, Nha Trang City, Khanh Hoa Province, Vietnam",
+        "phone": "+84 123 456 789",
+        "email": "info@adamashotel.vn",
+        "website": "www.adamashotel.vn",
+        "working hours": "Open 24/7"
+},
+    "footer quick link": {
+        "title": "Quick Links",
+        "about": "About Us",
+        "gallery": "Gallery"
+},
+    "footer Connect":  "Connect with us",
+    "copyright": "Copyright © 2024 Adamas Boutique Hotel",
+    "developed by": "Designed and developed by SweetSoft JSC"
+}

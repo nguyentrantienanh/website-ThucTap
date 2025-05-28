@@ -1,0 +1,17 @@
+{
+    "introduction":{
+        "Adamas Boutique Hotel": "Adamas Boutique Hotel",
+        "Adamas Boutique Hotel description": "Like a luxurious and sparkling diamond in the heart of Nha Trang beach, Adamas Boutique Hotel Nha Trang is located in a prime position right on the bustling Trần Quang Khải street, just a minute's walk from the beach. It embodies an elegant and modern design while also being remarkably luxurious; shining and radiant just like its name. Adamas Boutique Hotel Nha Trang is the ideal destination that offers you a diverse relaxation experience from the hotel’s premium services and amenities."
+    },
+    "facilities": {
+        "title": "High-class amenities",
+        "description": "From convenient services to luxurious spaces, Adamas brings you an unforgettable stay where you will enjoy every moment with unlimited satisfaction and comfort.",
+        "items": {
+            "gym": "Fitness Center",
+            "steaming": "Sauna Room",
+            "swimming": "Infinity Pool"
+        },
+        "see more": "See more"
+    }
+    
+}

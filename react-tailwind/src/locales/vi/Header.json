@@ -1,0 +1,19 @@
+{
+     "header information": {
+        "address": "20A Trần Quang Khải, Phòng Lộc Thọ, thành phố Nha Trang, tỉnh Khánh Hòa, Việt Nam",
+        "phone": "+84 123 456 789"
+    },
+    "header title": {
+        "bookings": "Đặt phòng"
+    },
+    "header navbar": {
+        "home": "Trang chủ",
+        "room": "Phòng",
+        "cuisine": "Âm thực",
+        "conferences & events": "Hội nghị & Sự kiện",
+        "utilities": "Tiện ích",
+        "promotion": "Khuyến mãi",
+        "experience": "Trải nghiệm",
+        "contact": "Liên hệ"
+    }
+}

@@ -1,0 +1,19 @@
+{
+    "header information": {
+        "address": "20A Tran Quang Khai, Loc Tho Room, Nha Trang City, Khanh Hoa Province, Vietnam",
+        "phone": "+84 123 456 789"
+    },
+    "header title": {
+        "bookings": "Bookings"
+    },
+    "header navbar": {
+        "home": "Home",
+        "room": "Room",
+        "cuisine": "Cuisine",
+        "conferences & events": "Conferences & Events",
+        "utilities": "Utilities",
+        "promotion": "Promotion",
+        "experience": "Experience",
+        "contact": "Contact"
+    }
+}

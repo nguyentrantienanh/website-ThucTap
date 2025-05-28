@@ -1,0 +1,32 @@
+{
+    "guest room":"Room",
+    "Senior Deluxe City View" :{
+        "description": " ",
+        "longDescription": "Senior Deluxe City View is not only a great choice for a family vacation in Nha Trang but also offers you a unique experience. With a panoramic view of the bustling city, you can admire the sparkling nightlife and feel the vibrancy of the city right from your room's window. This will be the ideal space for you and your family to enjoy memorable moments at Adamas Boutique Hotel Nha Trang."
+    },
+    "Triple City View":
+    {
+        "description": "Spacious and airy",
+        "longDescription": "A healing trip with friends in the spacious and airy setting of the Triple City View room will provide memorable and meaningful experiences. With a panoramic view of the city, this is definitely a great choice for trips with three people, where everyone can share special moments together."
+    },
+    "Studio Suite Sea View":
+    {
+        "description": " ",
+        "longDescription": "It is the ideal choice for a vacation with friends and loved ones, featuring high-end rooms with complete amenities, along with a picturesque view of Nha Trang beach. This will be a wonderful space for you to relax and create beautiful memories with your dear ones."
+    },
+    "President Suite Sea View":
+    {
+        "description": "",
+        "longDescription": "Fully embrace the sea breeze with a room that offers a panoramic view of Nha Trang beach city, located on the 20th floor of Adamas Boutique Hotel Nha Trang. This is a suitable choice for family trips that desire a private space with a design featuring 1 living room, 1 kitchen, and 2 bedrooms. The President Suite Sea View is a perfect blend of modern and luxurious design, providing wonderful feelings when staying here."
+    },
+    "Premier Sea View":
+    {
+        "description": " ",
+        "longDescription": "The Premier Sea Room offers a resort experience with spectacular sea views, spacious interiors, and modern furnishings, ideal for a relaxing getaway."
+    },
+    "Deluxe City View":
+    {
+        "description": " ",
+        "longDescription": "More than  just a room, the Deluxe City View is an unmatched retreat; lying on the comfortable bed to recharge after a long day exploring the coastal city, you will immerse yourself in your own world within the unique and sophisticated space of the room, promising to offer the best services and amenities for you."
+    }
+}

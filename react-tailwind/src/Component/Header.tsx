@@ -1,13 +1,19 @@
-import LogoBooking from '../assets/logo-adamas-boutique-hotel.svg';
-   
+import LogoBooking from '../assets/logo-adamas-boutique-hotel.svg'; 
 import { useState } from "react";
 import IconFC from './IconFC';
 import'./Header.css';
-/*Nav*/
-const Nav = [
-  { title: 'Trang chủ', id: 1, icon: 'home', link: '#' ,
+import {useTranslation} from 'react-i18next';
+//import { languages } from '../i18n/i18n'; // Import the locales object
+
+function Header() {
+  // Import the i18n instance
+  const { t } = useTranslation();
+  const { i18n } = useTranslation();
+  // nav
+  const Nav = [
+  { title: t('header navbar.home'), id: 1, icon: 'home', link: '#' ,
    },
-  { title: 'Phòng nghỉ', id: 2, icon: 'Rooms',  link: '#',
+  { title: t('header navbar.room'), id: 2, icon: 'Rooms',  link: '#',
     sub: [{
         title: 'Deluxe City View',
         link: '#',
@@ -34,8 +40,8 @@ const Nav = [
       },  
     ],
    },
-  { title: 'Ẩm thực', id: 3, icon: 'Cuisine', link: '#' },
-  { title: 'Hội nghị & sự kiện', id: 4, icon: 'Conferences & Events', link: '#',
+  { title: t('header navbar.cuisine'), id: 3, icon: 'Cuisine', link: '#' },
+  { title: t('header navbar.conferences & events'), id: 4, icon: 'Conferences & Events', link: '#',
     sub: [{
         title: 'CRYSTAL',
         link: '#',
@@ -46,13 +52,14 @@ const Nav = [
       },
     ],
     },
-  { title: 'Tiện ích', id: 5, icon: 'Utilities', link: '#', },
-  { title: 'Ưu đãi', id: 6, icon: 'Promotion', link: '#' },
-  { title: 'Trải nghiệm', id: 7, icon: 'Experience', link: '#' },
-  { title: 'Liên hệ', id: 8, icon: 'Contact', link: '#' },
+  { title: t('header navbar.utilities'), id: 5, icon: 'Utilities', link: '#', },
+  { title: t('header navbar.promotion'), id: 6, icon: 'Promotion', link: '#' },
+  { title: t('header navbar.experience'), id: 7, icon: 'Experience', link: '#' },
+  { title: t('header navbar.contact'), id: 8, icon: 'Contact', link: '#' },
 ];
- 
-function Header() {
+
+ // const currenLanguage = languages[i18n.language as keyof typeof languages];
+
   /*submenu*/
 const [isSubMenuOpen, setIsSubMenuOpen] = useState<number | null>(null);
 const handleSubMenuToggle = (id: number) => {
@@ -96,18 +103,26 @@ const handleToggle = () => {
     
   ));
 
-  const address = "20A Trần Quang Khải, Phòng Lộc Thọ, thành phố Nha Trang, tỉnh Khánh Hòa, Việt Nam";
-  const phone = "+84 123 456 789";
+  const address = t('header information.address');
+  const phone = t('header information.phone');
+
+ 
+
   /*clicl language*/
-const[Language, setLanguage] = useState<'VI' | 'EN'>('VI');
+ const [Language, setLanguage] = useState<'VI' | 'EN'>('VI');
+ const changeLanguage = (lang: 'vi' | 'en') => {
+  setLanguage(lang === 'vi' ? 'VI' : 'EN');
+  i18n.changeLanguage(lang);
+ }
+ 
  const LanguageSwitch = () => {
   return (
-  <div className='flex gap-2 items-center text-[#784717] text-[28px] max-[1441px]:text-[14px] max-[1025px]:text-[14px]  max-[378px]:text-[13px]'>
-      <span onClick={() => setLanguage('VI')}  className={`cursor-pointer ${Language === 'VI' ? 'text-gray-400':'hover:text-[#FCC24E]'}   transition duration-500`}>
+  <div className='flex gap-2 items-center  font-medium text-gray-400 text-[28px] max-[1441px]:text-[14px] max-[1025px]:text-[14px]  max-[378px]:text-[13px]'>
+      <span onClick={() => changeLanguage('vi')}  className={`cursor-pointer ${Language === 'VI' ? 'text-[#d88430]':'hover:text-[#FCC24E]'}   transition duration-500`}>
         VI
       </span>
       <p className="cursor-context-menu">/</p>
-      <span onClick={() => setLanguage('EN')} className={`cursor-pointer ${Language === 'EN' ? 'text-gray-400':'hover:text-[#FCC24E]'}   transition duration-500`}>
+      <span onClick={() => changeLanguage('en')} className={`cursor-pointer ${Language === 'EN' ? 'text-[#d88430]':'hover:text-[#FCC24E]'}   transition duration-500`}>
         EN
       </span>
  </div>
@@ -128,8 +143,11 @@ const[Language, setLanguage] = useState<'VI' | 'EN'>('VI');
 
               </div>
         </header>
-        <div className=' max-[1025px]:sticky  max-[1025px]:top-0   bg-[#fff] flex justify-between items-center px-50 max-[1441px]:px-30 max-[1025px]:!px-10  max-[769px]:!px-10 max-[426px]:!px-9 max-[376px]:!px-2'>
-            <button className='flex bg-[#5d4024] text-red-50 border-none px-[40px] py-[16px] text-2xl max-[1441px]:px-[20px] max-[1441px]:py-[8px] max-[1441px]:text-[18px]  transition duration-500 hover:bg-[rgb(179,135,92)] max-[426px]:text-[13px] max-[426px]:!px-[4px] '><span className='pr-5 max-[1441px]:pr-3 max-[426px]:pr-1 items-center justify-center'>Đặt phòng</span> 
+        <div className=' max-[1025px]:sticky max-[1025px]:z-98 max-[1025px]:top-0   bg-[#fff] flex justify-between items-center px-50 max-[1441px]:px-30 max-[1025px]:!px-10  max-[769px]:!px-10 max-[426px]:!px-9 max-[376px]:!px-2'>
+            <button className='flex bg-[#5d4024] text-red-50 border-none px-[40px] py-[16px] text-2xl max-[1441px]:px-[20px] max-[1441px]:py-[8px] max-[1441px]:text-[18px]  transition duration-500 hover:bg-[rgb(179,135,92)] max-[426px]:text-[13px] max-[426px]:!px-[4px] '>
+              <span className='pr-5 max-[1441px]:pr-3 max-[426px]:pr-1 items-center justify-center'>
+              {t('header title.bookings')}
+              </span> 
                 <IconFC name={'arrow'}/>
             </button>
             <img className=' h-40 max-[1441px]:h-30 max-[1310px]:h-24 max-[1025px]:h-15  ' src={LogoBooking} alt="Logo"  />

@@ -3,36 +3,40 @@ import chualanh from "../../assets/Boutique/Adamas-service_11.jpg";
 import gym from "../../assets/Boutique/Adamas-service_2.jpg";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Swiper as SwiperType } from "swiper"; 
-import "./uudai.css";
+import "../../App.css";
 import { useState } from "react";
 import { Pagination, Autoplay } from "swiper/modules";
 import IconFC from "../IconFC";
+import { useTranslation } from "react-i18next";
 
 
 
-const images = [
+
+
+
+function AdamasBoutique() {
+    const { t } = useTranslation('slider_adamas');
+    const images = [
     {
         id: 1,
         src: monan,
-        title: "Món ngon đang chờ bạn nè",
-        longDescription: "Những kỷ niệm đẹp và niềm vui được ghi dấu tại Adamas Boutique Hotel",
+        title: t('1.title'),
+        longDescription: t('1.longDescription'),
     },
     {
         id: 2,
         src: chualanh,
-        title: "Chữa lành cuộc sống",
-         longDescription: "Những kỷ niệm đẹp và niềm vui được ghi dấu tại Adamas Boutique Hotel",
+        title:  t('2.title'),
+         longDescription:  t('2.longDescription'),
     },
     {
         id: 3,
         src: gym,
-        title: "Nâng cao sức khỏe",
-         longDescription: "Những kỷ niệm và niềm vui được lưu trữ tại Adamas Boutique Hotel",
+        title:  t('3.title'),
+         longDescription:  t('3.longDescription'),
     },
 ];
 
-
-function AdamasBoutique() {
     const [activeIndex, setActiveIndex] = useState(0);
     const [swiperInstance, setSwiperInstance] = useState<SwiperType | null>(null);
     const [buttonClicked, setButtonClicked] = useState(false);
@@ -45,23 +49,15 @@ function AdamasBoutique() {
             setButtonClicked(false);
         }, 300);
     };
-    const handleNextClick = () => {
-        setButtonClicked(true);
-        if (swiperInstance) {
-            swiperInstance.slideNext();
-        }
-        setTimeout(() => {
-            setButtonClicked(false);
-        }, 300);
-    };
+ 
     return (
         <>
-        <div className="flex max-[900px]:flex-col-reverse w-full h-210 p-5 max-[1450px]:h-120 max-[1030px]:h-100 max-[1030px]:w-300 max-[900px]:h-150 max-[900px]:ml-[-3%] max-[900px]:w-[120%]">
+        <div className="flex max-[900px]:flex-col-reverse w-full h-210 p-5 max-[1450px]:h-120 max-[1030px]:h-100 max-[1030px]:w-300 max-[900px]:h-150 max-[900px]:ml-[-3%] max-[900px]:w-[120%]  max-[430px]:ml-[-7%]">
             <div className="pl-10 w-[30%] max-[900px]:w-full max-[900px]:pl-5 h-full bg-[#ffffff]">
                 <div className="min-h-full flex flex-col justify-between">
                     <div className={`flex flex-col gap-5 pt-[15%] max-[900px]:pt-0 ${buttonClicked ? "opacity-30" : "opacity-100"} transition-all duration-500`}>
                         <h1 className="text-[48px] font-bold max-[1450px]:text-[34px] max-[1030px]:text-[24px] max-[900px]:text-[20px]">
-                            #AdamasBoutique
+                            {t("AdamasBoutique")}
                         </h1>
                         <p className="text-[31px] max-[1450px]:text-[20px] max-[1030px]:text-[18px] max-[900px]:text-[16px]">
                             {images[activeIndex].title}
@@ -71,7 +67,7 @@ function AdamasBoutique() {
                             {images[activeIndex].longDescription}
                         </p>
                     </div>
-                    <ul className="flex gap-2 w-full ml-[80%] max-[1450px]:ml-[70%] pb-4 max-[1030px]:invisible">
+                    <ul className="flex gap-2 w-full ml-[80%] max-[1450px]:ml-[70%]  max-[1030px]:invisible">
                         {images.map((img, index) => (
                             <li
                                 key={img.id}
@@ -143,7 +139,7 @@ function AdamasBoutique() {
                 >
                     <div className="flex flex-col justify-start min-w-0 max-w-full pl-10">
                         <span className="font-extrabold text-[30px] max-[1450px]:text-[16px] whitespace-nowrap">
-                            xem thêm
+                            {t("see more")}
                         </span>
                     </div>
                     <div className="absolute left-5 max-[900px]:static px-4 flex">
@@ -156,7 +152,7 @@ function AdamasBoutique() {
         <div className="mb-10 h-20 mt-[-100px] max-[1450px]:mt-[-65px] ml-[83%] min-[900px]:hidden max-[900px]:m-0 max-[1450px]:ml-[83%] max-[1030px]:ml-[75%] min-w-max flex flex-col gap-3">
             <div
                 className="mt-2 relative max-[900px]:static text-[18px] text-[#fff] cursor-pointer"
-                onClick={handleNextClick}
+                onClick={handlePrevClick}
             >
                 <div
                     className={`relative max-[900px]:static  max-[900px]:max-w-min h-full max-[1450px]:px-5 max-[1450px]:py-3 flex items-center transition-all duration-500 bg-[#764E2A] px-10 py-5 hover:opacity-80 active:scale-95
@@ -164,7 +160,7 @@ function AdamasBoutique() {
                 >
                     <div className="flex flex-col justify-start min-w-0 max-w-full  ">
                         <span className="font-extrabold text-[30px] max-[1450px]:text-[16px] whitespace-nowrap">
-                            xem thêm
+                            {t("see more")}
                         </span>
                     </div>
                     <div className="absolute left-0 max-[900px]:static px-4 flex">

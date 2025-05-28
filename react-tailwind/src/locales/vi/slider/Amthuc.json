@@ -1,0 +1,15 @@
+{
+    "cuisines": "Ẩm thực",
+    "Lux Restaurant": {
+        "name": "Nhà hàng Lux",
+        "description": "Sang trọng và thanh lịch",
+        "longDescription": "Dẫn dắt vị giác của bạn chu du qua các nền văn hóa ẩm thực trên khắp thế giới, nhà hàng Lux cung cấp đa dạng thực đơn từ hương vị Á Đông thuần túy đến những món châu Âu chuẩn vị. Tọa lạc tại tầng 2 khách sạn, không gian sang trọng của nhà hàng là nơi bạn có thể vừa ngắm nhìn phố biển về đêm, vừa thưởng thức một bữa ăn thịnh soạn do chính tay người đầu bếp tài ba chế biến."
+    },
+    "Maybar": {
+        "longDescription": "Ngắm nhìn thành phố về đêm tại May Bar là trải nghiệm tuyệt vời từ tầng 21 của khách sạn."
+    },
+    "May Lounge": {
+        "description": "Sang trọng và ấm cúng",
+        "longDescription": "May Lounge được thiết kế với phong cách hiện đại và tinh tế, kết hợp hoàn hảo giữa sự sang trọng và ấm cúng."
+    }
+}

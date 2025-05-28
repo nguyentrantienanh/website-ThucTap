@@ -30,16 +30,17 @@ import deluxecityview3 from "../../assets/Phong/Deluxe-City-View_5.jpg";
 import deluxecityview4 from "../../assets/Phong/Deluxe-City-View_6.jpg";
 
 import IconFC from "../IconFC";
+import { useTranslation } from "react-i18next";
 
 function Phong() {
-  // Room types with their images and metadata
+  const { t } = useTranslation('slider_phong');
+
   const roomTypes = [
-        {
-            id: "SLC",
+    {
+      id: "SLC",
       name: "Senior Deluxe City View",
-      description: "Rộng rãi và quý phái",
-      longDescription:
-        "Senior Deluxe City View không chỉ là một lựa chọn tuyệt vời cho kỳ nghỉ cùng gia đình tại Nha Trang mà còn mang đến cho bạn một trải nghiệm độc đáo. Với tầm nhìn toàn cảnh thành phố nhộn nhịp, bạn có thể ngắm nhìn cảnh đêm lấp lánh, cảm nhận sự sôi động của thành phố ngay từ khung cửa sổ của căn phòng. Đây sẽ là không gian lý tưởng để bạn và gia đình có thể tận hưởng những thước phim đáng nhớ tại Adamas Boutique Hotel Nha Trang.",
+      description: t("Senior Deluxe City View.description"),
+      longDescription: t("Senior Deluxe City View.longDescription"),
       images: [
         Seniordeluxecity,
         Seniordeluxecity1,
@@ -47,27 +48,25 @@ function Phong() {
         Seniordeluxecity3,
         Seniordeluxecity4,
       ],
-        },
-        {
-            id: "TS",
-        name: "Triple City View",
-        description: "Rộng rãi thoáng đãng",
-        longDescription:
-          "Một chuyến du lịch chữa lành cùng bạn bè trong không gian rộng rãi thoáng đãng của hạng phòng Triple City View sẽ mang lại những trải nghiệm đáng nhớ và ý nghĩa. Với tầm nhìn toàn cảnh thành phố, đây chắc chắn là lựa chọn tuyệt vời cho những chuyến đi 3 người, nơi mọi người có thể cùng nhau chia sẻ những khoảnh khắc đặc biệt.",
-        images: [
-            TripleSingle,
-            TripleSingle1,
-            TripleSingle2,
-            TripleSingle3,
-            TripleSingle4,
-            ],
-        },
-        {
+    },
+    {
+      id: "TS",
+      name: "Triple City View",
+      description: t("Triple City View.description"),
+      longDescription: t("Triple City View.longDescription"),
+      images: [
+        TripleSingle,
+        TripleSingle1,
+        TripleSingle2,
+        TripleSingle3,
+        TripleSingle4,
+      ],
+    },
+    {
       id: "SS",
       name: "Studio Suite Sea View",
-      description: "Đầy đủ tiện nghi",
-      longDescription:
-        "Chính là lựa chọn lý tưởng cho kỳ nghỉ cùng bạn bè và người thương với hệ thống phòng cao cấp và đầy đủ tiện nghi, kèm theo tầm nhìn hướng biển Nha Trang thơ mộng. Đây sẽ là không gian tuyệt vời để bạn thư giãn và kiến tạo ra những kỷ niệm đẹp bên người thân yêu.",
+      description: t("Studio Suite Sea View.description"),
+      longDescription: t("Studio Suite Sea View.longDescription"),
       images: [
         studiosuite,
         studiosuite1,
@@ -79,9 +78,8 @@ function Phong() {
     {
       id: "PSD",
       name: "President Suite Sea View",
-      description: "Đón trọn hướng gió biển",
-      longDescription:
-        "Đón trọn hướng gió biển với căn phòng có tầm nhìn bao trọn cả thành phố biển Nha Trang, tọa lạc tài tầng 20 của Adamas Boutique Hotel Nha Trang. Đây chính là một sự lựa chọn phù hợp cho những chuyến đi cùng gia đình nhưng lại muốn tận hưởng một không gian riêng với thiết kế 1 phòng khách, 1 bếp và 2 phòng ngủ. President Suite Sea View là một sự kết hợp hoàn hảo giữa lối thiết kế hiện đại và sang trọng, mang đến những cảm xúc tuyệt với khi lưu trú tại đây.",
+      description: t("President Suite Sea View.description"),
+      longDescription: t("President Suite Sea View.longDescription"),
       images: [
         president,
         president1,
@@ -93,9 +91,8 @@ function Phong() {
     {
       id: "PS",
       name: "Premier Sea View",
-      description: "Tầm nhìn hướng biển tuyệt đẹp",
-      longDescription:
-        "Phòng Premier Sea mang đến trải nghiệm nghỉ dưỡng với tầm nhìn hướng biển ngoạn mục, không gian thoáng đãng và nội thất hiện đại, lý tưởng cho kỳ nghỉ thư giãn.",
+      description: t("Premier Sea View.description"),
+      longDescription: t("Premier Sea View.longDescription"),
       images: [
         premiersea,
         premiersea1,
@@ -106,9 +103,8 @@ function Phong() {
     {
       id: "DCV",
       name: "Deluxe City View",
-      description: "Đẳng cấp sang trọng",
-      longDescription:
-        "Hơn là một căn phòng, Deluxe City View là một điểm dừng chân không gì sánh được; nằm dài trên chiếc giường êm ái để phục hồi năng lượng sau ngày dài du ngoạn phố biển, bạn sẽ được đắm mình vào một thế giới riêng trong không gian độc đáo và tinh tế của căn phòng, hứa hẹn sẽ mang đến những dịch vụ và tiện ích hiện tốt nhất cho bạn.",
+      description: t("Deluxe City View.description"),
+      longDescription: t("Deluxe City View.longDescription"),
       images: [
         deluxecityview,
         deluxecityview1,
@@ -116,14 +112,13 @@ function Phong() {
         deluxecityview3,
         deluxecityview4,
       ],
-    },      
-    ];
+    },
+  ];
 
   const [currentRoomIndex, setCurrentRoomIndex] = useState(0);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [isClick, setisClick] = useState(false);
   const [isRoomChange, setIsRoomChange] = useState(false);
- 
 
   const currentRoom = roomTypes[currentRoomIndex];
 
@@ -168,28 +163,23 @@ function Phong() {
     }
   };
 
- 
   useEffect(() => {
     const timer = setTimeout(() => {
       goToRoom((currentRoomIndex + 1) % roomTypes.length);
-    }, 5000); 
+    }, 5000);
     return () => clearTimeout(timer);
- 
   }, [currentRoomIndex, currentImageIndex]);
 
- 
   useEffect(() => {
     if (isClick || isRoomChange) {
       const timer = setTimeout(() => {
         setisClick(false);
         setIsRoomChange(false);
- 
-      }, 400);  
+      }, 400);
       return () => clearTimeout(timer);
     }
   }, [isClick, isRoomChange, currentImageIndex, currentRoomIndex]);
 
- 
   return (
     <>
       <section className="  flex max-[770px]:flex-col  mt-10 w-full pr-[5%] max-[770px]:pr-0 h-full max-[1450px]:h-125 max-[1030px]:h-100 max-[770px]:h-full max-[770px]:w-full">
@@ -216,7 +206,7 @@ function Phong() {
         <div className="bg-[#fff] w-[30%] max-[770px]:w-full flex">
           <div className={`w-full  max-[1450px]:py-0 max-[1030px]:px-4 gap-3 max-[1450px]:gap-0.5 flex flex-col min-h-full transition-all duration-800 `}>
             <div className={`${isRoomChange ? "opacity-40" : "opacity-100 transition-all duration-500"}`}>
-              <h1 className="text-[60px] font-medium mt-10 max-[1030px]:mt-3 max-[1450px]:text-[34px] text-[#764E2A] max-[770px]:text-[24px]">Phòng nghỉ</h1>
+              <h1 className="text-[60px] font-medium mt-10 max-[1030px]:mt-3 max-[1450px]:text-[34px] text-[#764E2A] max-[770px]:text-[24px]">{t("guest room")}</h1>
             <p className="text-[48px] py-2 max-[1450px]:text-[20px] max-[1030px]:py-0 text-[#764E2A] max-[770px]:text-[18px]">{currentRoom.name}</p>
             <p className="text-[31px] py-2 max-[1450px]:text-[16px] max-[1030px]:py-0 max-[1030px]:text-[14px] text-[#bc6a23] max-[770px]:text-[14px]">{currentRoom.description}</p>
             <p className="border-b-4 w-[20%] pt-5 max-[1030px]:border-b-3 max-[1030px]:pt-3 text-[#764E2A]"></p>

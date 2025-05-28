@@ -1,0 +1,32 @@
+{
+    "guest room": "Phòng nghỉ",
+    "Senior Deluxe City View" :{
+        "description": "Rộng rãi và quý phái",
+        "longDescription": "Senior Deluxe City View không chỉ là một lựa chọn tuyệt vời cho kỳ nghỉ cùng gia đình tại Nha Trang mà còn mang đến cho bạn một trải nghiệm độc đáo. Với tầm nhìn toàn cảnh thành phố nhộn nhịp, bạn có thể ngắm nhìn cảnh đêm lấp lánh, cảm nhận sự sôi động của thành phố ngay từ khung cửa sổ của căn phòng. Đây sẽ là không gian lý tưởng để bạn và gia đình có thể tận hưởng những thước phim đáng nhớ tại Adamas Boutique Hotel Nha Trang."
+    },
+    "Triple City View":
+    {
+        "description": "Rộng rãi thoáng đãng",
+        "longDescription": "Một chuyến du lịch chữa lành cùng bạn bè trong không gian rộng rãi thoáng đãng của hạng phòng Triple City View sẽ mang lại những trải nghiệm đáng nhớ và ý nghĩa. Với tầm nhìn toàn cảnh thành phố, đây chắc chắn là lựa chọn tuyệt vời cho những chuyến đi 3 người, nơi mọi người có thể cùng nhau chia sẻ những khoảnh khắc đặc biệt."
+    },
+    "Studio Suite Sea View":
+    {
+        "description": "Đầy đủ tiện nghi",
+        "longDescription": "Chính là lựa chọn lý tưởng cho kỳ nghỉ cùng bạn bè và người thương với hệ thống phòng cao cấp và đầy đủ tiện nghi, kèm theo tầm nhìn hướng biển Nha Trang thơ mộng. Đây sẽ là không gian tuyệt vời để bạn thư giãn và kiến tạo ra những kỷ niệm đẹp bên người thân yêu."
+    },
+    "President Suite Sea View":
+    {
+        "description": "Đón trọn hướng gió biển",
+        "longDescription": "Đón trọn hướng gió biển với căn phòng có tầm nhìn bao trọn cả thành phố biển Nha Trang, tọa lạc tài tầng 20 của Adamas Boutique Hotel Nha Trang. Đây chính là một sự lựa chọn phù hợp cho những chuyến đi cùng gia đình nhưng lại muốn tận hưởng một không gian riêng với thiết kế 1 phòng khách, 1 bếp và 2 phòng ngủ. President Suite Sea View là một sự kết hợp hoàn hảo giữa lối thiết kế hiện đại và sang trọng, mang đến những cảm xúc tuyệt với khi lưu trú tại đây."
+    },
+    "Premier Sea View":
+    {
+        "description": "Tầm nhìn hướng biển tuyệt đẹp",
+        "longDescription": "Phòng Premier Sea mang đến trải nghiệm nghỉ dưỡng với tầm nhìn hướng biển ngoạn mục, không gian thoáng đãng và nội thất hiện đại, lý tưởng cho kỳ nghỉ thư giãn."
+    },
+    "Deluxe City View":
+    {
+        "description": "Đẳng cấp sang trọng",
+        "longDescription": "Hơn là một căn phòng, Deluxe City View là một điểm dừng chân không gì sánh được; nằm dài trên chiếc giường êm ái để phục hồi năng lượng sau ngày dài du ngoạn phố biển, bạn sẽ được đắm mình vào một thế giới riêng trong không gian độc đáo và tinh tế của căn phòng, hứa hẹn sẽ mang đến những dịch vụ và tiện ích hiện tốt nhất cho bạn."
+    }
+}

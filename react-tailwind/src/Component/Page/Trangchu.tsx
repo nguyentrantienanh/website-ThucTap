@@ -1,15 +1,21 @@
 import { useState } from "react";
 import sanh from "../../assets/trangchu/trangchu.jpg";
-import PhongSlider from "../Slider/Phong";
-import Amthuc from "../Slider/Amthuc";
+//import PhongSlider from "../Slider/Phong";
+//import Amthuc from "../Slider/Amthuc";
+import Amthucthuvien from "../Slider/Amthucthuvien";
+import Phongthuvien from "../Slider/PhongThuvien";  
 import gym from "../../assets/trangchu/gym.jpg";
 import IconFC from "../IconFC";
 import Uudaidatbiet from "../Slider/Uudaidatbiet";
 import AdamasBoutique from "../Slider/AdamasBoutique";
+import Feedback from "../feedback/feedback";
 import { Swiper, SwiperSlide  } from "swiper/react";
-import "../../App.css";  
+import "../../App.css"; 
+import  { useTranslation } from "react-i18next";
+
 
 function Trangchu() {
+    const { t } = useTranslation(["trangchu"]);
   // hiệu ứng scroll hiện phần giới thiệu
   const [isVisible, setIsVisible] = useState(false);
     const handleScroll = () => {
@@ -24,16 +30,16 @@ function Trangchu() {
     const tienIch = [
       {
         icon: "gym",
-        title: "Phòng tập thể dục",
+        title: t('facilities.items.gym'),
       }
       ,
       {
         icon: "steaming",
-        title: "Phòng xông hơi",
+        title:t('facilities.items.steaming'),
       },
       {
         icon: "swimming",
-        title: "Hồ bơi vô cực",
+        title: t('facilities.items.swimming'),
       },
     ];
  
@@ -46,24 +52,28 @@ function Trangchu() {
             isVisible ? "min-[1025px]:opacity-100  " : "min-[1025px]:opacity-0  "
           }`}
         >
-          <h1 className="text-[48px] font-bold max-[1450px]:text-[34px] max-[1025px]:text-[24px] max-[430px]:text-[14px] ">Khách sạn Adamas Boutique</h1>
+          <h1 className="text-[48px] font-bold max-[1450px]:text-[34px] max-[1025px]:text-[24px] max-[430px]:text-[14px] ">{t('introduction.Adamas Boutique Hotel')}</h1>
           <p className="text-[20px] mt-[20px] max-[1025px]:mt-[10px] max-[1450px]:text-[14px]">
-            Như một viên kim cương sang trọng và lấp lánh giữa lòng phố biển Nha Trang, Adamas Boutique Hotel Nha Trang tọa lạc tại vị trí đắc địa ngay trên cung đường sầm uất Trần Quang Khải, cách biển chưa đầy 1 phút đi bộ. Mang trong mình một lối thiết kế tinh tế và hiện đại nhưng cũng không kém phần sang trọng; tỏa sáng và rực rỡ giống như cái tên. Adamas Boutique Hotel Nha Trang chính là điểm đến đến lý tưởng cung cấp cho bạn những trải nghiệm nghỉ dưỡng đa dạng từ dịch vụ và tiện ích cao cấp của khách sạn.
+           {t('introduction.Adamas Boutique Hotel description')}
           </p>
         </div>
       </div>
-      <PhongSlider />
-      <Amthuc /> 
+       <Phongthuvien/> 
+  
+     {/* <PhongSlider/> */}
+      {/* <Amthuc />*/} 
+      <Amthucthuvien/>
+   
         <div className={`  top-10 max-[430px]:mt-[-5%] items-center px-180 max-[1450px]:px-0 text-center   py-3   bg-[rgb(233,233,233)]  isVisible ? "min-[1025px]:opacity-100  " : "min-[1025px]:opacity-0  "
           }`} >
-          <h1 className="text-[48px] font-bold max-[1450px]:text-[34px] max-[1025px]:text-[24px] max-[430px]:text-[14px] text-[#764E2A] ">Tiện ích đẳng cấp</h1>
+          <h1 className="text-[48px] font-bold max-[1450px]:text-[34px] max-[1025px]:text-[24px] max-[430px]:text-[14px] text-[#764E2A] ">{t('facilities.title')}</h1>
           <p className="text-[20px] mt-[20px] max-[1025px]:mt-[10px] max-[1450px]:text-[14px] px-[20%] max-[1025px]:px-[2%]">
-           Từ những dịch vụ tiện ích đến không gian sang trọng, Adamas mang đến một kỳ nghỉ không thể quên, nơi mà bạn sẽ tận hưởng mọi khoảnh khắc với sự hài lòng và sự thoải mái không giới hạn.
+            {t('facilities.description')}
           </p>
         </div>
        <div className="bg-[#f3f3f3] pb-5">
         <img src={gym}  className="w-full  object-cover"/>
-        {/* Swiper tiện ích */}
+         
         <div className="p-8 max-[1030px]:p-2 my-5">
           <Swiper
             slidesPerView={3}
@@ -95,11 +105,12 @@ function Trangchu() {
           </Swiper>
         </div>
         <div className="flex py-10 max-[1450px]:py-5 max-[1450px]:text-[17px] max-[1030px]:py-2 items-center justify-center text-[25px] text-[#fff]     ">
-          <button className=" py-2 px-5 bg-[#764E2A] "> Xem thêm <IconFC name="arrowright"/></button>
+          <button className=" py-2 px-5 bg-[#764E2A] ">{t('facilities.see more')} <i className="pl-2"><IconFC name="arrowright"/></i></button>
         </div>
        </div>
       <Uudaidatbiet />
       <AdamasBoutique />
+      <Feedback />
     </>
   );
 }

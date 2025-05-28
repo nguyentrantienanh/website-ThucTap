@@ -1,0 +1,17 @@
+{
+    "introduction":{
+        "Adamas Boutique Hotel": "Khách sạn Adamas Boutique",
+        "Adamas Boutique Hotel description": "Như một viên kim cương sang trọng và lấp lánh giữa lòng phố biển Nha Trang, Adamas Boutique Hotel Nha Trang tọa lạc tại vị trí đắc địa ngay trên cung đường sầm uất Trần Quang Khải, cách biển chưa đầy 1 phút đi bộ. Mang trong mình một lối thiết kế tinh tế và hiện đại nhưng cũng không kém phần sang trọng; tỏa sáng và rực rỡ giống như cái tên. Adamas Boutique Hotel Nha Trang chính là điểm đến đến lý tưởng cung cấp cho bạn những trải nghiệm nghỉ dưỡng đa dạng từ dịch vụ và tiện ích cao cấp của khách sạn."
+    },
+    "facilities": {
+        "title": "Tiện ích đẳng cấp",
+        "description": "Từ những dịch vụ tiện ích đến không gian sang trọng, Adamas mang đến một kỳ nghỉ không thể quên, nơi mà bạn sẽ tận hưởng mọi khoảnh khắc với sự hài lòng và sự thoải mái không giới hạn.",
+        "items": {
+            "gym": "Phòng tập thể dục",
+            "steaming": "Phòng xông hơi",
+            "swimming": "Hồ bơi vô cực"
+        },
+        "see more": "Xem thêm"
+    }
+    
+}

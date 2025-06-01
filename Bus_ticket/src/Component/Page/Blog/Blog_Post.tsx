@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom'
-import thumd1 from '../../../assets/blog/blog.png'
-import thumd2 from '../../../assets/blog/thumb_66a3399ae9b3b1721973146.png'
-import thumd3 from '../../../assets/blog/thumb_66a339b749cad1721973175.png'
+import thumd1 from '../../../assets/blog/thumb_1.png'
+import thumd2 from '../../../assets/blog/thumb_2.png'
+import thumd3 from '../../../assets/blog/thumb_3.png'
 import Icon from '../../../icons/Icon' // Assuming you have an Icon component for icons
 
 function BlogPost() {

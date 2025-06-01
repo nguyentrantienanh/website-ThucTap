@@ -3,8 +3,14 @@ import duong from '../../assets/home/duong.png'
 import bus from '../../assets/bus.png'
 import Feedback from '../Slider/Feedback'
 import BlogPost from './Blog/Blog_Post'
+import { useState } from 'react'
 
 function Home() {
+  const [showDiemDenDropdown, setShowDiemDenDropdown] = useState(false)
+  const [selectedDiemDen, setSelectedDiemDen] = useState('')
+  const [showDiemDiDropdown, setShowDiemDiDropdown] = useState(false)
+  const [selectedDiemDi, setSelectedDiemDi] = useState('')
+
   const diemDi = [
     { id: 1, name: 'Hà Nội' },
     { id: 2, name: 'Hải Phòng' },
@@ -23,16 +29,16 @@ function Home() {
     <>
       <div className=' h-full '>
         <section className='bg-[#ececec]'>
-          <div className=' flex justify-between items-center px-[10%] p-10  '>
-            <div className='   '>
+          <div className='max-[900px]:flex-col  flex  justify-between items-center px-[20%] p-10  '>
+            <div className=' max-[900px]:items-center max-[900px]:text-center max-[900px]:flex-col max-[900px]:flex gap-4'>
               <p className='text-5xl w-130 py-4'>Get Your Ticket Online, Easy and Safely</p>
               <button className='bg-[#1ba000] text-[#fff]  cursor-pointer p-2 rounded-[10px] hover:bg-[#1ba000]/70 transition-all duration-300  items-center justify-center '>
-                {' '}
-                <span>GET TICKET NOW</span>
+         
+                <span className=''>GET TICKET NOW</span>
               </button>
             </div>
-            <div className='flex flex-col gap-4 '>
-              <h4>Choose Your Ticket</h4>
+            <div className='flex flex-col gap-4  max-[900px]:my-10 max-[900px]:items-center max-[900px]:text-center max-[900px]:flex-col max-[900px]:flex'>
+              <strong>Choose Your Ticket</strong>
               <form action='' className='grid  gap-4 bg-[#fff] shadow-2xl  p-5 rounded-[10px] items-center  '>
                 <div className='flex gap-4'>
                   <div className='border-1 border-[#8aff73] rounded-[10px] px-2 py-1 flex items-center gap-2'>
@@ -40,33 +46,68 @@ function Home() {
                       {' '}
                       <Icon name='directionarrow' />
                     </i>
-                    <select name='' id=''>
-                      {diemDi.map((item) => (
-                        <option key={item.id} value={item.name}>
-                          {item.name}
-                        </option>
-                      ))}
-                    </select>
+                    <div className="relative">
+                      <div
+                        className="cursor-pointer px-2 py-1 bg-[fff] rounded"
+                        onClick={() => setShowDiemDiDropdown(!showDiemDiDropdown)}
+                      >
+                        {selectedDiemDi || "Chọn điểm Xuất Phát"}
+                      </div>
+                      {showDiemDiDropdown && (
+                        <div className="absolute   top-full mt-1 bg-[#fff] border rounded shadow z-10  w-full">
+                          {diemDi.map((item) => (
+                            <div
+                              key={item.id}
+                              className="px-3 py-1 hover:bg-[#e6ffe6] cursor-pointer text-[14px]"
+                              onClick={() => {
+                                setSelectedDiemDi(item.name);
+                                setShowDiemDiDropdown(false);
+                              }}
+                            >
+                              {item.name}
+                            </div>
+                          ))}
+                        </div>
+                      )}
+                    </div>
                   </div>
 
-                  <div className='border-1 border-[#8aff73] rounded-[10px] px-2 py-1 flex items-center gap-2'>
+                  <div className='border-1 border-[#8aff73] rounded-[10px] px-2 py-1 flex items-center gap-2 relative'>
                     <i className='text-[#66ff47]'>
                       <Icon name='location' />
                     </i>
-                    <select name='' id=''>
-                      {diemDen.map((item) => (
-                        <option key={item.id} value={item.name}>
-                          {item.name}
-                        </option>
-                      ))}
-                    </select>
+ 
+                    <div className="relative">
+                      <div
+                        className="cursor-pointer px-2 py-1 bg-[#fff] rounded"
+                        onClick={() => setShowDiemDenDropdown(!showDiemDenDropdown)}
+                      >
+                        {selectedDiemDen || "Chọn điểm đến"}
+                      </div>
+                      {showDiemDenDropdown && (
+                        <div className="absolute left-0 top-full mt-1 bg-[#fff] border rounded shadow z-10 divide-y-1 divide-gray-500   min-w-max">
+                          {diemDen.map((item) => (
+                            <div
+                              key={item.id}
+                              className="px-3 py-1 hover:bg-[#e6ffe6]  cursor-pointer text-[14px]"
+                              onClick={() => {
+                                setSelectedDiemDen(item.name);
+                                setShowDiemDenDropdown(false);
+                              }}
+                            >
+                              {item.name}
+                            </div>
+                          ))}
+                        </div>
+                      )}
+                    </div>
                   </div>
                 </div>
                 <div className='border-1 border-[#8aff73] rounded-[10px] px-2 py-1 flex items-center gap-2'>
                   <i className='text-[#66ff47]'>
                     <Icon name='calendar' />
                   </i>
-                  <input type='date' name='' className='bg-transparent border-none outline-none' id='' />
+                  <input type='date' name='' className=' ' id='' />
                 </div>
                 <button className='bg-[#1ba000] text-[#fff] cursor-pointer p-2 rounded-[10px] hover:bg-[#1ba000]/70 transition-all duration-300 w-50 h-10 justify-self-center  '>
                   <span>Find Tickets</span>
@@ -82,23 +123,18 @@ function Home() {
             <style>
               {`
         
-              @keyframes busMove {
-                0% {
-                right: -240px;
-                  transform: translatey(0);
-                }
-                30% {
-                  right: 30%;
-                  transform: translatey(0);
-                }
- 
-                100% {
-                  transform: translatey(-580%);
-                  right: 100%;
-                }
-              }
+              // @keyframes busMove {
+              //   0% {
+              //   right: -240px;
+              //     transform: translatey(0);
+              //   }
+              //   100% {
+                 
+              //     right: 100%;
+              //   }
+              // }
                 .bus-animation {
-                  animation: busMove 10s  ease-in-out infinite;
+                  animation: busMove 20s  ease-in-out infinite;
                   position: absolute;
                 }
               `}

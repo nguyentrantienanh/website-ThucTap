@@ -49,6 +49,22 @@ function Icon(props: { name: string }) {
     return <i className='fa-solid fa-chevron-up'></i>
   } else if (props.name == 'address') {
     return <i className='fa-solid fa-map-marker-alt'></i>
+  } else if (props.name == 'menu') {
+    return <i className='fa-solid fa-bars'></i>
+  } else if (props.name == 'close') {
+    return <i className='fa-solid fa-xmark'></i>
+  } else if (props.name == 'vertical') {
+    return <i className='fa-solid fa-ellipsis-vertical'></i>
+  } else if (props.name == 'home') {
+    return <i className='fa-solid fa-house'></i>
+  } else if (props.name == 'about') {
+    return <i className='fa-solid fa-info-circle'></i>
+  } else if (props.name == 'faqs') {
+    return <i className='fa-solid fa-question-circle'></i>
+  }   else if (props.name == 'blog') {
+    return <i className='fa-solid fa-blog'></i>
+  } else if (props.name == 'contact') {
+    return <i className='fa-solid fa-address-book'></i>
   }
 }
 

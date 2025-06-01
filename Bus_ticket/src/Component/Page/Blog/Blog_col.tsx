@@ -1,85 +1,30 @@
-import thumd1 from '../../../assets/blog/blog.png'
-import thumd2 from '../../../assets/blog/thumb_66a3399ae9b3b1721973146.png'
-import thumd3 from '../../../assets/blog/thumb_66a339b749cad1721973175.png'
+import { blogData } from './Blog_card-home';
 import Icon from '../../../icons/Icon'
-import { Link } from 'react-router-dom'
-
-const blogs = [
-  {
-    id: 1,
-    title: 'Why Choose ViserBus? Benefits of Booking Your Travel with Us.',
-    image: thumd1,
-    date: '22 Jul 2024',
-    path: 'blog1'
-  },
-  {
-    id: 2,
-    title: 'Top 10 Tips for Stress-Free Bus Travel: Make Every Journey Comfortable and Enjoyable.',
-    image: thumd2,
-    date: '22 Jul 2024',
-    path: 'blog2'
-  },
-  {
-    id: 3,
-    title: 'How to Book Bus Tickets Online: A Step-by-Step Guide for First-Time Users',
-    image: thumd3,
-    date: '22 Jul 2024',
-    path: 'blog3'
-  },
-  {
-    id: 4,
-    title: 'Exploring the Benefits of Online Bus Ticket Booking: Convenience and Savings',
-    image: thumd1,
-    date: '22 Jul 2024',
-    path: 'blog4'
-  },
-  {
-    id: 5,
-    title: 'The Future of Bus Travel: Innovations and Trends in the Industry',
-    image: thumd2,
-    date: '22 Jul 2024',
-    path: 'blog5'
-  },
-  {
-    id: 6,
-    title: 'How to Choose the Right Bus Service for Your Journey: A Comprehensive Guide',
-    image: thumd3,
-    date: '22 Jul 2024',
-    path: 'blog6'
-  },
-  {
-    id: 7,
-    title: 'The Ultimate Guide to Bus Travel Etiquette: Do’s and Don’ts for a Pleasant Journey',
-    image: thumd1,
-    date: '22 Jul 2024',
-    path: 'blog7'
-  },
-  {
-    id: 8,
-    title: 'Exploring Scenic Routes: The Most Beautiful Bus Journeys Around the World',
-    image: thumd2,
-    date: '22 Jul 2024',
-    path: 'blog8'
-  }
-];
+import { Link, useLocation } from 'react-router-dom'
 
 function BlogCol() {
+  const location = useLocation();
+  const currentPath = location.pathname.replace('/blog/', ''); // Lấy path id hiện tại
+ 
   return (
-    <nav className="flex flex-col gap-4 w-64 bg-white p-4 rounded shadow">
-      <h3 className="font-bold mb-2">Blog List</h3>
+    <nav className="flex flex-col gap-4 w-full bg-[#ffffff] p-4 rounded shadow">
+      <h3 className="font-bold mb-2">Latest Post</h3>
       <ul className="flex flex-col gap-3">
-        {blogs.map(post => (
-          <li key={post.id}>
-            <Link to={post.path} className="flex items-center gap-3 hover:bg-gray-100 p-2 rounded transition">
-              <img src={post.image} alt={post.title} className="w-12 h-10 object-cover rounded" />
-              <div className="flex flex-col">
-                <span className="text-xs text-gray-400 flex items-center gap-1">
-                  <Icon name="calendar" /> {post.date}
-                </span>
-                <span className="text-sm font-medium line-clamp-2">{post.title}</span>
-              </div>
-            </Link>
-          </li>
+        {blogData
+        // lọc lấy các bài viết không phải là bài viết currentPath hiện tại
+          .filter(post => post.path !== currentPath) 
+          .map(post => (
+            <li key={post.id}>
+              <Link to={post.path} className="flex gap-3 hover:bg-gray-100 p-2 rounded transition">
+                <img src={post.image} alt={post.title} className="w-35 h-25 object-cover rounded" />
+                <div className="flex justify-between flex-col">
+                  <span className="text-[17px] font-bold line-clamp-2">{post.title}</span>
+                  <span className="text-[20px] text-[#8a8a8a] flex items-center gap-3">
+                    <Icon name="calendar" /> <span className="text-[14px] text-gray-600">{post.Date}</span>
+                  </span>
+                </div>
+              </Link>
+            </li>
         ))}
       </ul>
     </nav>

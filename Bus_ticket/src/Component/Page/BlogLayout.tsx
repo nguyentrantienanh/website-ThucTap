@@ -1,21 +1,37 @@
 import { Outlet, useLocation } from 'react-router-dom';
 import Blog_col from './Blog/Blog_col';
+import backgroundBlog from '../../assets/background.jpg';
+import { blogData } from './Blog/Blog_card-home';
 
 function BlogLayout() {
   const location = useLocation();
-  const isDetail = location.pathname !== '/blog' && location.pathname !== '/blog/';
+  const isDetail = location.pathname !== '/blog'  ;
+  const blogPost =  blogData.map(post => ({
+    id: post.id,
+    title: post.title,
+  }));
 
   return (
-    <div className="flex ">
-      <div className={isDetail ? "w-3/5 bg-gray-100 p-4  " : " bg-gray-100    "}>
+    <>
+          <div
+        className='w-full h-50 flex items-center justify-center'
+        style={{ backgroundImage: `url(${backgroundBlog})`, backgroundSize: 'cover', backgroundPosition: 'center' }}
+      >
+        <div className='w-full h-full flex items-center justify-center bg-[#00000068]'>
+          <h1 className='text-4xl font-bold mb-4 text-center text-[#fff] px-[40%]'>{isDetail ? blogPost.find(post => location.pathname.includes(post.id.toString()))?.title : "Blog"}</h1>
+        </div>
+      </div>
+
+    <div className={` flex ${isDetail ? "px-[25%]" : ""}  `}>
+      <div className={isDetail ? "w-4/5 bg-gray-100 pr-4  " : ""}>
         <Outlet />
       </div>
       {isDetail && (
-        <div className="w-2/5 p-4">
+        <div className="w-120 p-4 bg-">
           <Blog_col />
         </div>
       )}
-    </div>
+    </div>  </>
   );
 }
 

@@ -18,6 +18,11 @@ function Header() {
     i18n.changeLanguage(lang)
   }
 
+  const [islanguageOpen, setIsLanguageOpen] = useState(false)
+  const toggleLanguage = () => {
+    setIsLanguageOpen(!islanguageOpen)
+  }
+ 
   const LanguageSwitch = () => {
     return (
       <div className='flex   gap-2'>
@@ -28,20 +33,43 @@ function Header() {
             alt=''
           />
         </div>
-        <select value={language} onChange={() => changeLanguage(language === 'vi' ? 'en' : 'vi')}>
-          <option value='vi'>Tiếng việt</option>
-          <option value='en'>English</option>
-        </select>
+        <div className='relative z-100   '>
+          <button
+            className='flex items-center gap-1 text-gray-700 hover:text-[#1ba000] transition-all duration-300'
+            onClick={toggleLanguage}
+          >
+            {language === 'vi' ? 'Tiếng Việt' : 'English'}
+            <Icon name={islanguageOpen ? 'up' : 'dow'} />
+          </button>
+          {islanguageOpen && (
+            <div className='absolute top-full left-0 min-w-max bg-[#fff] shadow-lg rounded mt-1 ' onClick={() => setIsLanguageOpen(false)}>
+              <ul className='p-2'>
+                <li
+                  className='cursor-pointer hover:text-[#1ba000] transition-all duration-300'
+                  onClick={() => changeLanguage('vi')}
+                >
+                  Tiếng Việt
+                </li>
+                <li
+                  className='cursor-pointer hover:text-[#1ba000] transition-all duration-300'
+                  onClick={() => changeLanguage('en')}
+                >
+                  English
+                </li>
+              </ul>
+            </div>
+          )}
+          </div>
       </div>
     )
   }
 
   const navbar = [
-    { name: t('home'), path: '/',icon: 'home' },
-    { name: t('about'), path: '/about', icon: 'about' },
-    { name: t('faqs'), path: '/faqs', icon: 'faqs' },
-    { name: t('blog'), path: '/blog', icon: 'blog' },
-    { name: t('contact'), path: '/contact', icon: 'contact' },
+    { name: t('Header_NAV.Home'), path: '/',icon: 'home' },
+    { name: t('Header_NAV.About'), path: '/about', icon: 'about' },
+    { name:  t('Header_NAV.Faqs'), path: '/faqs', icon: 'faqs' },
+    { name:   t('Header_NAV.Blog'), path: '/blog', icon: 'blog' },
+    { name:  t('Header_NAV.Contact') , path: '/contact', icon: 'contact' },
   ]
 
   const location = useLocation()
@@ -51,7 +79,7 @@ function Header() {
 
       <Link to='/buytickets' className='flex items-center gap-2'>
       <button className='bg-[#1ba000] text-[#fff] cursor-pointer p-2 rounded-[10px] hover:bg-[#1ba000]/70 transition-all duration-300 '>
-        <span>Buy Tickets</span>
+        <span>{t('Header_BUTTON.BuyTicket')}</span>
       </button>
  
       </Link>
@@ -96,14 +124,14 @@ function Header() {
               <i className='px-2 max-[350px]:px-0  text-[#1ba000]'>
                 <Icon name='signin' />
               </i>
-              {t('signin')}
+              {t('Header_LOGIN.SingIn')}
             </span>
             <div className='px-3'>/</div>
             <span>
               <i className='px-2 text-[#1ba000]'>
                 <Icon name='signup' />
               </i>
-              {t('signup')}
+              {t('Header_LOGIN.SignUp')}
             </span>
           </div>
         </div>
@@ -156,7 +184,7 @@ function Header() {
           <Buytikets />
         </div>
         <div className='max-[900px]:flex hidden gap-2  '>
-          <div className='  text-[24px] text-[#1ba000] cursor-pointer' onClick={toggleMenu}>
+          <div className='   text-[24px] text-[#1ba000] cursor-pointer' onClick={toggleMenu}>
               <i>{isMenuOpen ? <Icon name='close'/>:<Icon name='menu'/> }</i>
           </div>
           <div className='  text-[24px] text-[#1ba000] cursor-pointer' onClick={togglevertical}>
@@ -222,7 +250,7 @@ function Header() {
 
       {isverticalOpen && (
         <div>
-          <div className='absolute bg-black opacity-30 z-90 top-0 w-full h-full 'onClick={() => setIsverticalOpen(false)}></div>
+          <div className='fixed  bg-black opacity-30 z-90 top-0 w-full h-full 'onClick={() => setIsverticalOpen(false)}></div>
         <div
           className=" min-[900px]:hidden  fixed  top-0  items-start  w-full z-90 flex mt-1  "
         >

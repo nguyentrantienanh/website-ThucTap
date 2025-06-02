@@ -1,0 +1,58 @@
+{
+  "Home_SEARCH":{
+     "GetTicket": "Get Your Ticket Online, Easy and Safely",
+     "ChooseYourTicket": "Choose Your Ticket"
+  },
+  "Home_button":{
+       "GetTicket": "GET TICKET NOW",
+       "FindTicket": "Find Tickets"
+  },
+  "Home_from":{
+    "Pickup": "Pickup Point",
+    "Dropping": "Dropping Point"
+  },
+  "Home_location": {
+    "Ha Noi": "Hanoi",
+    "Ho Chi Minh": "Ho Chi Minh City",
+    "Da Nang": "Da Nang",
+    "Nha Trang": "Nha Trang",
+    "Hue": "Hue",
+    "Can Tho": "Can Tho",
+    "Vung Tau": "Vung Tau",
+    "Phu Quoc": "Phu Quoc",
+    "Da Lat": "Da Lat",
+    "Quy Nhon": "Quy Nhon",
+    "Hai Phong": "Hai Phong"
+  },
+  "Home_Steps":{
+    "Header":{
+      "Title": "Get Your Tickets With Just 3 Steps",
+      "Description": "Have a look at our popular reason. why you should choose you bus. Just a Bus and get a ticket for your great journey. !"
+    },
+    "Step1":{
+      "Title": "Search Your Bus",
+      "Description": "Choose your origin, destination,Just choose a Bus journey dates and search for buses."
+    },
+    "Step2":{
+      "Title": "Choose The Ticket",
+      "Description": "Choose your origin, destination,Just a Bus for your great journey dates and search for buses."
+    },
+    "Step3":{
+      "Title": "Pay Bill",
+      "Description": "Choose your origin, destination,choose a Bus for your great journey dates and search for buses."
+    }
+  },
+  "Home_Amenities":{
+    "Header":{
+      "Title": "Our AmenitiesAmenities",
+      "Description": "Have a look at our popular reason. why you should choose you bus.Just choose a Bus and get a ticket for your great journey!"
+    },
+    "AmenitiesList":{
+      "Wifi": " Wifi",
+      "Pillow": " Pillow",
+      "Water": " Water",
+      "SoftDrink": " Soft Drink"
+    }
+  }
+
+}

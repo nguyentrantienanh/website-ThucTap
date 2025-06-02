@@ -1,31 +1,35 @@
 import i18n from 'i18next'
 import { initReactI18next } from 'react-i18next'
+import HEADER_EN from '../locales/en/Header.json'
+import HOME_EN from '../locales/en/Home.json'
+
+import HEADER_VI from '../locales/vi/Header.json'
+import HOME_VI from '../locales/vi/Home.json'
+ 
 
 export const languages = {
   en: 'English',
   vi: 'Tiếng Việt'
 }
 
-const resources = {
+export const resources = {
   en: {
-    translation: {
-      signin: 'Signin',
-      signup: 'Signup'
-    }
+    Header: HEADER_EN,
+    Home: HOME_EN,
   },
   vi: {
-    translation: {
-      signin: 'Đăng nhập',
-      signup: 'Đăng ký'
-    }
+    Header: HEADER_VI,
+    Home: HOME_VI,
   }
 }
-
+export const defaultNS = 'Header'
 i18n
   .use(initReactI18next) // passes i18n down to react-i18next
   .init({
     resources,
-    lng: 'vi', // default language // namespaces
+    lng: 'vi', // default language  
+    ns: ['Home'], // namespaces to load
+    defaultNS,
     fallbackLng: 'vi', // fallback language
     interpolation: {
       escapeValue: false // react already does escaping

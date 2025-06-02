@@ -1,0 +1,16 @@
+{
+    "Header_LOGIN":{
+    "SingIn": "Sign In",
+    "SignUp": "Sign Up"
+  },
+   "Header_NAV":{
+    "Home": "Home",
+     "About": "About",
+     "Faqs": "FAQs",
+     "Blog": "Blog",
+    "Contact": "Contact"
+    },
+  "Header_BUTTON":{
+    "BuyTicket": "Buy Ticket"
+  }
+}

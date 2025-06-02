@@ -3,8 +3,8 @@ import Icon from '../icons/Icon'
 
 function Footer() {
   return (
-    <footer className='bg-gray-800 grid grid-cols-5 justify-start  px-5 text-[#f5f5f5] py-4'>
-      <section className='flex flex-col col-span-2       gap-4'>
+    <footer className='bg-gray-800 grid grid-cols-5 max-[900px]:grid-cols-2  max-[450px]:grid-cols-1 max-[900px]:items-center  max-[450px]:pr-0  max-[450px]:pl-5  px-5 text-[#f5f5f5] py-4'>
+      <section className='flex flex-col col-span-2 max-[900px]:col-span-1  max-[900px]:py-5  gap-4'>
         <img src={logo} className=' h-30 w-40 ' alt='' />
         <span className='mt-[-30px]'>
           Book bus tickets effortlessly with ViserBus! Enjoy seamless travel planning, real-time updates, and secure
@@ -18,7 +18,7 @@ function Footer() {
           <Icon name='youtube' />
         </span>
       </section>
-      <section className=' w-full justify-self-start '>
+      <section className=' w-full items-center justify-center max-[900px]:py-5 max-[900px]:px-20  max-[450px]:px-0 '>
         <div className='mb-5'>
           <h1 className='font-bold text-[22px] text-[#12cb62]'>Useful Links</h1>
           <div className=' items-center '>
@@ -27,7 +27,7 @@ function Footer() {
           </div>
         </div>
         <div>
-          <ul className='flex justify-self-start  flex-col gap-4 '>
+          <ul className='flex justify-self-start  flex-col gap-4 max-[450px]:divide-y-2 w-full divide-[#b3b3b354]'>
             <li className='hover:text-[#1ba000] transition-all duration-300 cursor-pointer'>
               <i className='pr-3'>
                 <Icon name='arrow-right' />
@@ -56,7 +56,7 @@ function Footer() {
         </div>
       </section>
 
-      <section className=' w-full justify-self-start '>
+      <section className=' w-full justify-self-start max-[900px]:py-5   '>
         <div className='mb-5'>
           <h1 className='font-bold text-[22px] text-[#12cb62]'>Policies</h1>
           <div className=' items-center '>
@@ -65,20 +65,20 @@ function Footer() {
           </div>
         </div>
         <div>
-          <ul className='flex justify-self-start  flex-col gap-4 '>
-            <li className='hover:text-[#1ba000] transition-all duration-300 cursor-pointer'>
+          <ul className='flex justify-self-start  flex-col gap-4  max-[450px]:divide-y-2 w-full divide-[#b3b3b354] '>
+            <li className='hover:text-[#1ba000] transition-all py-1 duration-300 cursor-pointer'>
               <i className='pr-3'>
                 <Icon name='arrow-right' />
               </i>
               Privace Policy
             </li>
-            <li className='hover:text-[#1ba000] transition-all duration-300 cursor-pointer'>
+            <li className='hover:text-[#1ba000] py-1 transition-all duration-300 cursor-pointer'>
               <i className='pr-3'>
                 <Icon name='arrow-right' />
               </i>
               Terms of Service
             </li>
-            <li className='hover:text-[#1ba000] transition-all duration-300 cursor-pointer'>
+            <li className='hover:text-[#1ba000] py-1 transition-all duration-300 cursor-pointer'>
               <i className='pr-3'>
                 <Icon name='arrow-right' />
               </i>
@@ -94,7 +94,7 @@ function Footer() {
         </div>
       </section>
 
-      <section className=' w-full justify-self-start '>
+      <section className=' w-full justify-self-start max-[900px]:py-5 max-[900px]:px-20  max-[450px]:px-0'>
         <div className='mb-5'>
           <h1 className='font-bold text-[22px] text-[#12cb62]'>Contact Info</h1>
           <div className=' items-center '>

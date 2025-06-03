@@ -1,6 +1,6 @@
 import thumd1 from '../../../assets/blog/thumb_1.png'
-import thumd2 from '../../../assets/blog/thumb_2.png'
-import thumd3 from '../../../assets/blog/thumb_3.png'
+import thumd3 from '../../../assets/blog/thumb_2.png'
+import thumd2 from '../../../assets/blog/thumb_3.png'
 import thumd4 from '../../../assets/blog/thumb_4.png'
 import thumd5 from '../../../assets/blog/thumb_5.png'
 import thumd6 from '../../../assets/blog/thumb_6.png'
@@ -16,7 +16,7 @@ import { Link } from 'react-router-dom';
       title: 'Why Choose ViserBus? Benefits of Booking Your Travel with Us.',
       image: thumd1,
       content: 'From setting clear retirement goals to estimating your future expenses and income needs',
-      path: 'blog1',
+      path: 'Why-Choose-ViserBus',
       Date: '2023-10-01'
     },
     {
@@ -24,7 +24,7 @@ import { Link } from 'react-router-dom';
       title: 'Top 10 Tips for Stress-Free Bus Travel: Make Every Journey Comfortable and Enjoyable.',
       image: thumd2,
       content: 'From setting clear retirement goals to estimating your future expenses and income needs',
-      path: 'blog2',
+      path: 'Top-10-Tips-for-Stress-Free-Bus-Travel',
       Date: '2023-10-01'
     },
     {
@@ -32,14 +32,14 @@ import { Link } from 'react-router-dom';
       title: 'How to Book Bus Tickets Online: A Step-by-Step Guide for First-Time Users',
       image: thumd3,
       content: 'From setting clear retirement goals to estimating your future expenses and income needs',
-      path: 'blog3'
+      path: 'How-to-Book-Bus-Tickets-Online'
     },
     {
       id: 4,
       title: 'Exploring the Benefits of Online Bus Ticket Booking: Convenience and Savings',
       image: thumd4,
       content: 'From setting clear retirement goals to estimating your future expenses and income needs',
-      path: 'blog4',
+      path: 'Exploring-the-Benefits-of-Online-Bus-Ticket-Booking',
       Date: '2023-10-01'
     },
     {
@@ -47,7 +47,7 @@ import { Link } from 'react-router-dom';
       title: 'The Future of Bus Travel: Innovations and Trends in the Industry',
       image: thumd5,
       content: 'From setting clear retirement goals to estimating your future expenses and income needs',
-      path: 'blog5',
+      path: 'The-Future-of-Bus-Travel',
       Date: '2023-10-01'
     },
     {
@@ -55,7 +55,7 @@ import { Link } from 'react-router-dom';
       title: 'How to Choose the Right Bus Service for Your Journey: A Comprehensive Guide',
       image: thumd6,
       content: 'From setting clear retirement goals to estimating your future expenses and income needs',
-      path: 'blog6',
+      path: 'How-to-Choose-the-Right-Bus-Service-for-Your-Journey',
       Date: '2023-10-01'
     },
     {
@@ -63,7 +63,7 @@ import { Link } from 'react-router-dom';
       title: 'The Ultimate Guide to Bus Travel Etiquette: Do’s and Don’ts for a Pleasant Journey',
       image: thumd7,
       content: 'From setting clear retirement goals to estimating your future expenses and income needs',
-      path: 'blog7',
+      path: 'The-Ultimate-Guide-to-Bus-Travel-Etiquette',
       Date: '2023-10-01'
     },
     {
@@ -71,7 +71,7 @@ import { Link } from 'react-router-dom';
       title: 'Exploring Scenic Routes: The Most Beautiful Bus Journeys Around the World',
       image: thumd8,
       content: 'From setting clear retirement goals to estimating your future expenses and income needs',
-      path: 'blog8',
+      path: 'Exploring-Scenic-Routes',
       Date: '2023-10-01'
     }
   ]

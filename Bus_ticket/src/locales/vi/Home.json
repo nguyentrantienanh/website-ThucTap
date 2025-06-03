@@ -54,5 +54,28 @@
     "Water": "Nước uống",
     "SoftDrink": "Nước ngọt"
   }
+},
+"Home_Testimonials": {
+  "Header": {
+    "Title": "Đánh giá của khách hàng",
+    "Description": "Hãy xem những lý do phổ biến tại sao bạn nên chọn xe buýt của chúng tôi. Chỉ cần chọn xe buýt và đặt vé cho hành trình tuyệt vời của bạn!"
+  },
+  "Testimonials": {
+    "Testimonial1": {
+      "Name": "Nguyễn Văn A",
+      "Comment": "Dịch vụ tuyệt vời, xe sạch sẽ và thoải mái!"
+    },
+    "Testimonial2": {
+      "Name": "Trần Thị B",
+      "Comment": "Tôi rất hài lòng với chuyến đi, nhân viên thân thiện và chuyên nghiệp."
+    },
+    "Testimonial3": {
+      "Name": "Lê Văn C",
+      "Comment": "Giá vé hợp lý, tôi sẽ tiếp tục sử dụng dịch vụ này."
+    }
+  }
+},
+"Home_Post":{
+  "Title": "Tin tức mới nhất"
 }
 }

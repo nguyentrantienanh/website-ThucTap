@@ -1,6 +1,6 @@
 import FAQ from "./FAQ/FAQ";
-import BlogPost from "./Blog/Blog_Post";
-import backgroundFAQs from '../../assets/background.jpg'
+import BlogPost from "./Blog/components/Blog_Post";
+import backgroundFAQs from '../assets/background.jpg'
 
 
 

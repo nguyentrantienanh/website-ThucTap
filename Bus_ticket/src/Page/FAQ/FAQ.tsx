@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import Icon from '../../../icons/Icon' // Assuming you have an Icon component for icons
+import Icon from '../../icons/Icon' // Assuming you have an Icon component for icons
 
 function FAQ() {
   const faqsrgith = [

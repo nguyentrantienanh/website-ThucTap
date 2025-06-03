@@ -1,5 +1,5 @@
-import backgroundAbout from '../../assets/background.jpg'
-import AboutBus from '../../assets/about/aboutbus.jpg'
+import backgroundAbout from '../assets/background.jpg'
+import AboutBus from '../assets/about/aboutbus.jpg'
 import FAQ from './FAQ/FAQ'
 
 function About() {

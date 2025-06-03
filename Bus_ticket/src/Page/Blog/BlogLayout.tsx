@@ -1,15 +1,13 @@
 import { Outlet, useLocation } from 'react-router-dom';
-import Blog_col from './Blog/Blog_col';
+import Blog_col from '../Blog/components/Blog_col';
 import backgroundBlog from '../../assets/background.jpg';
-import { blogData } from './Blog/Blog_card-home';
+import { blogData } from '../Blog/components/Blog_card-home';
 
 function BlogLayout() {
   const location = useLocation();
   const isDetail = location.pathname !== '/blog'  ;
-  const blogPost =  blogData.map(post => ({
-    id: post.id,
-    title: post.title,
-  }));
+ 
+  const blogPost = blogData.find(post => (post.path === location.pathname.replace('/blog/', '')));
 
   return (
     <>
@@ -18,7 +16,9 @@ function BlogLayout() {
         style={{ backgroundImage: `url(${backgroundBlog})`, backgroundSize: 'cover', backgroundPosition: 'center' }}
       >
         <div className='w-full h-full flex items-center justify-center bg-[#00000068]'>
-          <h1 className='text-4xl font-bold mb-4 text-center text-[#fff] px-[40%]'>{isDetail ? blogPost.find(post => location.pathname.includes(post.id.toString()))?.title : "Blog"}</h1>
+          <h1 className='text-4xl font-bold mb-4 text-center text-[#fff] px-[40%]'>
+            {isDetail ? blogPost?.title : 'Blog'}
+          </h1>
         </div>
       </div>
 

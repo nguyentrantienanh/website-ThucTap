@@ -35,27 +35,34 @@ function Header() {
         </div>
         <div className='relative z-100   '>
           <button
-            className='flex items-center gap-1 text-gray-700 hover:text-[#1ba000] transition-all duration-300'
+            className=' cursor-pointer flex items-center gap-1 text-gray-700 hover:text-[#1ba000] transition-all duration-300'
             onClick={toggleLanguage}
           >
             {language === 'vi' ? 'Tiếng Việt' : 'English'}
             <Icon name={islanguageOpen ? 'up' : 'dow'} />
           </button>
           {islanguageOpen && (
-            <div className='absolute top-full left-0 min-w-max bg-[#fff] shadow-lg rounded mt-1 ' onClick={() => setIsLanguageOpen(false)}>
-              <ul className='p-2'>
+            <div className='cursor-pointer  absolute top-full left-0 min-w-max bg-[#fff] shadow-lg rounded mt-1 ' onClick={() => setIsLanguageOpen(false)}>
+              <ul className='p-2  flex flex-col gap-2'>
+                <div className='flex gap-2 '   onClick={() => changeLanguage('vi')} >
+                  <img src={vietnam} alt=""  className= ' w-5 h-5 rounded-full border border-gray-300'/>
+                
                 <li
                   className='cursor-pointer hover:text-[#1ba000] transition-all duration-300'
                   onClick={() => changeLanguage('vi')}
                 >
                   Tiếng Việt
                 </li>
+                </div>
+                <div className='flex gap-2'  onClick={() => changeLanguage('en')}>
+                  <img src={my} alt=""  className='w-5 h-5 rounded-full border border-gray-300'/>
+                
                 <li
                   className='cursor-pointer hover:text-[#1ba000] transition-all duration-300'
                   onClick={() => changeLanguage('en')}
                 >
                   English
-                </li>
+                </li></div>
               </ul>
             </div>
           )}
@@ -198,7 +205,7 @@ function Header() {
 
       {isMenuOpen && (
         <div>
-          <div className='absolute bg-black opacity-30 z-90 top-0 w-full h-full 'onClick={() => setIsMenuOpen(false)}></div>
+          <div className='fixed bg-black opacity-30 z-90 top-0 w-full h-full 'onClick={() => setIsMenuOpen(false)}></div>
         <div
           className=" min-[900px]:hidden  fixed  top-0  items-start  w-full z-90 flex mt-1  "
         >

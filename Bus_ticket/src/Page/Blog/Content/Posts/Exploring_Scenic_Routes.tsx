@@ -1,5 +1,5 @@
 import thumd8 from '../../../../assets/blog/thumb_8.png';
-import { blogData } from '../Blog_card-home';
+import { blogData }  from '../../components/Blog_card-home';
 import Icon from '../../../../icons/Icon';
 
 function  Blog8() {

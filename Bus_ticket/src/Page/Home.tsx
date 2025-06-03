@@ -1,8 +1,8 @@
-import Icon from '../../icons/Icon'
-import duong from '../../assets/home/duong.png'
-import bus from '../../assets/bus.png'
-import Feedback from '../Slider/Feedback'
-import BlogPost from './Blog/Blog_Post'
+import Icon from '../icons/Icon'
+import duong from '../assets/home/duong.png'
+import bus from '../assets/bus.png'
+import Feedback from '../Component/Slider/Feedback'
+import BlogPost from './Blog/components/Blog_Post'
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
  
@@ -296,27 +296,22 @@ function Home() {
           </div>
           
         </section>
-        <section className='bg-[#ececec] mt-10 p-5'>
-          <div className='text-center  px-[30%]'>
-            <strong className=' text-[36px] '>Our Testimonials</strong>
-            <p className='text-[#666] text-[20px] px-[20%]'>
-              Have a look at our popular reason. why you should choose you bus. Just choose a Bus and get a ticket for
-              your great journey!
+        <section className='bg-[#ececec] mt-10 p-5 '>
+          <div className='text-center  max-[1200px]:px-5 max-[1800px]:px-[10%] px-[30%] max-[350px]:px-1'>
+            <strong className=' text-[36px] max-[900px]:text-[30px]   max-[450px]:text-[25px] '>{t('Home_Testimonials.Header.Title')}</strong>
+            <p className='text-[#666] text-[20px] px-[20%] max-[1200px]:px-5 max-[1800px]:px-[10%]  max-[900]:text-[16px]  max-[450px]:px-0 max-[450px]:text-[14px] '>
+              {t('Home_Testimonials.Header.Description')}
             </p>
           </div>
           
 
-          <div className=' '>
+          <div className='px-[30%] py-10 max-[1200px]:px-5 max-[1800px]:px-[10%]  max-[450px]:py-5 max-[350px]:px-1 '>
             <Feedback />
           </div>
         </section>
-        <section className=' px-[30%]'>
-          <div className='text-center mb-10 '>
-            <strong className=' text-[36px] '>Latest Blog Posts</strong>
-            <p className='text-[#666] text-[20px] px-[20%]'>
-              Have a look at our popular reason. why you should choose you bus. Just choose a Bus and get a ticket for
-              your great journey!
-            </p>
+        <section className=' px-[30%] max-[1200px]:px-5 max-[1800px]:px-[5%]'>
+          <div className='text-center m-10 max-[1200px]:m-5'>
+            <strong className=' text-[36px] '>{t('Home_Post.Title')}</strong>
           </div>
           <BlogPost />
         </section>

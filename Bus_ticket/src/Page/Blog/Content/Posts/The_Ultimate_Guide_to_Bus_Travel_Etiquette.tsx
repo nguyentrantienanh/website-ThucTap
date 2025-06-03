@@ -1,21 +1,21 @@
-import thumd5 from '../../../../assets/blog/thumb_5.png';
-import { blogData } from '../Blog_card-home';
+import thumd7 from '../../../../assets/blog/thumb_7.png';
+import { blogData }  from '../../components/Blog_card-home';
 import Icon from '../../../../icons/Icon';
 
-function  Blog5() {
+function  Blog7() {
   const blagPost = blogData;
   return (
      <section>
       <div className='flex flex-col bg-[#fff]  justify-center py-10'>
-        <img src={thumd5} alt="Blog Thumbnail" className='w-full h-full object-cover mb-5' />
+        <img src={thumd7} alt="Blog Thumbnail" className='w-full h-full object-cover mb-5' />
           <div className='flex   gap-3 text-gray-500'>
             <span className=' text-[#40c640] '>
               <Icon name='calendar' />
             </span>
           
-          <span className='text-sm mb-3'>{blagPost[4].Date}</span>
+          <span className='text-sm mb-3'>{blagPost[6].Date}</span>
           </div>
-        <strong className='text-[27px] font-semibold  '> {blagPost[4].title}</strong>
+         <strong className='text-[26px] font-semibold  '> {blagPost[6].title}</strong>
         <div  className='flex flex-col my-4'>
            <strong className=' text-[20px] text-gray-700'>From setting clear retirement goals to estimating your future exstrongenses and income needs, ViserBus offers a seamless travel experience with numerous benefits.</strong>
           <span className='text-gray-500 '> we'll guide you through the process of creating a solid retirement plan tailored to your unique circumstances. Whether you're decades away from retirement or nearing your retirement age, this guide offers valuable insights to help you make informed decisions and take proactive steps towards achieving your retirement objectives.</span>
@@ -51,4 +51,4 @@ function  Blog5() {
      </section>
   );
 }
-export default Blog5;
+export default Blog7;

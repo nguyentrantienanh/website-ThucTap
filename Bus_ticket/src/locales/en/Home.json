@@ -53,6 +53,30 @@
       "Water": " Water",
       "SoftDrink": " Soft Drink"
     }
+  },
+  "Home_Testimonials":{
+    "Header":{
+      "Title": "Our Testimonials",
+      "Description": "Have a look at our popular reason. why you should choose you bus. Just choose a Bus and get a ticket for your great journey!"
+    },
+    "Testimonials":{
+      "Testimonial1": {
+        "Name": "John Doe",
+        "Feedback": "I travel frequently for work, and ViserBus has become my go-to. Great prices, punctual buses, and excellent customer service. A game-changer!"
+      },
+      "Testimonial2": {
+        "Name": "Jane Smith",
+        "Feedback": "Best Travel Experience!, From booking to arrival, ViserBus made everything seamless. The app is user-friendly, and the staff is super helpful. 10/10!"
+      },
+      "Testimonial3": {
+        "Name": "Alice Johnson",
+        "Feedback": "I love that ViserBus promotes eco-friendly travel. The buses are clean, modern, and always on time. A great choice for conscious travelers!"
+      }
+    }
+  },
+  "Home_Post":{
+    "Title": "Recent Blog Post"
+   
   }
 
 }

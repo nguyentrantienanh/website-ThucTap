@@ -1,5 +1,5 @@
-import backgroundContact from '../../assets/background.jpg';
-import Icon from '../../icons/Icon';
+import backgroundContact from '../assets/background.jpg';
+import Icon from '../icons/Icon';
 
 
 function Contact() {

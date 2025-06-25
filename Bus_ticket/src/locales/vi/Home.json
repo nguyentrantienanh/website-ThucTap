@@ -8,11 +8,9 @@
     "GetTicket": "ĐẶT VÉ NGAY",
     "FindTicket": "Tìm vé"
   },
-  "Home_from":{
-    "Pickup": "Điểm xuất phát",
-    "Dropping": "Điểm đến"
-  },
+ 
     "Home_location":{
+    "All": "Tất cả",
     "Ha Noi": "Hà Nội",
     "Ho Chi Minh": "Hồ Chí Minh",
     "Da Nang": "Đà Nẵng",

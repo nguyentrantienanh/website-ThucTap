@@ -7,11 +7,9 @@
        "GetTicket": "GET TICKET NOW",
        "FindTicket": "Find Tickets"
   },
-  "Home_from":{
-    "Pickup": "Pickup Point",
-    "Dropping": "Dropping Point"
-  },
+ 
   "Home_location": {
+    "All": "All",
     "Ha Noi": "Hanoi",
     "Ho Chi Minh": "Ho Chi Minh City",
     "Da Nang": "Da Nang",

@@ -1,3 +1,7 @@
+import google from '../assets/auth/google.svg'
+import facebook from '../assets/auth/facebook.svg'
+import linkedin from '../assets/auth/linkdin.svg'
+
 function Icon(props: { name: string }) {
   if (props.name == 'phone') {
     return <i className='fa-solid fa-phone-volume'></i>
@@ -42,7 +46,7 @@ function Icon(props: { name: string }) {
   } else if (props.name == 'water') {
     return <i className='fa-solid fa-bottle-water'></i>
   } else if (props.name == 'drink') {
-    return <i className="fa-solid fa-wine-glass"></i>
+    return <i className='fa-solid fa-wine-glass'></i>
   } else if (props.name == 'dow') {
     return <i className='fa-solid fa-chevron-down'></i>
   } else if (props.name == 'up') {
@@ -61,10 +65,28 @@ function Icon(props: { name: string }) {
     return <i className='fa-solid fa-info-circle'></i>
   } else if (props.name == 'faqs') {
     return <i className='fa-solid fa-question-circle'></i>
-  }   else if (props.name == 'blog') {
+  } else if (props.name == 'blog') {
     return <i className='fa-solid fa-blog'></i>
   } else if (props.name == 'contact') {
     return <i className='fa-solid fa-address-book'></i>
+  } else if (props.name == 'bus') {
+    return <i className='fa-solid fa-bus'></i>
+  } else if (props.name == 'road') {
+    return <i className='fa-solid fa-road'></i>
+  } else if (props.name == 'clock') {
+    return <i className='fa-regular fa-clock'></i>
+  } else if (props.name == 'seat') {
+    return <i className='fa-solid fa-chair'></i>
+  } else if (props.name == 'google') {
+    return <img src={google} alt='Google Icon' className='w-5 h-5' />
+  } else if (props.name == 'facebooksign') {
+    return <img src={facebook} alt='Facebook Icon' className='w-5 h-5' />
+  } else if (props.name == 'linkedin') {
+    return <img src={linkedin} alt='LinkedIn Icon' className='w-5 h-5' />
+  } else if (props.name == 'support') {
+    return <i className='fa-solid fa-headset'></i>
+  } else if (props.name == 'user') {
+    return <i className='fa-solid fa-user'></i>
   }
 }
 

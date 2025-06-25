@@ -1,13 +1,11 @@
-import FAQ from "./FAQ/FAQ";
-import BlogPost from "./Blog/components/Blog_Post";
+import FAQ from './FAQ/FAQ'
+import BlogPost from './Blog/components/Blog_Post'
 import backgroundFAQs from '../assets/background.jpg'
-
-
 
 function Faqs() {
   return (
     <>
-    <div
+      <div
         className='  w-full h-50 flex items-center justify-center  '
         style={{ backgroundImage: `url(${backgroundFAQs})`, backgroundSize: 'cover', backgroundPosition: 'center' }}
       >
@@ -20,6 +18,6 @@ function Faqs() {
         <BlogPost />
       </section>
     </>
-  );
+  )
 }
-export default Faqs;
+export default Faqs

@@ -2,7 +2,7 @@ import { Swiper, SwiperSlide } from 'swiper/react'
 import feedbackMe from '../../assets/feedback/me.jpg'
 import { Autoplay } from 'swiper/modules'
 import { useState } from 'react'
-import { useTranslation } from  'react-i18next'
+import { useTranslation } from 'react-i18next'
 
 function Feedback() {
   const { t } = useTranslation('Home')
@@ -11,22 +11,19 @@ function Feedback() {
       id: 1,
       src: feedbackMe,
       title: t('Home_Testimonials.Testimonials.Testimonial1.Name'),
-      longDescription:
-         t('Home_Testimonials.Testimonials.Testimonial1.Comment')
+      longDescription: t('Home_Testimonials.Testimonials.Testimonial1.Comment')
     },
     {
       id: 2,
       src: feedbackMe,
-      title:  t('Home_Testimonials.Testimonials.Testimonial2.Name'),
-      longDescription:
-        t('Home_Testimonials.Testimonials.Testimonial2.Comment')
+      title: t('Home_Testimonials.Testimonials.Testimonial2.Name'),
+      longDescription: t('Home_Testimonials.Testimonials.Testimonial2.Comment')
     },
     {
       id: 3,
       src: feedbackMe,
-      title:  t('Home_Testimonials.Testimonials.Testimonial3.Name'),
-      longDescription:
-        t('Home_Testimonials.Testimonials.Testimonial3.Comment')
+      title: t('Home_Testimonials.Testimonials.Testimonial3.Name'),
+      longDescription: t('Home_Testimonials.Testimonials.Testimonial3.Comment')
     }
   ]
 
@@ -35,7 +32,7 @@ function Feedback() {
   return (
     <div className=' '>
       <div className=' relative '>
-        <div className=' bg-[#fff] p-15  max-[900px]:p-5 max-[450px]:p-1 max-[350px]:px-1'>
+        <div className=' bg-[#fff] p-10  max-[900px]:p-5 max-[450px]:p-1 max-[350px]:px-1'>
           <Swiper
             modules={[Autoplay]}
             slidesPerView={1}
@@ -45,7 +42,9 @@ function Feedback() {
           >
             {images.map((image) => (
               <SwiperSlide key={image.id} className='p-5 bg-[#fff]  '>
-                <p className='text-gray-600 mt-2 text-center text-[16px] max-[900px]:text-[14px]  '>{image.longDescription}</p>
+                <p className='text-gray-600 mt-2 text-center text-[16px] max-[900px]:text-[14px]  '>
+                  {image.longDescription}
+                </p>
                 <div className='justify-center items-center flex m-4'>
                   <img
                     src={image.src}

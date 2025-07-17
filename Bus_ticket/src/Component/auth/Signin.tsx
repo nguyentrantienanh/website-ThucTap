@@ -35,7 +35,7 @@ export default function Signin() {
         name: userData.data.name
       }
       setUserInfo(user)
-      window.location.href = '/'
+      window.location.href = '/user/dashboard'
     } catch (error) {
       console.error('Error fetching user data:', error)
     }

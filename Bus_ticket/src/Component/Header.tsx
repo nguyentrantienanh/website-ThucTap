@@ -23,6 +23,11 @@ function Header() {
     setIsLanguageOpen(!islanguageOpen)
   }
 
+  const [isopenclick, setIsOpenClick] = useState<number | null>(null)
+  const toggleClick = (id: number) => {
+    setIsOpenClick(isopenclick === id ? null : id)
+  }
+
   const LanguageSwitch = () => {
     return (
       <div className='flex   gap-2'>
@@ -75,44 +80,45 @@ function Header() {
     )
   }
   const navbar = [
-    { name: t('Header_NAV.Home'), path: '/', icon: 'home' },
-    { name: t('Header_NAV.About'), path: '/about', icon: 'about' },
-    { name: t('Header_NAV.Faqs'), path: '/faqs', icon: 'faqs' },
-    { name: t('Header_NAV.Blog'), path: '/blog', icon: 'blog' },
-    { name: t('Header_NAV.Contact'), path: '/contact', icon: 'contact' }
+    { id: 1, name: t('Header_NAV.Home'), path: '/', icon: 'home' },
+    { id: 2, name: t('Header_NAV.About'), path: '/about', icon: 'about' },
+    { id: 3, name: t('Header_NAV.Faqs'), path: '/faqs', icon: 'faqs' },
+    { id: 4, name: t('Header_NAV.Blog'), path: '/blog', icon: 'blog' },
+    { id: 5, name: t('Header_NAV.Contact'), path: '/contact', icon: 'contact' }
   ]
   const navbardashboard = [
-    { name: 'Dashboard', path: '/user/dashboard', icon: 'home' },
+    { id: 1, name: t('Header_NAV.Dashboard'), path: '/user/dashboard', icon: 'home' },
     {
-      name: 'Booking',
-      path: '/user/buytickets',
+      id: 2,
+      name: t('Header_NAV.Booking'),
+      path: '/buytickets',
       icon: 'ticket',
       sub: [
-        { id: '1', name: 'Buy Ticket', path: '/user/buytickets ' },
-        { id: '2', name: 'Booking History', path: 'user/booked-ticket/history' }
+        { id: '1', name: t('Header_DROPDOWN.BuyTicket'), path: '/buytickets' },
+        { id: '2', name: t('Header_DROPDOWN.BookingHistory'), path: '/user/booked-ticket/history' }
       ]
     },
     {
-      name: 'Support Ticket',
-      path: '/user/ticket',
+      id: 3,
+      name: t('Header_NAV.SupportTicket'),
+      path: '/user/ticket/createnew',
       icon: 'support',
       sub: [
-        { id: '1', name: 'Create New', path: '/user/ticket/new' },
-        { id: '2', name: 'Tickets', path: '/user/ticket' }
+        { id: '1', name: t('Header_DROPDOWN.CreateNew'), path: '/user/ticket/createnew' },
+        { id: '2', name: t('Header_DROPDOWN.Tickets'), path: '/user/support-ticket' }
       ]
     },
     {
-      name: 'Profile',
+      id: 4,
+      name: t('Header_NAV.Profile'),
       path: '/user/profile/profile-setting',
       icon: 'user',
       sub: [
-        { id: '1', name: 'Profile', path: '/user/profile/profile-setting' },
-        { id: '2', name: 'Change Password', path: '/user/change-password' }
+        { id: '1', name: t('Header_DROPDOWN.Profile'), path: '/user/profile/profile-setting' },
+        { id: '2', name: t('Header_DROPDOWN.ChangePassword'), path: '/user/change-password' }
       ]
     }
   ]
-
- 
 
   const Buytikets = () => {
     return (
@@ -135,11 +141,14 @@ function Header() {
   // kiểm tra người dùng đã đăng nhập hay chưa
   const userInfo = JSON.parse(localStorage.getItem('userInfo') || '{}')
   const user = JSON.parse(localStorage.getItem('userthongtin') || '{}')
-
+  const [clickhome, setclickhome] = useState(false)
+  const handleclickhome = () => {
+    setclickhome(!clickhome)
+  }
   const Header = () => {
     return (
       <header className='  max-[1800px]:px-[10%] h-8 flex  px-[20%] max-[900px]:px-[1%] max-[900px]:w-full max-[900px]:justify-start max-[430px]:flex-col max-[350px]:items-start items-center  justify-between   p-2 gap-2 text-gray-700 text-[14px]'>
-        <div className='flex      gap-3 max-[350px]:flex-col'>
+        <div className='flex gap-3 max-[350px]:flex-col'>
           <div className='flex   gap-2'>
             <span className='text-[#1ba000]'>
               <Icon name='phone' />
@@ -162,16 +171,18 @@ function Header() {
           {userInfo && userInfo.email ? (
             <div className=' flex  '>
               <div className=' border-x-2  border-gray-400 px-3'>
-                <span>xin chao: {user.name ? user.name : userInfo.name ? userInfo.name : '???'}</span>
+                <span>
+                  {t('Header_LOGIN.Hello')}: {user.name ? user.name : userInfo.name ? userInfo.name : '???'}
+                </span>
               </div>
               <div className=' border-r-2 px-3 border-gray-400'>
-                {location.pathname.startsWith('/user/') ? (
+                {clickhome ? (
                   <Link to={'/'}>
-                    <span>Home</span>
+                    <span onClick={handleclickhome}>{t('Header_NAV.Home')}</span>
                   </Link>
                 ) : (
                   <Link to={'/user/dashboard'}>
-                    <span>Dashboard</span>
+                    <span onClick={handleclickhome}>{t('Header_NAV.Dashboard')}</span>
                   </Link>
                 )}
               </div>
@@ -206,7 +217,7 @@ function Header() {
   const Nav = () => {
     return (
       <nav className='flex gap-5'>
-        {userInfo && userInfo.email && location.pathname.startsWith('/user/')
+        {userInfo && userInfo.email && clickhome
           ? navbardashboard.map((item, index) => (
               <div key={index} className='relative group'>
                 <Link
@@ -227,13 +238,13 @@ function Header() {
                   </div>
                 </Link>
                 {item.sub && item.sub.length > 0 && (
-                  <div className='absolute left-0 top-full  bg-[#ffffff] shadow-lg rounded mt-1   invisible  opacity-0 group-hover:opacity-100 transition duration-300 group-hover:visible '>
-                    <ul className='  divide-y-1 divide-gray-300 flex flex-col gap-2 '>
+                  <div className='absolute left-0 top-full  bg-[#ffffff]  rounded mt-1 shadow-2xl   invisible  opacity-0 group-hover:opacity-100 transition duration-300 group-hover:visible '>
+                    <ul className=' divide-dashed  divide-y-1 divide-gray-300 flex flex-col '>
                       {item.sub.map((subItem) => (
                         <li key={subItem.id}>
                           <Link
                             to={subItem.path}
-                            className={` min-w-max block  px-4 py-2 text-sm hover:bg-gray-100   ${
+                            className={` min-w-max block text-[15px] px-4 py-2 text-sm hover:bg-[#1ba000] hover:text-[#fff] hover:pr-auto  transition-all duration-300 ease-in   ${
                               location.pathname === subItem.path ? 'text-[#1ba000]' : 'text-gray-700'
                             }`}
                           >
@@ -306,35 +317,86 @@ function Header() {
             className='fixed bg-black opacity-30 z-90 top-0 w-full h-full '
             onClick={() => setIsMenuOpen(false)}
           ></div>
-          <div className=' min-[900px]:hidden  fixed  top-0  items-start  w-full z-90 flex mt-1  '>
+          <div className=' min-[900px]:hidden  fixed  top-0   items-start  w-full z-90 flex mt-1  '>
             <div
-              className='relative flex bg-[#fff] shadow-lg  w-full  justify-between p-6 animate-slideDown'
+              className='relative flex bg-[#ffffff] shadow-lg  w-full  justify-between p-6 animate-slideDown'
               style={{ animation: 'slideDown 0.3s ease' }}
               onClick={(e) => e.stopPropagation()}
             >
-              <div>
-                {navbar.map((item, index) => (
-                  <Link
-                    key={index}
-                    to={item.path}
-                    className={` text-[16px]  font-semibold hover:text-[#1ba000] transition-all duration-300 ${
-                      item.path === '/'
-                        ? location.pathname === '/'
-                          ? 'text-[#1ba000]'
-                          : 'text-gray-700'
-                        : location.pathname.startsWith(item.path)
-                          ? 'text-[#1ba000]'
-                          : 'text-gray-700'
-                    }`}
-                  >
-                    <div className='flex items-center gap-2 p-2 hover:bg-gray-100 rounded w-full'>
-                      <span className='text-[#1ba000]'>
-                        <Icon name={item.icon} />
-                      </span>
-                      <span>{item.name}</span>
-                    </div>
-                  </Link>
-                ))}
+              <div className='  sm:w-1/3 '>
+                {userInfo && userInfo.email && clickhome
+                  ? navbardashboard.map((item, index) => (
+                      <div key={index} className='relative group  '>
+                        <div
+                          className={`text-[16px] font-semibold hover:text-[#1ba000] transition-all duration-300 ${
+                            location.pathname === item.path
+                              ? 'text-[#1ba000]'
+                              : location.pathname.startsWith(item.path)
+                                ? 'text-[#1ba000]'
+                                : 'text-gray-700'
+                          }`}
+                        >
+                          <div className='flex items-center justify-between gap-2 p-2   hover:bg-gray-100 rounded w-full'>
+                            <Link to={item.path}>
+                              <div className='flex items-center gap-2'>
+                                <span className='text-[#1ba000]'>
+                                  <Icon name={item.icon} />
+                                </span>
+
+                                <span>{item.name}</span>
+                              </div>
+                            </Link>
+                            {item.sub && item.sub.length > 0 && (
+                              <span onClick={() => toggleClick(item.id)} className='text-[#1ba000]'>
+                                <Icon name={isopenclick === item.id ? 'up' : 'dow'} />
+                              </span>
+                            )}
+                          </div>
+                        </div>
+                        <div
+                          className={`  left-0 top-full overflow-hidden bg-[#ffffff] transition-all duration-500 ease-in-out rounded mt-1 shadow-md divide-y-2 invisible  opacity-0 group-hover:opacity-100   group-hover:visible ${isopenclick === item.id ? 'visible max-h-40  opacity-100' : '  max-h-0 opacity-0'}`}
+                        >
+                          {item.sub && item.sub.length > 0 && (
+                            <ul className='   divide-y-1  divide-gray-300 flex flex-col '>
+                              {item.sub.map((subItem) => (
+                                <li key={subItem.id}>
+                                  <Link
+                                    to={subItem.path}
+                                    className={` min-w-max block text-[15px] px-4 py-2 text-sm hover:bg-[#1ba000] hover:text-[#fff] hover:pr-auto  transition-all duration-300 ease-in   ${
+                                      location.pathname === subItem.path ? 'text-[#1ba000]' : 'text-gray-700'
+                                    }`}
+                                  >
+                                    {subItem.name}
+                                  </Link>
+                                </li>
+                              ))}
+                            </ul>
+                          )}
+                        </div>
+                      </div>
+                    ))
+                  : navbar.map((item, index) => (
+                      <Link
+                        key={index}
+                        to={item.path}
+                        className={`text-[16px] font-semibold hover:text-[#1ba000] transition-all duration-300 ${
+                          item.path === '/'
+                            ? location.pathname === '/'
+                              ? 'text-[#1ba000]'
+                              : 'text-gray-700'
+                            : location.pathname.startsWith(item.path)
+                              ? 'text-[#1ba000]'
+                              : 'text-gray-700'
+                        }`}
+                      >
+                        <div className='flex items-center gap-2 p-2 hover:bg-gray-100 rounded w-full'>
+                          <span className='text-[#1ba000]'>
+                            <Icon name={item.icon} />
+                          </span>
+                          <span>{item.name}</span>
+                        </div>
+                      </Link>
+                    ))}
               </div>
             </div>
             <style>
@@ -355,14 +417,78 @@ function Header() {
             className='fixed  bg-black opacity-30 z-90 top-0 w-full h-full '
             onClick={() => setIsverticalOpen(false)}
           ></div>
-          <div className=' min-[900px]:hidden  fixed  top-0  items-start  w-full z-90 flex mt-1  '>
+          <div className=' min-[900px]:hidden    fixed  top-0  items-start  w-full z-90 flex mt-1  '>
             <div
-              className='relative  flex bg-[#fff] shadow-lg  w-full  p-6  max-[430px]:pt-2 max-[430px]:pb-7 animate-slideDown'
+              className=' max-[900px]:flex-col max-[900px]:gap-5   flex bg-[#fff] shadow-lg  w-full  p-6  max-[430px]:pt-2 max-[430px]:pb-7 animate-slideDown'
               style={{ animation: 'slideDown 0.3s ease' }}
               onClick={(e) => e.stopPropagation()}
             >
-              <Header />
+              <div className='flex gap-3 max-[900px]:justify-center max-[450px]:justify-start max-[400px]:flex-col'>
+                <div className='flex   gap-2'>
+                  <span className='text-[#1ba000]'>
+                    <Icon name='phone' />
+                  </span>
+                  <span>+84 972364028</span>
+                </div>
+
+                <div className='max-[400px]:hidden'>|</div>
+                <div className='flex   gap-2'>
+                  <span className='text-[#1ba000]'>
+                    <Icon name='email' />
+                  </span>
+                  <span>nttanh0412@gmail.com</span>
+                </div>
+              </div>
+              <div className='flex max-[900px]:justify-center gap-5 max-[450px]:gap-3  max-[450px]:flex-col '>
+                <div>
+                  <LanguageSwitch />
+                </div>
+                <div>
+                  {userInfo && userInfo.email ? (
+                    <div className=' flex max-[450px]:flex-col max-[450px]:gap-5   '>
+                      <div className=' border-x-2 max-[450px]:border-none  px-3 max-[450px]:px-0  border-gray-400  '>
+                        <span>
+                          {t('Header_LOGIN.Hello')}: {user.name ? user.name : userInfo.name ? userInfo.name : '???'}
+                        </span>
+                      </div>
+                      <div className=' border-r-2 max-[450px]:border-none px-3 max-[450px]:px-0  border-gray-400'>
+                        {clickhome ? (
+                          <Link to={'/'}>
+                            <span onClick={handleclickhome}>{t('Header_NAV.Home')}</span>
+                          </Link>
+                        ) : (
+                          <Link to={'/user/dashboard'}>
+                            <span onClick={handleclickhome}>{t('Header_NAV.Dashboard')}</span>
+                          </Link>
+                        )}
+                      </div>
+                    </div>
+                  ) : (
+                    <div className='flex gap-2 '>
+                      <Link to={'/signin'}>
+                        <span className=''>
+                          <i className='px-2 max-[350px]:px-0  text-[#1ba000]'>
+                            <Icon name='signin' />
+                          </i>
+                          {t('Header_LOGIN.SingIn')}
+                        </span>
+                      </Link>
+
+                      <div className='px-3'>/</div>
+                      <Link to={'/signup'}>
+                        <span>
+                          <i className='px-2 text-[#1ba000]'>
+                            <Icon name='signup' />
+                          </i>
+                          {t('Header_LOGIN.SignUp')}
+                        </span>
+                      </Link>
+                    </div>
+                  )}
+                </div>{' '}
+              </div>
             </div>
+
             <style>
               {`
               @keyframes slideDown {

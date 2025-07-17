@@ -1,4 +1,5 @@
 import background from '../../../assets/background.jpg'
+import Avatar from '../../../assets/avatar.jpg'
 import { useState } from 'react'
 
 import { googleLogout } from '@react-oauth/google'
@@ -12,12 +13,12 @@ export default function ProfileSetting() {
   const user = JSON.parse(localStorage.getItem('userthongtin') || '{}')
 
   // profile setting
-  const [nameValue, setnameValue] = useState(user.name || '')
+  const [nameValue, setnameValue] = useState(user.name || `${UserInfo.firstname} ${UserInfo.lastname}`) // Lấy tên người dùng từ localStorage hoặc mặc định
   const [countryValue, setCountryValue] = useState(user.country || 'vietnam')
   const [countryCode, setCountryCode] = useState(user.countryCode || '84 +')
   const [phoneValue, setPhoneValue] = useState(user.phone || '')
   const [addressValue, setaddressValue] = useState(user.address || '')
-  const [stateValue, setstateValue] = useState(user.state || '')
+  const [emailValue, setemailValue] = useState(user.state || `${UserInfo.email}`)
   const [zipcodeValue, setzipcodeValue] = useState(user.zipcode || '')
   const [cityValue, setcityValue] = useState(user.city || '')
 
@@ -49,8 +50,8 @@ export default function ProfileSetting() {
   const handleAddressChange = (e: any) => {
     setaddressValue(e.target.value)
   }
-  const handleStateChange = (e: any) => {
-    setstateValue(e.target.value)
+  const handleEmailChange = (e: any) => {
+    setemailValue(e.target.value)
   }
   const handleZipcodeChange = (e: any) => {
     setzipcodeValue(e.target.value)
@@ -62,10 +63,10 @@ export default function ProfileSetting() {
   // hàm xử lý nhập thông tin đầy đủ chưa
   const isFormValid = () => {
     return (
-      (nameValue.trim() !== '' && countryValue.trim() !== '') ||
+      (nameValue.trim() !== '' && countryValue.trim() !== '' && phoneValue.length >= 10) ||
       phoneValue.length >= 10 ||
       addressValue.trim() !== '' ||
-      stateValue.trim() !== '' ||
+      emailValue.trim() !== '' ||
       zipcodeValue.trim() !== '' ||
       cityValue.trim() !== ''
     )
@@ -78,15 +79,13 @@ export default function ProfileSetting() {
       phone: Number(phoneValue),
       countryCode: countryCode,
       address: addressValue,
-      state: stateValue,
+      email: emailValue,
       zipcode: zipcodeValue,
       city: cityValue
     }
     localStorage.setItem('userthongtin', JSON.stringify(Userthonin))
     window.alert('thành công')
   }
-  console.log('hi', zipcodeValue)
-  console.log('', nameValue)
 
   return (
     <>
@@ -99,11 +98,12 @@ export default function ProfileSetting() {
         </div>
       </div>
       <div className='flex flex-col   mx-10  bg-[#fff]  '>
-        <div className='h-auto'>
-          <div className='p-4 mt-[-20px]   '>
-            <div className=' flex   gap-5  '>
+        <h1 className='font-black pt-5 text-2xl'>Thông tin cá nhân</h1>
+        <div className='h-full py-10'>
+          <div className='p-4 mt-[-20px]  shadow-[0_5px_25px_rgba(0,0,0,0.25)]'>
+            <div className=' flex  gap-5  '>
               <div className=' justify-center items-center flex flex-col w-1/3  gap-2 p-4 rounded-md'>
-                <img src={UserInfo.imageUrl} alt='' className=' w-20 h-20 object-cover rounded-full ' />
+                <img src={UserInfo.imageUrl || Avatar} className=' w-40 h-40 object-cover rounded-2xl ' />
                 <p>
                   {UserInfo.firstname} {UserInfo.lastname}
                 </p>
@@ -120,7 +120,6 @@ export default function ProfileSetting() {
                     value={nameValue}
                     onChange={handleChange}
                     className='p-2 border-1 border-gray-300 rounded-md shadow-sm focus:outline-none  focus:ring-green-500 focus:shadow-green-300 focus:border-green-500  '
-                    placeholder={` ${UserInfo.firstname} ${UserInfo.lastname}`}
                   />
                 </div>
                 <div className='flex flex-col  gap-2'>
@@ -168,8 +167,8 @@ export default function ProfileSetting() {
                   <label htmlFor=''>Email</label>
                   <input
                     type='text'
-                    value={stateValue}
-                    onChange={handleStateChange}
+                    value={emailValue}
+                    onChange={handleEmailChange}
                     className='p-2 border-1 border-gray-300 rounded-md shadow-sm focus:outline-none  focus:ring-green-500 focus:shadow-green-300 focus:border-green-500  '
                     placeholder={` ${UserInfo.email}`}
                   />
@@ -196,20 +195,22 @@ export default function ProfileSetting() {
                 </div>
               </form>
             </div>
-            <button
-              onClick={handleSaveUserthonin}
-              className={`bg-[#23ff52] h-10 w-full mt-2   text-black font-semibold rounded ${isFormValid() ? 'hover:bg-[#00ff37] cursor-pointer' : 'opacity-50 cursor-not-allowed'}`}
-              disabled={!isFormValid()} // Vô hiệu hóa nút nếu form không hợp lệ
-            >
-              cập nhật
-            </button>
+            <div className='px-10 flex gap-4'>
+              <button
+                onClick={handleSaveUserthonin}
+                className={`bg-[#23ff52] h-10 w-full mt-2  text-black font-semibold rounded ${isFormValid() ? 'hover:bg-[#00ff37] cursor-pointer' : 'opacity-50 cursor-not-allowed'}`}
+                disabled={!isFormValid()} // Vô hiệu hóa nút nếu form không hợp lệ
+              >
+                cập nhật
+              </button>
 
-            <button
-              onClick={handleGoogleLogout}
-              className={`bg-[#23ff52] h-10 w-full mt-2   text-black font-semibold rounded`}
-            >
-              Đăng xuất
-            </button>
+              <button
+                onClick={handleGoogleLogout}
+                className={`bg-[#ff0000] h-10 w-full mt-2  cursor-pointer  text-black font-semibold rounded`}
+              >
+                Đăng xuất
+              </button>
+            </div>
           </div>
         </div>
       </div>

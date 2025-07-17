@@ -8,7 +8,7 @@ import { useTranslation } from 'react-i18next'
 
 import { Navigation, Pagination } from 'swiper/modules'
 import { Swiper, SwiperSlide } from 'swiper/react'
-import { useLocation } from '../Data/location'
+import { useLocation } from '../Data/Location'
 import CalendarComponent from '../services/CalendarComponent'
 
 function Home() {
@@ -65,7 +65,7 @@ function Home() {
     <>
       <div className=' h-full '>
         <section className='bg-[#ececec]'>
-          <div className=' max-[1200px]:px-5 max-[1800px]:px-[10%]  max-[900px]:flex-col  flex  justify-between items-center px-[20%] p-10  '>
+          <div className='  max-[1200px]:px-5 max-[1800px]:px-[10%]  max-[900px]:flex-col  flex  justify-between items-center px-[20%] p-10  '>
             <div className=' max-[900px]:items-center max-[900px]:text-center max-[900px]:flex-col max-[900px]:flex gap-4'>
               <p className='text-3xl w-130 font-bold py-4 max-[450px]:text-[20px] max-[450px]:w-70'>
                 {t('Home_SEARCH.GetTicket')}
@@ -78,15 +78,15 @@ function Home() {
               <strong className='text-[20px]'>{t('Home_SEARCH.ChooseYourTicket')}</strong>
               <form
                 action=''
-                className='grid  gap-4 bg-[#fff] shadow-2xl max-[450px]:w-[110%]  p-3 rounded-[10px] items-center  '
+                className='grid     gap-4 bg-[#fff] shadow-2xl max-[450px]:w-[110%]  p-3 rounded-[10px] items-center  '
               >
-                <div className='flex gap-4 max-[450px]:flex-col  '>
+                <div className='flex gap-4 max-[450px]:flex-col   '>
                   <div className='border-1 border-[#8aff73] rounded-[10px] px-2 py-1 flex items-center gap-2'>
                     <i className='text-[#70ff53]'>
                       {' '}
                       <Icon name='directionarrow' />
                     </i>
-                    <div className='relative w-50'>
+                    <div className='relative w-50 max-[1040px]:w-30 '>
                       <div
                         className='cursor-pointer px-2 py-1 bg-[#fff] rounded'
                         onClick={() => setShowDiemDiDropdown(!showDiemDiDropdown)}
@@ -117,7 +117,7 @@ function Home() {
                       <Icon name='location' />
                     </i>
 
-                    <div className='relative w-50'>
+                    <div className='relative w-50 max-[1040px]:w-30'>
                       <div
                         className='cursor-pointer px-2 py-1 bg-[#fff] rounded'
                         onClick={() => setShowDiemDenDropdown(!showDiemDenDropdown)}
@@ -171,7 +171,7 @@ function Home() {
         
               @keyframes busMove {
                 0% {
-                  right: -150px;
+                  right: -40px;
                   transform: translatey(0);
                 }
                 100% {
@@ -180,7 +180,7 @@ function Home() {
                 }
               }
                 .bus-animation {
-                  animation: busMove 10s  ease-in-out infinite;
+                  animation: busMove 10s ease-out infinite;
                   position: absolute;
                 }
               `}
@@ -263,13 +263,13 @@ function Home() {
                 {OurAmenities.map((amenity) => (
                   <SwiperSlide
                     key={amenity.id}
-                    className='bg-[#fff]   p-10 px-20 max-[1050px]:p-5 rounded-[10px] shadow-[#747474] shadow-md transition duration-300 border-2 border-gray-300 hover:shadow-1xl hover:shadow-[#1ba000] flex flex-col items-center gap-3 '
+                    className='bg-[#fff]    p-10 px-20 max-[1050px]:p-5 rounded-[10px]    transition duration-500 border-2 border-gray-300 hover:shadow-1xl hover:border-[#8dda7e] flex flex-col items-center gap-3 '
                   >
                     <div className='flex flex-col items-center gap-2'>
-                      <i className='  text-[rgb(128,128,128)] border-b-5 text-[50px] max-[900px]:text-[50px] hover:text-[#0e9e4d] transition duration-500'>
+                      <i className='  text-[rgb(128,128,128)] border-b-5  text-[50px] max-[900px]:text-[50px] hover:text-[#0e9e4d] transition-all duration-500'>
                         <Icon name={amenity.icon} />
                       </i>
-                      <div className='text-[20px] text-[rgb(146,146,146)] max-[900px]:text-[20px] whitespace-nowrap'>
+                      <div className='text-[20px] text-[rgb(146,146,146)] max-[900px]:text-[20px] whitespace-nowrap  hover:text-[#0e9e4d] '>
                         {amenity.title}{' '}
                       </div>
                     </div>
@@ -293,7 +293,7 @@ function Home() {
             <Feedback />
           </div>
         </section>
-        <section className=' px-[30%] max-[1200px]:px-5 max-[1800px]:px-[10%]'>
+        <section className=' px-[30%] py-10 max-[1200px]:px-5 max-[1800px]:px-[10%]'>
           <div className='text-center m-10 max-[1200px]:m-5'>
             <strong className=' text-[30px] '>{t('Home_Post.Title')}</strong>
           </div>

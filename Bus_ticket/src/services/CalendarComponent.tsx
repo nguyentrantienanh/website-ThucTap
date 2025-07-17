@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from 'react'
 import { Calendar } from 'react-date-range'
-import { format } from 'date-fns'
+import { format, isBefore } from 'date-fns'
 import 'react-date-range/dist/styles.css' // main style file
 import 'react-date-range/dist/theme/default.css' // theme css file
 
@@ -32,17 +32,13 @@ const calendarComponent = () => {
     window.addEventListener('keydown', anKhiNhanESC)
   }, [])
 
-  const handleSelect = (date: any) => {
-    setCalendar(format(date, 'dd/MM/yyyy'))
-    setOpen(false)
-  }
-  // lưu ngày đã chọn vào localStorage
+  // lưu ngày đã chọn vào localStorage theo dạng chu "dd/MM/yyyy"
   useEffect(() => {
-    localStorage.setItem('selectedData', calendar)
+    localStorage.setItem('DayData', calendar)
   }, [calendar])
   // lưu ko mất dữ liệu khi reload trang
   useEffect(() => {
-    const savedDate = localStorage.getItem('selectedData')
+    const savedDate = localStorage.getItem('DayData')
     if (savedDate) {
       setCalendar(savedDate)
     }
@@ -51,16 +47,28 @@ const calendarComponent = () => {
   return (
     <div ref={refCalendar}>
       <input className='focus:outline-none' type='' value={calendar} readOnly onClick={() => setOpen(!open)} />
-      <div className={` absolute  w-full h-full z-100 `} ref={refCalendar}>
-        {open && (
+
+      {open ? (
+        <div className={` absolute   w-full h-full z-100 `} ref={refCalendar}>
           <Calendar
-            className='border-4 border-gray-300 rounded-lg shadow-xl'
+            className='border-4  border-gray-300 rounded-lg shadow-xl'
             // date = là ngày click vào
             date={new Date(calendar.split('/').reverse().join('-'))}
-            onChange={handleSelect}
+            // ẩn không cho click các ngày trong quá khứ
+            minDate={new Date()}
+            // ẩn ngày quá 3 ngày
+            maxDate={new Date(new Date().setDate(new Date().getDate() + 7))}
+            // không cần click mà chỉ cần chuyển ngày là được cập nhật
+            onChange={(date) => {
+              const formattedDate = format(date, 'dd/MM/yyyy')
+              setCalendar(formattedDate)
+              localStorage.setItem('DayData', formattedDate)
+            }}
           />
-        )}
-      </div>
+        </div>
+      ) : (
+        ''
+      )}
     </div>
   )
 }

@@ -1,14 +1,14 @@
 import { Link } from 'react-router-dom'
 import Icon from '../../../icons/Icon' // Assuming you have an Icon component for icons
-import { blogData } from '../../../Data/Blog'
+import { BlogData } from '../../../Data/Blog'
 
 function BlogPost() {
-  const blogPost = blogData.filter((post) => post.id >= 1 && post.id <= 3)
+  const blogPost = BlogData().filter((post: any) => post.id >= 1 && post.id <= 3)
 
   return (
     <>
       <div className='grid grid-cols-3  max-[900px]:grid-cols-2 max-[450px]:grid-cols-1 items-center justify-items-center gap-5 max-[450px]:px-1  py-0 '>
-        {blogPost.map((post, blogid) => (
+        {blogPost.map((post: any, blogid) => (
           <div
             key={post.id}
             className={`p-5 shadow-xl max-[450px]:px-0 ${blogid === blogPost.length - 1 ? 'max-[900px]:col-span-2 max-[900px]:px-[30%] max-[450px]:col-span-1 max-[450px]:px-0' : ''} `}

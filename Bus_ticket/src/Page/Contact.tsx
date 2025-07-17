@@ -1,7 +1,9 @@
 import backgroundContact from '../assets/background.jpg'
 import Icon from '../icons/Icon'
+import { useTranslation } from 'react-i18next'
 
 function Contact() {
+  const { t } = useTranslation('Contact')
   return (
     <>
       <div
@@ -9,13 +11,13 @@ function Contact() {
         style={{ backgroundImage: `url(${backgroundContact})`, backgroundSize: 'cover', backgroundPosition: 'center' }}
       >
         <div className='w-full h-full flex items-center justify-center bg-[#00000068]  '>
-          <h1 className='text-4xl font-bold mb-4 text-[#fff]  '>Contact Us</h1>
+          <h1 className='text-4xl font-bold mb-4 text-[#fff]  '>{t('title')}</h1>
         </div>
       </div>
       <section className='w-full  flex flex-col items-center gap-5 px-10 py-5 bg-[#f9f9f9] xl:px-[25%]'>
         <div className='flex py-10 flex-col gap-3 items-center'>
-          <strong className='text-[34px]'>Let's get in touch</strong>
-          <span className='text-[18px] text-gray-500'>We are open for any suggestion or just to have a chat</span>
+          <strong className='text-[34px]'>{t('letsGetInTouch')}</strong>
+          <span className='text-[18px] text-gray-500'>{t('subtitle')}</span>
         </div>
         <div className=' py-10 grid grid-cols-3 gap-20 w-full h-full justify-items-center '>
           <div className='w-full h-30 flex border-1 p-5 border-[#0e9e4d] gap-3 rounded-2xl'>
@@ -23,8 +25,8 @@ function Contact() {
               <Icon name='address' />
             </i>
             <div className='items-start flex flex-col'>
-              <strong className='text-[30px]'>Our Address</strong>
-              <p className='text-[16px] text-gray-300'>Address: NhaTrang - KhoanhHoa</p>
+              <strong className='text-[30px]'>{t('addressTitle')}</strong>
+              <p className='text-[16px] text-gray-300'>{t('address')}</p>
             </div>
           </div>
           <div className='w-full h-30 flex border-1 p-5 border-[#0e9e4d] gap-3 rounded-2xl'>
@@ -32,8 +34,8 @@ function Contact() {
               <Icon name='phone' />
             </i>
             <div className='items-start flex flex-col'>
-              <strong className='text-[30px]'>Call Us</strong>
-              <p className='text-[16px] text-gray-300'>+84 972364028</p>
+              <strong className='text-[30px]'>{t('callTitle')}</strong>
+              <p className='text-[16px] text-gray-300'>{t('phone')}</p>
             </div>
           </div>
           <div className='w-full h-30 flex border-1 p-5 border-[#0e9e4d] gap-3 rounded-2xl'>
@@ -41,46 +43,50 @@ function Contact() {
               <Icon name='email' />
             </i>
             <div className='items-start flex flex-col'>
-              <strong className='text-[30px]'>Email Us</strong>
-              <p className='text-[16px] text-gray-300'>nttanh0412@gmail.com</p>
+              <strong className='text-[30px]'>{t('emailTitle')}</strong>
+              <p className='text-[16px] text-gray-300'>{t('email')}</p>
             </div>
           </div>
         </div>
         <div className='grid grid-cols-2 gap-5 mt-5 w-full justify-items-center'>
           <div className='w-full h-full p-5  shadow-lg rounded-lg'>
             <form action='' className='flex flex-col gap-3'>
-              <strong> Have any Questions?</strong>
+              <strong>{t('formTitle')}</strong>
               <div className='grid grid-cols-2 gap-3'>
                 <div>
                   <label className='block mt-4'>
-                    {' '}
-                    Name <sup className='text-[#ff2020]'>*</sup>
+                    {t('name')} <sup className='text-[#ff2020]'>*</sup>
                   </label>
-                  <input type='text' className='w-full p-2 border border-gray-300 rounded-lg' placeholder=' Name' />
+                  <input type='text' className='w-full p-2 border border-gray-300 rounded-lg' placeholder={t('name')} />
                 </div>
                 <div>
                   <label className='block mt-4'>
-                    {' '}
-                    Email <sup className='text-[#ff2020]'>*</sup>
+                    {t('emailLabel')} <sup className='text-[#ff2020]'>*</sup>
                   </label>
-                  <input type='email' className='w-full p-2 border border-gray-300 rounded-lg' placeholder=' email' />
+                  <input
+                    type='email'
+                    className='w-full p-2 border border-gray-300 rounded-lg'
+                    placeholder={t('emailLabel')}
+                  />
                 </div>
               </div>
               <div>
                 <label className='block mt-4'>
-                  {' '}
-                  Subject <sup className='text-[#ff2020]'>*</sup>
+                  {t('subject')} <sup className='text-[#ff2020]'>*</sup>
                 </label>
-                <input type='text' className='w-full p-2 border border-gray-300 rounded-lg' placeholder=' subject' />
+                <input
+                  type='text'
+                  className='w-full p-2 border border-gray-300 rounded-lg'
+                  placeholder={t('subject')}
+                />
               </div>
               <div>
                 <label className='block mt-4'>
-                  {' '}
-                  Your Message <sup className='text-[#ff2020]'>*</sup>
+                  {t('message')} <sup className='text-[#ff2020]'>*</sup>
                 </label>
                 <textarea
                   className='w-full p-2 border border-gray-300 rounded-lg'
-                  placeholder=' Message'
+                  placeholder={t('message')}
                   rows={5}
                 ></textarea>
               </div>
@@ -89,7 +95,7 @@ function Contact() {
                   type='submit'
                   className='bg-[#0e9e4d] text-[#fff] px-5 py-2 rounded-lg mt-4 hover:bg-[#0e9e4d]/80 transition-all duration-300'
                 >
-                  Send Us Message
+                  {t('send')}
                 </button>
               </div>
             </form>
@@ -107,4 +113,5 @@ function Contact() {
     </>
   )
 }
+
 export default Contact

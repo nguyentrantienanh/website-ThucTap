@@ -1,4 +1,4 @@
-import { blogData } from '../../../Data/Blog'
+import { BlogData } from '../../../Data/Blog'
 import Icon from '../../../icons/Icon'
 import { Link } from 'react-router-dom'
 
@@ -7,7 +7,7 @@ function Blog() {
     <>
       <section className='flex flex-col gap-5 xl:px-[20%]'>
         <div className='grid grid-cols-4   items-center justify-items-center gap-5 py-10 '>
-          {blogData.map((post) => (
+          {BlogData().map((post: any) => (
             <div key={post.id} className='p-5 shadow-xl  '>
               <img src={post.image} alt={post.title} className='w-full h-60 object-cover rounded-lg' />
               <div className='   mt-3'>

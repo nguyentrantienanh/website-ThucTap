@@ -1,43 +1,42 @@
 import { useState } from 'react'
 import Icon from '../../icons/Icon' // Assuming you have an Icon component for icons
+import { useTranslation } from 'react-i18next'
 
 function FAQ() {
-  const faqsrgith = [
+  const { t } = useTranslation('Faq')
+
+  const faqsright = [
     {
       id: 1,
-      question: 'What is Autobus?',
-      answer:
-        'Autobus is a bus ticket booking platform that allows users to book bus tickets online for various routes and destinations.'
+      question: t('faqs.question1'),
+      answer: t('faqs.answer1')
     },
     {
       id: 2,
-      question: 'How do I book a bus ticket?',
-      answer:
-        'To book a bus ticket, simply visit our website, select your desired route, choose a bus, and complete the payment process.'
+      question: t('faqs.question2'),
+      answer: t('faqs.answer2')
     },
     {
       id: 3,
-      question: 'What payment methods are accepted?',
-      answer: 'We accept various payment methods including credit/debit cards, mobile wallets, and bank transfers.'
+      question: t('faqs.question3'),
+      answer: t('faqs.answer3')
     }
   ]
   const faqsleft = [
     {
       id: 4,
-      question: 'Can I cancel or change my booking?',
-      answer:
-        'Yes, you can cancel or change your booking within the allowed time frame. Please refer to our cancellation policy for details.'
+      question: t('faqs.question4'),
+      answer: t('faqs.answer4')
     },
     {
       id: 5,
-      question: 'How do I contact customer support?',
-      answer: 'You can contact our customer support via email, phone, or through the contact form on our website.'
+      question: t('faqs.question5'),
+      answer: t('faqs.answer5')
     },
     {
       id: 6,
-      question: 'Is there a mobile app available?',
-      answer:
-        'Yes, we have a mobile app available for both Android and iOS devices for easy booking and management of your tickets.'
+      question: t('faqs.question6'),
+      answer: t('faqs.answer6')
     }
   ]
 
@@ -60,20 +59,17 @@ function FAQ() {
     <>
       <div className='pt-10'>
         <div className='  flex flex-col items-center justify-center text-center xl:px-30 '>
-          <h1 className='text-4xl font-bold mb-6'>Frequently Asked Questions</h1>
-          <p>
-            Nobis minus earum perferendis nemo cupiditate optio, rem neque incidunt quia laborum ut praesentium corporis
-            quam exercitationem, atque illo aut excepturi cum.
-          </p>
+          <h1 className=' font-bold mb-6 text-[18px] sm:text-1xl lg:text-3xl'>{t('title')}</h1>
+          <p className='text-[14px]  sm:text-[15px] lg:text-[16px]'>{t('description')}</p>
         </div>
 
-        <section className='grid grid-cols-2 gap-5 px-10 py-5 bg-[#f9f9f9]  '>
+        <section className='grid grid-cols-1 md:grid-cols-2 gap-5 px-10  py-5 bg-[#f9f9f9]  '>
           <div className=' '>
-            <div className='flex flex-col gap-5  h-80  '>
+            <div className={`flex flex-col gap-5  md:h-80  `}>
               {faqsleft.map((faq) => (
                 <div key={faq.id} className=' '>
                   <h2
-                    className='text-lg font-semibold cursor-pointer p-4  border-2 border-[#1db000]'
+                    className=' font-semibold cursor-pointer p-4  border-2 border-[#1db000] text-[18px]  sm:text-[20px] '
                     onClick={() => handleToggleleft(faq.id)}
                   >
                     <i className=' text-[#1db000] '>
@@ -94,18 +90,18 @@ function FAQ() {
                       openIdleft === faq.id ? 'max-h-40 opacity-100 mt-2' : 'max-h-0 opacity-0'
                     }`}
                   >
-                    <p className='text-gray-700'>{faq.answer}</p>
+                    <p className='text-gray-700 text-[14px]  sm:text-[15px] lg:text-[16px]'>{faq.answer}</p>
                   </div>
                 </div>
               ))}
             </div>
           </div>
           <div className=' '>
-            <div className='flex flex-col gap-5 h-80'>
-              {faqsrgith.map((faq) => (
+            <div className='flex flex-col gap-5 md:h-80'>
+              {faqsright.map((faq) => (
                 <div key={faq.id} className=' '>
                   <h2
-                    className='text-lg font-semibold cursor-pointer p-4 border-2 border-[#1db000]'
+                    className='  font-semibold cursor-pointer p-4 border-2 border-[#1db000] text-[18px] sm:text-[20px] xl:text-1xl'
                     onClick={() => handleToggleright(faq.id)}
                   >
                     <i className=' text-[#1db000] '>
@@ -126,7 +122,7 @@ function FAQ() {
                       openIdrigth === faq.id ? 'max-h-40 opacity-100 mt-2' : 'max-h-0 opacity-0'
                     }`}
                   >
-                    <p className='text-gray-700'>{faq.answer}</p>
+                    <p className='text-gray-700 text-[14px]  sm:text-[15px] lg:text-[16px]'>{faq.answer}</p>
                   </div>
                 </div>
               ))}
@@ -137,4 +133,5 @@ function FAQ() {
     </>
   )
 }
+
 export default FAQ

@@ -1,33 +1,22 @@
 import { useParams } from 'react-router-dom'
 import { ticket } from '../../Data/Ticket'
-import { useLocation } from '../../Data/location'
 import { useTranslation } from 'react-i18next'
 import backgroundBuyticket from '../../Assets/background.jpg'
-import { useState } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import Icon from '../../icons/Icon'
+import { Calendar } from 'react-date-range'
+import { format } from 'date-fns'
 
 import Alert from '@mui/material/Alert'
 
 export default function Buyticket() {
   const { id } = useParams<{ id: string }>()
-  const { t } = useTranslation('Home')
-  const { diemDi, diemDen } = useLocation()
+  const { t } = useTranslation(['Home', 'Buyticket'])
 
-  // State để lưu trữ điểm đến và điểm đi đã chọn
-  const [selectedDiemDen, setSelectedDiemDen] = useState('')
-  const [selectedDiemDi, setSelectedDiemDi] = useState('')
-  const [showDiemDenDropdown, setShowDiemDenDropdown] = useState(false)
-  const [showDiemDiDropdown, setShowDiemDiDropdown] = useState(false)
-
-  // State để lưu trữ giới tính đã chọn
-  const [selectGender, setSelectGender] = useState<string | null>(null)
-  const handleGenderChange = (gender: string) => {
-    setSelectGender((prev) => (prev === gender ? null : gender))
-  }
-
+  // dữ liệu vé đã đặt trong localStorage
+  const veData = JSON.parse(localStorage.getItem('vedadat') || '[]')
   // State để lưu trữ các ghế đã chọn
   const [selectedSeats, setSelectedSeats] = useState<number[]>([])
-
   // lưu vào localStorage
   const [ticketId] = useState<number>(parseInt(id || '0'))
 
@@ -37,59 +26,103 @@ export default function Buyticket() {
   const severitys = (type: 'success' | 'warning') => {
     setSeverity(type)
   }
+  // hiện Ngày đã chọn trong localStorage calendar
+  const [calendar, setCalendar] = useState(() => {
+    const savedDate = localStorage.getItem('DayData')
+    return savedDate ? savedDate : format(new Date(), 'dd/MM/yyyy')
+  })
+  const [open, setOpen] = useState(false)
+  // Hàm này sẽ được gọi khi người dùng nhấn phím Esc
+  const anKhiNhanESC = (event: KeyboardEvent) => {
+    if (event.key === 'Escape') {
+      setOpen(false)
+    }
+  }
+  const refCalendar = useRef<HTMLDivElement | null>(null)
+  // Ẩn calendar khi click ra ngoài
+  const anKhiNhanbenNgoai = (event: any) => {
+    if (refCalendar.current && !refCalendar.current.contains(event.target)) {
+      setOpen(false)
+    }
+  }
+  useEffect(() => {
+    document.addEventListener('click', anKhiNhanbenNgoai, true)
+    window.addEventListener('keydown', anKhiNhanESC)
+  }, [])
+  // lưu ngày đã chọn vào localStorage theo dạng chu "dd/MM/yyyy"
+  useEffect(() => {
+    localStorage.setItem('DayData', calendar)
+  }, [calendar])
+  // lưu ko mất dữ liệu khi reload trang
+  useEffect(() => {
+    const savedDate = localStorage.getItem('DayData')
+    if (savedDate) {
+      setCalendar(savedDate)
+    }
+  }, [])
 
+  // kiểm tra đã đăng nhập hay chưa
+  const isAuthenticated = localStorage.getItem('userInfo') !== null
   const handleBooking = () => {
-    if (selectedSeats.length === 0) {
-      setSuccessMessage('Vui lòng chọn ít nhất một ghế để đặt vé.')
-      severitys('warning')
-      return
-    }
-    const seats = selectedSeats.map((seatId) => {
-      const seat = ticket.find((item) => item.id === ticketId)?.seat?.find((s) => s.id === seatId)
-      return {
-        id: seatId,
-        name: seat?.name,
-        price: Number(seat?.price) || 0
+    if (isAuthenticated) {
+      if (selectedSeats.length === 0) {
+        setSuccessMessage(t('Buyticket:please_select_seat'))
+        severitys('warning')
+        return
       }
-    })
-    // lưu thông tin đặt vé
-    const bookingDetails = {
-      ticketId: ticketId,
-      type: ticket.find((item) => item.id === ticketId)?.type,
-      dateSart: new Date().toLocaleDateString(), // Ngày đặt vé
-      diemDi: ticket.find((item) => item.id === ticketId)?.diemdi,
-      diemDen: ticket.find((item) => item.id === ticketId)?.diemden,
-      starttime: ticket.find((item) => item.id === ticketId)?.starttime,
-      seats: seats,
-      price: tongtien,
-      status: 3
+      const seats = selectedSeats.map((seatId) => {
+        const seat = ticket()
+          .find((item) => item.id === ticketId)
+          ?.seat?.find((s) => s.id === seatId)
+        return {
+          id: seatId,
+          name: seat?.name,
+          price: Number(seat?.price) || 0
+        }
+      })
+      // lưu thông tin đặt vé
+      const bookingDetails = {
+        ticketId: ticketId,
+        type: ticket().find((item) => item.id === ticketId)?.type,
+        dateSart: calendar,
+        diemDi: ticket().find((item) => item.id === ticketId)?.diemdi,
+        diemDen: ticket().find((item) => item.id === ticketId)?.diemden,
+        starttime: ticket().find((item) => item.id === ticketId)?.starttime,
+        seats: seats,
+        price: tongtien,
+        status: 3
+      }
+      // Kiểm tra nếu ghế đã được đặt trước
+      const stored = localStorage.getItem('vedadat')
+
+      let existing = []
+
+      try {
+        const parsed = stored ? JSON.parse(stored) : []
+        existing = Array.isArray(parsed) ? parsed : []
+      } catch (e) {
+        console.error('Lỗi parse dữ liệu localStorage:', e)
+        existing = []
+      }
+      // thêm vé mới vào danh sách đã đặt
+      const updatedBookingDetails = [...existing, bookingDetails]
+
+      // Lưu vào localStorage
+      localStorage.setItem('vedadat', JSON.stringify(updatedBookingDetails))
+
+      // Hiển thị thông báo đặt vé thành công
+      setSuccessMessage(t('Buyticket:booking_success'))
+      severitys('success')
+
+      setSelectedSeats([]) // Reset các ghế đã chọn
+
+      setTimeout(() => {
+        setSuccessMessage(null)
+      }, 5000)
+    } else {
+      window.location.href = '/signin'
+      window.alert(t('Buyticket:please_login'))
     }
-    // Kiểm tra nếu ghế đã được đặt trước
-    const stored = localStorage.getItem('veDaDat')
-    let existing = []
-
-    try {
-      const parsed = stored ? JSON.parse(stored) : []
-      existing = Array.isArray(parsed) ? parsed : []
-    } catch (e) {
-      console.error('Lỗi parse dữ liệu localStorage:', e)
-      existing = []
-    }
-    // thêm vé mới vào danh sách đã đặt
-    const updatedBookingDetails = [...existing, bookingDetails]
-
-    // Lưu vào localStorage
-    localStorage.setItem('veDaDat', JSON.stringify(updatedBookingDetails))
-
-    // Hiển thị thông báo đặt vé thành công
-    setSuccessMessage('Đặt vé thành công! Cảm ơn bạn đã đặt vé với chúng tôi.')
-    severitys('success')
-
-    setSelectedSeats([]) // Reset các ghế đã chọn
-
-    setTimeout(() => {
-      setSuccessMessage(null)
-    }, 5000)
   }
   // Tính toán giá vé dựa trên id
   // const tien = ticket.find((item) => item.id === parseInt(id || ''))?.price || 0
@@ -97,7 +130,9 @@ export default function Buyticket() {
   // const totalPrice = selectedSeats.length * tongtien
   // Tính tổng tiền vé dựa trên số ghế đã chọn lấy price từng ghế + lại
   const tongtien = selectedSeats.reduce((sum, seatId) => {
-    const seat = ticket.find((item) => item.id === parseInt(id || '0'))?.seat?.find((s) => s.id === seatId)
+    const seat = ticket()
+      .find((item) => item.id === parseInt(id || '0'))
+      ?.seat?.find((s) => s.id === seatId)
     const tienve = seat?.price || 0
     const tien = Number(tienve)
     return sum + tien // cộng dồn tiền vé của từng ghế
@@ -110,7 +145,7 @@ export default function Buyticket() {
   // Component hiển thị ghế ngồi
   const SeatSummary = () => {
     // Lấy thông tin chuyến đi dựa trên id
-    const trip = ticket.find((item) => item.id === parseInt(id || '0'))
+    const trip = ticket().find((item) => item.id === parseInt(id || '0'))
 
     const totalSeats = trip ? trip.seat?.length || 0 : 0
     // Tạo mảng ghế ngồi
@@ -122,21 +157,13 @@ export default function Buyticket() {
         <div key={i} className='justify-between items-center mb-2 px-2'>
           <div className='flex justify-between  py-1  items-center'>
             {group.map((seat) => {
-              // Kiểm tra xem ghế đã được đặt hay chưa
-              const ticketData = localStorage.getItem('veDaDat')
               let isBooked = false
-              if (ticketData) {
-                try {
-                  const bookings = JSON.parse(ticketData)
-                  // Kiểm tra xem ghế có trong danh sách đặt vé không
-                  isBooked = bookings.some((booking: any) =>
-                    booking.seats.some((s: any) => s.id === seat.id && booking.ticketId === parseInt(id || '0'))
-                  )
-                } catch (error) {
-                  console.error('Lỗi đọc dữ liệu ghế:', error)
-                }
+              if (veData) {
+                isBooked =
+                  veData.filter(
+                    (booking: any) => booking.seats.some((s: any) => s.id === seat.id) && booking.dateSart === calendar
+                  ).length > 0
               }
-
               return (
                 <div
                   key={seat?.id}
@@ -150,7 +177,9 @@ export default function Buyticket() {
                        : selectedSeats.includes(seat.id)
                          ? 'bg-[#009d05] text-[#fff] cursor-pointer'
                          : ' cursor-pointer bg-[#fff] text-[#000]'
-                   } `}
+                   }
+                 
+                   `}
                 >
                   <span className='text-[14px]'>{seat?.name}</span>
 
@@ -176,10 +205,12 @@ export default function Buyticket() {
         }}
       >
         <div className='w-full h-full flex items-center justify-center bg-[#00000068]  '>
-          {ticket
+          {ticket()
             .filter((item) => item.id === parseInt(id || '0'))
-            .map((item) => {
-              const name = `${item.type} - ${item.diemdi} - ${item.diemden}`
+            .map((item: any) => {
+              const diemdi = t(item.diemdi)
+              const diemden = t(item.diemden)
+              const name = `${item.type} - ${diemdi} - ${diemden}`
               return (
                 <h1 key={item.id} className='text-4xl font-bold mb-4 text-[#fff]'>
                   {name}
@@ -192,114 +223,85 @@ export default function Buyticket() {
         <div className='w-4/7 border-1 rounded-[10px] border-gray-400 h-full sticky z-10  top-20 bg-[#fff] px-5 py-5  flex flex-col gap-5'>
           <div className='flex flex-col gap-3'>
             <div className='text-[12px] '>
-              <h1 className='text-gray-400 font-medium'>Journey Date</h1>
+              <h1 className='text-gray-400 font-medium'>{t('Buyticket:journey_date')}</h1>
               <div className='border-1  text-[13px] bg-[#fff]  border-[#8aff73] rounded-[10px] px-3 py-2 flex items-center gap-2'>
-                <input type='date' className='w-full outline-none' />
-              </div>
-            </div>
+                <div ref={refCalendar}>
+                  <input
+                    className='focus:outline-none'
+                    type=''
+                    value={calendar}
+                    readOnly
+                    onClick={() => setOpen(!open)}
+                  />
 
-            <div className='text-[12px] '>
-              <h1 className=' text-gray-400 font-medium '>Pickup Point</h1>{' '}
-              <div
-                onClick={() => setShowDiemDiDropdown(!showDiemDiDropdown)}
-                className=' bg-[#fff] w-full border-1 border-[#8aff73] rounded-[10px] px-2 py-1 flex items-center  '
-              >
-                <div className=' flex  justify-between relative w-full'>
-                  <div
-                    className='   cursor-pointer text-[13px] px-2 py-1 bg-[#fff] rounded'
-                    onClick={() => setShowDiemDiDropdown(!showDiemDiDropdown)}
-                  >
-                    {selectedDiemDi || t('Home_location.All')}
-                  </div>
-                  {showDiemDiDropdown && (
-                    <div className='absolute left-0 top-full mt-1 bg-[#fff] border rounded shadow z-10 divide-y-1 divide-gray-500 w-full'>
-                      {diemDi.map((item) => (
-                        <div
-                          key={item.id}
-                          className='px-3 py-1 hover:bg-[#e6ffe6]  cursor-pointer text-[14px]'
-                          onClick={() => {
-                            setSelectedDiemDi(item.name)
-                            setShowDiemDiDropdown(false)
-                          }}
-                        >
-                          {item.name}
-                        </div>
-                      ))}
+                  {open ? (
+                    <div className={` absolute   w-full h-full z-100 `} ref={refCalendar}>
+                      <Calendar
+                        className='border-4  border-gray-300 rounded-lg shadow-xl'
+                        // date = là ngày click vào
+                        date={new Date(calendar.split('/').reverse().join('-'))}
+                        minDate={new Date()}
+                        maxDate={new Date(new Date().setDate(new Date().getDate() + 7))}
+                        // không cần click mà chỉ cần chuyển ngày là được cập nhật
+                        onChange={(date) => {
+                          const formattedDate = format(date, 'dd/MM/yyyy')
+                          setCalendar(formattedDate)
+                          localStorage.setItem('DayData', formattedDate)
+                        }}
+                      />
                     </div>
+                  ) : (
+                    ''
                   )}
-                  <i className='text-[14px] text-gray-600' onClick={() => setShowDiemDiDropdown(!showDiemDiDropdown)}>
-                    <Icon name={showDiemDiDropdown ? 'up' : 'dow'} />
-                  </i>
                 </div>
               </div>
             </div>
 
-            <div className='text-[12px] '>
-              <h1 className='text-gray-400 font-medium '>Dropping Point</h1>{' '}
-              <div
-                onClick={() => setShowDiemDenDropdown(!showDiemDenDropdown)}
-                className='   bg-[#fff] w-full border-1 border-[#8aff73] rounded-[10px] px-2 py-1 flex items-center gap-2 '
-              >
-                <div className=' flex  justify-between relative w-full'>
-                  <div
-                    className='  cursor-pointer text-[13px] px-2 py-1 rounded'
-                    onClick={() => setShowDiemDenDropdown(!showDiemDenDropdown)}
-                  >
-                    {selectedDiemDen || t('Home_location.All')}
-                  </div>
-                  {showDiemDenDropdown && (
-                    <div className='absolute left-0 top-full mt-1 bg-[#fff] border rounded shadow z-10 divide-y-1 divide-gray-500 w-full'>
-                      {diemDen.map((item) => (
-                        <div
-                          key={item.id}
-                          className='px-3 py-1 hover:bg-[#e6ffe6]  cursor-pointer text-[14px]'
-                          onClick={() => {
-                            setSelectedDiemDen(item.name)
-                            setShowDiemDenDropdown(false)
-                          }}
-                        >
-                          {item.name}
-                        </div>
-                      ))}
+            {ticket()
+              .filter((item) => item.id === parseInt(id || '0'))
+              .map((item: any) => {
+                const diemdi = t(item.diemdi)
+                return (
+                  <div className='text-[12px] '>
+                    <h1 className=' text-gray-400 font-medium '>{t('Buyticket:pickup_point')}</h1>
+                    <div className=' bg-[#fff] w-full border-1 border-[#8aff73] rounded-[10px] px-2 py-1 flex items-center  '>
+                      <div className=' flex  justify-between relative w-full'>
+                        <div className='   cursor-pointer text-[13px] px-2 py-1 bg-[#fff] rounded'>{diemdi}</div>
+                      </div>
                     </div>
-                  )}
-                  <i className='text-[14px] text-gray-600' onClick={() => setShowDiemDenDropdown(!showDiemDenDropdown)}>
-                    <Icon name={showDiemDenDropdown ? 'up' : 'dow'} />
-                  </i>
-                </div>
-              </div>
-            </div>
-
-            <div className='text-[12px] text-gray-400 '>
-              <h1 className='font-medium'>Select Gender</h1>
-              <div className='flex py-3 justify-between'>
-                {['Male', 'Female', 'Other'].map((gender) => (
-                  <div key={gender} className='flex items-center gap-2'>
-                    <input
-                      type='checkbox'
-                      id={gender}
-                      checked={selectGender === gender}
-                      onChange={() => handleGenderChange(gender)}
-                    />
-                    <label htmlFor={gender}>{gender}</label>
                   </div>
-                ))}
-              </div>
-            </div>
+                )
+              })}
+            {ticket()
+              .filter((item) => item.id === parseInt(id || '0'))
+              .map((item: any) => {
+                const diemdi = t(item.diemden)
+                console.log(diemdi)
+                return (
+                  <div className='text-[12px] '>
+                    <h1 className=' text-gray-400 font-medium '>{t('Buyticket:dropoff_point')}</h1>
+                    <div className=' bg-[#fff] w-full border-1 border-[#8aff73] rounded-[10px] px-2 py-1 flex items-center  '>
+                      <div className=' flex  justify-between relative w-full'>
+                        <div className='   cursor-pointer text-[13px] px-2 py-1 bg-[#fff] rounded'>{diemdi}</div>
+                      </div>
+                    </div>
+                  </div>
+                )
+              })}
 
             {selectedSeats.length > 0 && (
               <>
-                <h1 className='text-[14px] text-gray-400 font-semibold'>Selected Seats:</h1>
+                <h1 className='text-[14px] text-gray-400 font-semibold'>{t('Buyticket:selected_seats')}</h1>
                 <div>
                   <div className='flex  text-[#fff] justify-between items-center bg-[#16a34a] border-1 border-[#16a34a] rounded-t-[6px] px-3 py-2'>
-                    <p className='  font-semibold text-[12px]'>Seat Details</p>
-                    <p className='  font-semibold text-[12px]'>Price</p>
+                    <p className='  font-semibold text-[12px]'> {t('Buyticket:seat_details')}</p>
+                    <p className='  font-semibold text-[12px]'>{t('Buyticket:price')}</p>
                   </div>
 
                   {/* Danh sách ghế đã chọn */}
                   <div className='bg-[#fff]  '>
                     {selectedSeats.map((seatId) => {
-                      const seat = ticket
+                      const seat = ticket()
                         .find((item) => item.id === parseInt(id || '0'))
                         ?.seat?.find((s) => s.id === seatId)
                       const tien = seat?.price || 0
@@ -315,7 +317,7 @@ export default function Buyticket() {
                     })}
                   </div>
                   <div className='flex justify-between bg-[#fff] border-1 border-gray-300 px-3 py-2 font-semibold'>
-                    <p className='text-[15px]'>Total</p>
+                    <p className='text-[15px]'>{t('Buyticket:total')}</p>
                     <p className='text-[13px]'>{tongtien} USD</p>
                   </div>
                 </div>
@@ -327,15 +329,15 @@ export default function Buyticket() {
                 onClick={handleBooking}
                 className='cursor-pointer text-[#fff] bg-[#00a108] rounded-[7px] px-8 py-2 flex items-center  '
               >
-                <span className='text-[13px] font-medium'>Đặt vé</span>
+                <span className='text-[13px] font-medium'>{t('Buyticket:book_ticket')}</span>
               </button>
             </div>
           </div>
         </div>
         <div className='grow h-full w-full gap-3 px-10'>
           <div>
-            <h1 className='text-[15px] text-gray-500 font-medium'>Click on Seat to select or deselect</h1>
-            {ticket
+            <h1 className='text-[15px] text-gray-500 font-medium'> {t('Buyticket:click_seat_guide')}</h1>
+            {ticket()
               .filter((item) => item.id === parseInt(id || '0'))
               .map((item) => (
                 <div key={item.id} className=' text-[14px] pb-5 pt-2'>
@@ -351,11 +353,11 @@ export default function Buyticket() {
 
           <div className='  border-1 border-gray-500 rounded-[10px] p-2'>
             <div className='flex justify-center mt-[-18px] items-center gap-2'>
-              <p className=' bg-gray-300 px-5   text-[12px] text-gray-500 '>Front</p>
+              <p className=' bg-gray-300 px-5   text-[12px] text-gray-500 '>{t('Buyticket:front')}</p>
             </div>
             <div>
               <div className='flex text-[16px] text-gray-600 justify-between items-center gap-2 px-5'>
-                <h1 className=' font-medium'> seat</h1>
+                <h1 className=' font-medium'>{t('Buyticket:seat')}</h1>
                 <i className=''>
                   {' '}
                   <Icon name='seat' />
@@ -366,7 +368,7 @@ export default function Buyticket() {
               </div>
             </div>
             <div className='flex justify-center mb-[-17px] items-center gap-2'>
-              <p className=' bg-gray-300 px-5 text-[12px] text-gray-500 '>Rear</p>
+              <p className=' bg-gray-300 px-5 text-[12px] text-gray-500 '>{t('Buyticket:rear')}</p>
             </div>
           </div>
 
@@ -377,20 +379,20 @@ export default function Buyticket() {
                 <div className=' bg-[#fff] border-1 rounded-[3px]  h-5 w-15 p-1'>
                   <div className='border-1 border-gray-500 h-full w-1 rounded-3xl ml-auto'></div>
                 </div>
-                <p className='text-[12px] text-gray-500 whitespace-nowrap '>Available Seats</p>
+                <p className='text-[12px] text-gray-500 whitespace-nowrap '>{t('Buyticket:available_seats')}</p>
               </div>
               <div className='cursor-pointer  flex w-full items-center gap-2'>
                 <div className=' bg-[#008428]  rounded-[3px] h-5 w-15 p-1'>
                   <div className='bg-[#fff]  h-full w-1 rounded-3xl ml-auto'></div>
                 </div>
-                <p className='text-[12px] text-gray-500 whitespace-nowrap '>Selected by You</p>
+                <p className='text-[12px] text-gray-500 whitespace-nowrap '>{t('Buyticket:selected_by_you')}</p>
               </div>
 
               <div className='cursor-pointer flex w-full items-center gap-2'>
                 <div className=' bg-[#767676] rounded-[3px] h-5 w-15 p-1'>
                   <div className='bg-[#fff]  h-full w-1 rounded-3xl ml-auto'></div>
                 </div>
-                <p className='text-[12px] text-gray-500 whitespace-nowrap '>Booked by Others</p>
+                <p className='text-[12px] text-gray-500 whitespace-nowrap '>{t('Buyticket:booked_by_others')}</p>
               </div>
             </div>
           </div>

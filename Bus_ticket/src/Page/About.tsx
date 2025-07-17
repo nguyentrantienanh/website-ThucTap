@@ -1,8 +1,10 @@
 import backgroundAbout from '../assets/background.jpg'
 import AboutBus from '../assets/about/aboutbus.jpg'
 import FAQ from './FAQ/FAQ'
+import { useTranslation } from 'react-i18next'
 
 function About() {
+  const { t } = useTranslation('About')
   return (
     <>
       <div
@@ -10,65 +12,39 @@ function About() {
         style={{ backgroundImage: `url(${backgroundAbout})`, backgroundSize: 'cover', backgroundPosition: 'center' }}
       >
         <div className='w-full h-full flex items-center justify-center bg-[#00000068]  '>
-          <h1 className='text-4xl font-bold mb-4 text-[#fff]  '>About Us</h1>
+          <h1 className=' font-bold mb-4 text-[#fff] text-[20px] sm:text-2xl lg:text-4xl   '>{t('title')}</h1>
         </div>
       </div>
 
-      <section className='grid grid-cols-1 gap-5 px-10 py-5 bg-[#f9f9f9] xl:px-[30%]'>
-        <div className=' grid grid-cols-2'>
-          <div>
-            <strong>Know Few Words About Autobus</strong>
-            <p>
-              Lorem Lorem ipsum dolor, sit amet consectetur adipisicing elit. Nulla sit reprehenderit non voluptas quam
-              quod facilis, doloribus impedit magni. Numquam ipsum placeat ullam alias temporibus non quas aperiam odio
-              pariatur.
-            </p>
-            <span>
-              Lorem ipsum dolor sit amet consectetur, adipisicing elit. Eos eveniet inventore blanditiis maxime
-              doloremque minima. Quisquam, ex! Architecto laudantium culpa cupiditate hic facere est magni, possimus
-              repudiandae, rerum eius omnis.lore Lorem ipsum dolor sit amet consectetur adipisicing elit. Doloremque
-              excepturi sed possimus recusandae temporibus tempore, aspernatur, autem sequi natus iste fugit. Eaque vero
-              temporibus illum quis beatae quam officia ad.ri sed possimus recusandae temporibus tempore, aspernatur,
-              autem sequi natus iste fugit. Eaque vero temporibus sed possimus recusandae temporibus tempore,
-              aspernatur, autem sequi natus iste fugit. Eaque vero temporibus illum quis beatae quam officia ad.
-            </span>
+      <section className='grid grid-cols-1 gap-5 px-10 py-5 bg-[#f9f9f9] xl:px-[20%]'>
+        <div className=' grid grid-cols-1 md:grid-cols-2'>
+          <div className=''>
+            <strong className='  items-center justify-center flex md:justify-start md:items-start text-[18px] sm:text-1xl lg:text-3xl '>
+              {t('knowFewWords')}
+            </strong>
+            <p className='text-[14px]  sm:text-[15px] lg:text-[16px]'>{t('knowFewWordsContent')}</p>
+            <span className='text-[14px] sm:text-[15px] lg:text-[16px]'>{t('knowFewWordsDescription')}</span>
           </div>
           <div>
             {' '}
             <img src={AboutBus} alt='' />
           </div>
         </div>
-        <div>
-          <strong>About Us</strong>
-          <span>
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Facilis vel temporibus voluptatum quidem,
-            blanditiis libero assumenda beatae ducimus placeat odio aperiam tenetur animi, reiciendis reprehenderit
-            expedita nostrum a eum. Quod. Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptatum ipsum
-            necessitatibus eum non quisquam! Quo esse est minima vero dolores eveniet voluptatibus nam. Veniam ad quae
-            illum tenetur voluptates veritatis? Lorem ipsum dolor sit amet consectetur adipisicing elit. Facilis vel
-            temporibus voluptatum quidem, blanditiis libero assumenda beatae ducimus placeat odio aperiam tenetur animi,
-            reiciendis reprehenderit expedita nostrum a eum. Quod. Lorem ipsum dolor sit amet consectetur adipisicing
-            elit. Voluptatum ipsum necessitatibus eum non quisquam! Quo esse est minima vero dolores eveniet
-            voluptatibus nam. Veniam ad quae illum tenetur voluptates veritatis?
-          </span>
+        <div className='   '>
+          <strong className='text-[18px] sm:text-1xl lg:text-3xl'>{t('aboutUs')}</strong>
+          <span className='text-[14px] sm:text-[15px] px-2 lg:text-[16px]'>{t('aboutUsContent')}</span>
         </div>
         <div className='flex flex-col gap-3'>
-          <strong>Why Make Bus Reservations With AutoBus</strong>
-          <span>
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Facilis vel temporibus voluptatum quidem,
-            blanditiis libero assumenda beatae ducimus placeat odio aperiam tenetur animi, reiciendis reprehenderit
-            expedita nostrum a eum. Quod. Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptatum ipsum
-            necessitatibus eum non quisquam! Quo esse est minima vero dolores eveniet voluptatibus nam. Veniam ad quae
-            illum tenetur voluptates veritatis?
-          </span>
+          <strong className='text-[18px] sm:text-1xl lg:text-3xl'>{t('whyChooseUs')}</strong>
+          <span className='text-[14px]  sm:text-[15px] lg:text-[16px]'>{t('whyChooseUsContent')}</span>
 
-          <ul className='list-disc pl-5'>
-            <li>Free Cancellation</li>
-            <li>Instant Refunds</li>
-            <li>Easy & Quick Bus Booking</li>
-            <li>Exciting Cashback & Bus Offers</li>
-            <li>Best Price Assured</li>
-            <li>24/7 Customer Assistance</li>
+          <ul className='list-disc pl-5 text-[14px]  sm:text-[15px] lg:text-[16px]'>
+            <li>{t('benefits.freeCancellation')}</li>
+            <li>{t('benefits.instantRefunds')}</li>
+            <li>{t('benefits.easyBooking')}</li>
+            <li>{t('benefits.cashback')}</li>
+            <li>{t('benefits.bestPrice')}</li>
+            <li>{t('benefits.customerSupport')}</li>
           </ul>
         </div>
         <div>
@@ -78,4 +54,5 @@ function About() {
     </>
   )
 }
+
 export default About

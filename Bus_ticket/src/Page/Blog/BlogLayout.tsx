@@ -1,13 +1,13 @@
 import { Outlet, useLocation } from 'react-router-dom'
 import Blog_col from '../Blog/components/Blog_col'
 import backgroundBlog from '../../assets/background.jpg'
-import { blogData } from '../../Data/Blog'
+import { BlogData } from '../../Data/Blog'
 
 function BlogLayout() {
   const location = useLocation()
   const isDetail = location.pathname !== '/blog'
 
-  const blogPost = blogData.find((post) => post.path === location.pathname.replace('/blog/', ''))
+  const blogPost = BlogData().find((post: any) => post.path === location.pathname.replace('/blog/', ''))
 
   return (
     <>

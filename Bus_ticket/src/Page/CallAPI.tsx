@@ -138,7 +138,7 @@ const CallApi = () => {
           placeholder='Nhập tên phim (VD: Ngôi Trường Xác Sống)'
           className='border p-2 rounded w-full md:w-1/2'
         />
-        <button type='submit' className='ml-2 bg-blue-500 text-white p-2 rounded hover:bg-blue-600'>
+        <button type='submit' className='ml-2 bg-blue-500 text-[#fff] p-2 rounded hover:bg-blue-600'>
           Tìm kiếm
         </button>
       </form>

@@ -54,7 +54,7 @@ export function Booking() {
                     <td className='py-2 px-4 text-[#a7a7a7]'>{item.type}</td>
                     <td className='py-2 px-4 text-[#04b925]  '> {t(`Home:${item.diemDen}`)}</td>
                     <td className='py-2 px-4 text-[#04b925]'> {t(`Home:${item.diemDi}`)} </td>
-                    <td className='py-2 px-4 text-[#4c4c4c] font-medium'>{item.dateSart}</td>
+                    <td className='py-2 px-4 text-[#4c4c4c] font-medium'>{item.dateStart}</td>
                     <td className='py-2 px-4 text-[#7337ff] font-mono'>{item.starttime}</td>
                     <td className='py-2 px-4 text-[#04b925]'>{seats[index].join(',')}</td>
                     {/* <td className='py-2 px-4 text-[#7337ff] font-mono'>{item.status}</td> */}

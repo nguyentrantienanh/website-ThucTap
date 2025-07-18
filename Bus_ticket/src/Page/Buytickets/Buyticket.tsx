@@ -84,7 +84,7 @@ export default function Buyticket() {
       const bookingDetails = {
         ticketId: ticketId,
         type: ticket().find((item) => item.id === ticketId)?.type,
-        dateSart: calendar,
+        dateStart: calendar,
         diemDi: ticket().find((item) => item.id === ticketId)?.diemdi,
         diemDen: ticket().find((item) => item.id === ticketId)?.diemden,
         starttime: ticket().find((item) => item.id === ticketId)?.starttime,
@@ -161,7 +161,7 @@ export default function Buyticket() {
               if (veData) {
                 isBooked =
                   veData.filter(
-                    (booking: any) => booking.seats.some((s: any) => s.id === seat.id) && booking.dateSart === calendar
+                    (booking: any) => booking.seats.some((s: any) => s.id === seat.id) && booking.dateStart === calendar
                   ).length > 0
               }
               return (
@@ -275,14 +275,14 @@ export default function Buyticket() {
             {ticket()
               .filter((item) => item.id === parseInt(id || '0'))
               .map((item: any) => {
-                const diemdi = t(item.diemden)
-                console.log(diemdi)
+                const diemden = t(item.diemden)
+
                 return (
                   <div className='text-[12px] '>
                     <h1 className=' text-gray-400 font-medium '>{t('Buyticket:dropoff_point')}</h1>
                     <div className=' bg-[#fff] w-full border-1 border-[#8aff73] rounded-[10px] px-2 py-1 flex items-center  '>
                       <div className=' flex  justify-between relative w-full'>
-                        <div className='   cursor-pointer text-[13px] px-2 py-1 bg-[#fff] rounded'>{diemdi}</div>
+                        <div className='   cursor-pointer text-[13px] px-2 py-1 bg-[#fff] rounded'>{diemden}</div>
                       </div>
                     </div>
                   </div>

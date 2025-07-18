@@ -28,7 +28,6 @@ const Signin: React.FC = () => {
   // Hàm xử lý captcha
   const [captchaValue, setCaptchaValue] = useState(false)
   const handleCaptchaChange = (value: string | null) => {
-    console.log('Captcha value:', value)
     setCaptchaValue(!!value) // Chuyển đổi giá trị thành boolean
   }
   return (

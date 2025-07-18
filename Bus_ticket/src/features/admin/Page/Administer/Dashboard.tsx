@@ -1,11 +1,28 @@
 import Icon from '../../../../icons/Icon'
 import avatar from '../../../../assets/avatar.jpg'
 import Statistics from './Statistics'
+
+import { useState, useEffect } from 'react'
 export default function Dashboard() {
+  const ve = JSON.parse(localStorage.getItem('vedadat') || '[]')
+  // hàm đếm
+
+  const [countConfirmed, setCountConfirmed] = useState(0)
+  const [countRejected, setCountRejected] = useState(0)
+  const [countPending, setCountPending] = useState(0)
+
+  useEffect(() => {
+    const Confirmed = ve.filter((item: any) => item.status === 1).length
+    const Rejected = ve.filter((item: any) => item.status === 2).length
+    const Pending = ve.filter((item: any) => item.status === 3).length
+    setCountConfirmed(Confirmed)
+    setCountRejected(Rejected)
+    setCountPending(Pending)
+  })
   return (
     <>
       <div className='flex flex-col h-full px-2 w-full py-4  pt-2 '>
-        <div className='py-3 flex justify-between px-3 items-center text-center w-full   '>
+        <div className='py-3 flex justify-between px-3 items-center text-center w-full shadow-md bg-[#fff] rounded-lg  '>
           <h1 className='text-3xl font-bold text-gray-700'>Dashboard</h1>
           <div className='flex items-center gap-2'>
             <i className='text-gray-500  cursor-pointer pr-2'>
@@ -23,7 +40,6 @@ export default function Dashboard() {
 
         {/* Account */}
         <div>
-        
           <div className=' grid grid-cols-4  col-span-4  '>
             {/* Tổng người dùng */}
             <div className='relative  rounded-lg overflow-hidden m-2 bg-[#4F46E5] shadow-md'>
@@ -83,10 +99,8 @@ export default function Dashboard() {
           </div>
         </div>
 
-
         {/* Vé */}
         <div>
-           
           <div className=' bg-[#fff]  my-4  grid grid-cols-3'>
             {/* Thanh toán thành công */}
             <div className='relative rounded-lg overflow-hidden m-2 bg-green-500 shadow-md'>
@@ -94,7 +108,7 @@ export default function Dashboard() {
                 <Icon name='check-circle' />
               </i>
               <div className='flex flex-col text-[#fff] items-end h-full p-4 gap-2 pl-2'>
-                <span className='font-bold text-3xl'>0</span>
+                <span className='font-bold text-3xl'>{countConfirmed}</span>
                 <span className='text-[#fff]/70 text-sm'>Thanh toán thành công</span>
                 <button className=' cursor-pointer px-3 py-1 bg-[#fff] text-green-600 rounded-md text-sm font-semibold shadow-sm hover:bg-gray-100'>
                   View All
@@ -107,7 +121,7 @@ export default function Dashboard() {
                 <Icon name='clock' />
               </i>
               <div className='flex flex-col text-[#fff] items-end h-full p-4 gap-2 pl-2'>
-                <span className='font-bold text-3xl'>0</span>
+                <span className='font-bold text-3xl'>{countPending}</span>
                 <span className='text-[#fff]/70 text-sm'>Đang chờ thanh toán</span>
                 <button className=' cursor-pointer px-3 py-1 bg-[#fff] text-yellow-600 rounded-md text-sm font-semibold shadow-sm hover:bg-gray-100'>
                   View All
@@ -121,7 +135,7 @@ export default function Dashboard() {
                 <Icon name='x-circle' />
               </i>
               <div className='flex flex-col text-[#fff] items-end h-full p-4 gap-2 pl-2'>
-                <span className='font-bold text-3xl'>0</span>
+                <span className='font-bold text-3xl'>{countRejected}</span>
                 <span className='text-[#fff]/70 text-sm'>Thanh toán bị từ chối</span>
                 <button className=' cursor-pointer px-3 py-1 bg-[#fff] text-red-600 rounded-md text-sm font-semibold shadow-sm hover:bg-gray-100'>
                   View All
@@ -131,10 +145,8 @@ export default function Dashboard() {
           </div>
         </div>
 
-
         {/* Xe */}
         <div>
-       
           <div className=' bg-[#fff]  my-4  grid grid-cols-3'>
             {/* Xe có điều hòa */}
             <div className='relative rounded-lg overflow-hidden m-2 bg-gradient-to-r from-green-400 to-green-600 shadow-lg'>

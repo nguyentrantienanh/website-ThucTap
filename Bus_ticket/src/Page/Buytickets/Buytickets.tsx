@@ -11,9 +11,6 @@ import { parse, isAfter } from 'date-fns'
 import { Calendar } from 'react-date-range'
 
 function BuyticketLayout() {
-  const dateFormat = format(new Date(), 'hh:mm aa')
-  console.log(dateFormat)
-
   // Ví dụ sử dụng
 
   const { t } = useTranslation(['Buyticket', 'Home'])
@@ -145,8 +142,6 @@ function BuyticketLayout() {
         const itemDiemdi = t(`Home:${item.diemdi}`)?.trim().toLowerCase()
         const itemDiemDen = t(`Home:${item.diemden}`)?.trim().toLowerCase()
 
-        console.log('tesst', itemDiemdi, itemDiemDen)
-        console.log(filterDiemdi, filterDiemDen)
         return itemDiemdi === filterDiemdi && itemDiemDen === filterDiemDen
       })
     // lọc Schedules
@@ -178,14 +173,9 @@ function BuyticketLayout() {
 
       // hiện thị vé nếu giờ hiện tại nhỏ hơn giờ bắt đầu của vé
       if (isToday) {
-        // nuế isToday là true thì so sánh giờ
-        const now = new Date()
         const timeToCompare = parse(starttime, 'hh:mm a', new Date())
-        timeToCompare.setFullYear(today.getFullYear())
-        timeToCompare.setMonth(today.getMonth())
-        timeToCompare.setDate(today.getDate())
 
-        return isAfter(timeToCompare, now)
+        return isAfter(timeToCompare, today)
       }
 
       // Nếu ngày trong tương lai thì luôn hiển thị

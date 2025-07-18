@@ -1,22 +1,72 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { ticket } from '../../../Data/Ticket'
 import Icon from '../../../icons/Icon'
 import { useTranslation } from 'react-i18next'
+import { TimePicker } from '@mui/x-date-pickers/TimePicker'
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider'
+import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns'
 
 export default function TicketManagement() {
   const [tickets] = useState(ticket)
-  const { t } = useTranslation()
+  const { t } = useTranslation(['Home', 'Buyticket'])
+  const [isAddticket, setIsAddticket] = useState(false)
+  const handleAddTicket = () => {
+    setIsAddticket(!isAddticket)
+  }
+  const [startTime, setStartTime] = useState<Date | null>(null)
+  const [endTime, setEndTime] = useState<Date | null>(null)
+  // tự tính thời gian đi dựa vào giờ bắt đầu và kết thúc không có dấu - phía trước nếu âm thì chuyển thành dương  tính thời gian để đến
+  const Timegoto = () => {
+    if (startTime && endTime) {
+      const start = new Date(startTime)
+      const end = new Date(endTime)
+      const diff = end.getTime() - start.getTime()
+      const hours = Math.floor(diff / (1000 * 60 * 60))
+      const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60))
+      return `${Math.abs(hours)}h ${Math.abs(minutes)}m`
+    }
+    return '00h 00m'
+  }
+  const [selectedSeats, setSelectedSeats] = useState<number>(0)
+
+  const handleSeatChange = (e: any) => {
+    setSelectedSeats(Number(e.target.value))
+  }
+
+  // hàm đếm vé ticket
+  const countticket = tickets.length
 
   return (
     <div className='p-4  w-full space-y-4'>
-      <h2 className='text-2xl font-bold mb-4'>Quản lý vé</h2>
+      <div className='py-3 flex justify-between px-3 items-center text-center w-full shadow-md bg-[#fff] rounded-lg '>
+        <div className='flex items-center gap-2  '>
+          <h1 className='text-3xl font-bold text-gray-700'>Quản lý vé</h1>
+          <div className='  flex justify-between px-2 items-center    w-30 h-full rounded-lg   m-2 bg-[#4f46e5] shadow-md'>
+            <i className='    text-4xl text-[#fff]/20'>
+              <Icon name='ticket' />
+            </i>
+            <div className='flex flex-col text-[#fff]  '>
+              <span className='font-bold text-2xl'>{countticket}</span>
+            </div>
+          </div>
+        </div>
+
+        <div>
+          <button
+            onClick={handleAddTicket}
+            className=' cursor-pointer bg-blue-500 text-[#fff] px-4 py-2 rounded-md hover:bg-blue-600 transition-colors'
+          >
+            Thêm vé
+          </button>
+        </div>
+      </div>
       {tickets.map((item) => {
         const diemdi = t(`Home:${item.diemdi}`)
         const diemden = t(`Home:${item.diemden}`)
         const name = `${item.type} - ${diemdi} - ${diemden}`
 
         return (
-          <div key={item.id} className='rounded-xl bg-[#fff] shadow-md overflow-hidden'>
+          <div key={item.id} className='border-1 rounded-xl bg-[#fff] shadow-md overflow-hidden'>
             <div className='flex flex-col md:flex-row items-center p-5 gap-4'>
               <div className='flex-1 space-y-1'>
                 <h1 className='text-lg font-semibold truncate'>{name}</h1>
@@ -68,6 +118,241 @@ export default function TicketManagement() {
           </div>
         )
       })}
+
+      {isAddticket && (
+        <div>
+          <div
+            className='bg-black fixed top-0 left-0 z-100 opacity-50 w-screen h-screen'
+            onClick={handleAddTicket}
+          ></div>
+          <div
+            className={` fixed top-1/35   left-1/2 transform -translate-x-1/2  rounded z-900`}
+            style={{
+              animation: isAddticket ? 'slideDown 0.3s ease' : 'slideUp 0.3s ease'
+            }}
+          >
+            <div className='bg-[#fff]  w-300  rounded-3xl p-6 flex flex-col gap-5'>
+              <h2 className='text-xl font-semibold'>Thêm vé mới</h2>
+              <LocalizationProvider dateAdapter={AdapterDateFns}>
+                <div className='flex'>
+                  <div className='grid grid-cols-3 w-4/6   gap-4 p-6 bg-[#fff] rounded-xl shadow-md  '>
+                    {/* Điểm đi */}
+                    <div className='flex flex-col'>
+                      <label htmlFor='diemdi' className='font-medium text-gray-700 mb-1'>
+                        Điểm đi
+                      </label>
+                      <input
+                        id='diemdi'
+                        name='diemdi'
+                        className='p-2 rounded border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500'
+                        placeholder='Nhập điểm đi'
+                      />
+                    </div>
+
+                    {/* Điểm đến */}
+                    <div className='flex flex-col'>
+                      <label htmlFor='diemden' className='font-medium text-gray-700 mb-1'>
+                        Điểm đến
+                      </label>
+                      <input
+                        id='diemden'
+                        name='diemden'
+                        className='p-2 rounded border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500'
+                        placeholder='Nhập điểm đến'
+                      />
+                    </div>
+
+                    {/* Điểm xuất phát */}
+                    <div className='flex flex-col'>
+                      <label htmlFor='startingpoint' className='font-medium text-gray-700 mb-1'>
+                        Điểm xuất phát
+                      </label>
+                      <input
+                        id='startingpoint'
+                        name='startingpoint'
+                        className='p-2 rounded border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500'
+                        placeholder='Nhập điểm xuất phát'
+                      />
+                    </div>
+
+                    {/* Điểm đến cuối */}
+                    <div className='flex flex-col'>
+                      <label htmlFor='endpoint' className='font-medium text-gray-700 mb-1'>
+                        Điểm đến cuối
+                      </label>
+                      <input
+                        id='endpoint'
+                        name='endpoint'
+                        className='p-2 rounded border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500'
+                        placeholder='Nhập điểm đến cuối'
+                      />
+                    </div>
+
+                    {/* Thời gian bắt đầu */}
+                    <div className='flex flex-col'>
+                      <label className='font-medium text-gray-700 mb-1'>Giờ bắt đầu</label>
+                      <TimePicker
+                        className='p-2 rounded border border-gray-300 focus:outline-none focus:ring-2 focus:ring-green-500'
+                        value={startTime}
+                        onChange={setStartTime}
+                      />
+                    </div>
+
+                    {/* Thời gian kết thúc */}
+                    <div className='flex flex-col'>
+                      <label className='font-medium text-gray-700 mb-1'>Giờ kết thúc</label>
+                      <TimePicker value={endTime} onChange={setEndTime} />
+                    </div>
+
+                    {/* Thời gian đi */}
+                    <div className='flex flex-col'>
+                      <label htmlFor='timetogo' className='font-medium text-gray-700 mb-1'>
+                        Thời gian đi
+                      </label>
+                      <input
+                        name='timetogo'
+                        className='p-2 rounded border border-gray-300 bg-gray-100'
+                        value={Timegoto()}
+                        readOnly
+                      />
+                    </div>
+
+                    {/* Loại xe */}
+                    <div className='flex flex-col'>
+                      <label htmlFor='type' className='font-medium text-gray-700 mb-1'>
+                        Loại xe
+                      </label>
+                      <select
+                        name='type'
+                        className='p-2 rounded border border-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-500'
+                      >
+                        <option value='AC'>AC</option>
+                        <option value='Non-AC'>Non-AC</option>
+                      </select>
+                    </div>
+
+                    {/* Ngày nghỉ */}
+                    <div className='flex flex-col'>
+                      <label htmlFor='offday' className='font-medium text-gray-700 mb-1'>
+                        Ngày nghỉ
+                      </label>
+                      <select
+                        name='offday'
+                        className='p-2 rounded border border-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-500'
+                      >
+                        <option value='Monday'>Monday</option>
+                        <option value='Tuesday'>Tuesday</option>
+                        <option value='Wednesday'>Wednesday</option>
+                        <option value='Thursday'>Thursday</option>
+                        <option value='Friday'>Friday</option>
+                        <option value='Saturday'>Saturday</option>
+                        <option value='Sunday'>Sunday</option>
+                      </select>
+                    </div>
+                  </div>
+
+                  <div className='w-2/6 h-100 mx-2 p-6 bg-[#fff] rounded-xl shadow-md '>
+                    <div className='flex justify-between items-center   gap-4 mb-4'>
+                      <span className='font-medium text-gray-700 mb-1'> Ghế</span>
+                      <div className='flex   font-medium text-[13px] gap-2 mr-2'>
+                        <label className='flex items-center gap-1 '>
+                          <input name='seat' type='radio' value='8' onClick={handleSeatChange} /> 8
+                        </label>
+                        <label className='flex items-center gap-1'>
+                          <input name='seat' type='radio' value='36' onClick={handleSeatChange} />
+                          36
+                        </label>
+                        <label className='flex items-center gap-1'>
+                          <input name='seat' type='radio' value='38' onClick={handleSeatChange} /> 38
+                        </label>
+                        <label className='flex items-center gap-1'>
+                          <input name='seat' type='radio' value='56' onClick={handleSeatChange} /> 56
+                        </label>
+                        <label className='flex items-center gap-1'>
+                          <input name='seat' type='radio' value='60' onClick={handleSeatChange} /> 60
+                        </label>
+                      </div>
+                    </div>
+                    <div className='  border-1 border-gray-500 rounded-[10px] p-2'>
+                      <div className='flex justify-center mt-[-18px] items-center gap-2'>
+                        <p className=' bg-gray-300 px-5   text-[12px] text-gray-500 '>{t('Buyticket:front')}</p>
+                      </div>
+                      <div>
+                        <div className='flex text-[16px] text-gray-600 justify-between items-center gap-2 px-5'>
+                          <h1 className=' font-medium'>{t('Buyticket:seat')}</h1>
+                          <i className=''>
+                            {' '}
+                            <Icon name='seat' />
+                          </i>
+                        </div>
+                        <div className='  py-5  overflow-y-auto h-[250px]'>
+                          <div className='grid grid-cols-4 gap-2'>
+                            {Array.from({ length: selectedSeats }).map((_, index) => (
+                              <div
+                                key={index}
+                                className='w-10 h-12 flex flex-col items-center justify-center border border-gray-400 rounded hover:bg-green-500 hover:text-[#fff] transition cursor-pointer'
+                              >
+                                <span className='text-sm font-medium'>{index + 1}</span>
+                                <div className='bg-gray-300 h-1 w-6 rounded-full mt-1'></div>
+                              </div>
+                            ))}
+                          </div>
+                        </div>
+                      </div>
+                      <div className='flex justify-center mb-[-17px] items-center gap-2'>
+                        <p className=' bg-gray-300 px-5 text-[12px] text-gray-500 '>{t('Buyticket:rear')}</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </LocalizationProvider>
+
+              <div className='flex flex-wrap gap-4 text-sm'>
+                <label className='flex items-center gap-2'>
+                  <input type='checkbox' value='Water Bottle' /> Nước suối
+                </label>
+                <label className='flex items-center gap-2'>
+                  <input type='checkbox' value='Pillow' /> Gối
+                </label>
+                <label className='flex items-center gap-2'>
+                  <input type='checkbox' value='Wifi' /> Wifi
+                </label>
+              </div>
+
+              <div className='flex justify-end gap-2 pt-4 border-t border-gray-200'>
+                <button className='bg-blue-600 text-[#fff] px-4 py-2 rounded-md hover:bg-blue-700'>Lưu</button>
+                <button
+                  onClick={handleAddTicket}
+                  className='bg-gray-300 text-black px-4 py-2 rounded-md hover:bg-gray-400'
+                >
+                  Hủy
+                </button>
+              </div>
+            </div>
+          </div>
+          <style>
+            {`  
+              @keyframes slideDown{
+              0% {
+              top: 0;
+                transform: traslateY(-100%); opacity: 0; 
+              }
+                100% {
+                  transform: traslateY(-100%); opacity: 1; 
+                }
+              }
+                @keyframes slideUp{
+                0% {
+                  top: 0;
+                  transform: translateY(0); opacity: 1; 
+                }
+                100% {
+                  transform: translateY(-100%); opacity: 0;
+              }
+            `}
+          </style>
+        </div>
+      )}
     </div>
   )
 }

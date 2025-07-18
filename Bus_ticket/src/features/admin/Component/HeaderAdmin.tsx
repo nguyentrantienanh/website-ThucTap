@@ -20,7 +20,7 @@ const adminNav = [
     icon: 'check',
     sub: [
       { id: '1', name: 'Chờ duyệt', path: '/admin/booked-tickets/pending' },
-      { id: '2', name: 'Đã duyệt', path: '/admin/booked-tickets/approved' },
+      { id: '2', name: 'Đã duyệt', path: '/admin/booked-tickets/confirmed' },
       { id: '3', name: 'Bị từ chối', path: '/admin/booked-tickets/rejected' }
     ]
   },

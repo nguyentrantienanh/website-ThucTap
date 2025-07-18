@@ -7,13 +7,9 @@ import ReCAPTCHA from 'react-google-recaptcha'
 import FacebookLoginButton from '../../services/FacebookLoginButton'
 
 export default function Signin() {
-  const handleGoogleLogin = async (response: any) => {
-    console.log('Google Login Success:', response)
-  }
+  const handleGoogleLogin = async () => {}
 
-  const handleGoogleLoginError = () => {
-    console.error('Google Login Failed')
-  }
+  const handleGoogleLoginError = () => {}
 
   const login = useGoogleLogin({
     onSuccess: handleGoogleLogin,
@@ -27,7 +23,7 @@ export default function Signin() {
   }
 
   const handleFacebookLogin = (user: any) => {
-    console.log('Facebook Login Success:', user)
+    // Xử lý đăng nhập với Facebook
   }
 
   return (

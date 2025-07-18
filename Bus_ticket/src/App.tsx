@@ -30,6 +30,10 @@ import LayoutAdmin from './features/admin/LayoutAdmin'
 import Dashboardadmin from './features/admin/Page/Administer/Dashboard'
 import Statistics from './features/admin/Page/Administer/Statistics'
 import TicketManagement from './features/admin/Page/TicketManagement'
+import BookedTickets from './features/admin/Page/Booked/BookedTickets'
+import Rejected from './features/admin/Page/Booked/Rejected'
+import Pending from './features/admin/Page/Booked/Pending'
+import Confirmed from './features/admin/Page/Booked/Confirmed'
 
 // import ScrollToShow from './services/ScrollToShow'
 import './App.css'
@@ -137,10 +141,8 @@ function AppRoutes() {
 }
 
 function AdminRoutes() {
-  const hideHeaderFooter = ['/admin']
   return (
     <>
-      <ScrollToTop />
       <Routes>
         <Route path='/admin' element={<SigninAdmin />} />
 
@@ -155,6 +157,10 @@ function AdminRoutes() {
           <Route path='dashboard' element={<Dashboardadmin />} />
           <Route path='statistics' element={<Statistics />} />
           <Route path='manage-tickets' element={<TicketManagement />} />
+          <Route path='booked-tickets' element={<BookedTickets />} />
+          <Route path='booked-tickets/rejected' element={<Rejected />} />
+          <Route path='booked-tickets/pending' element={<Pending />} />
+          <Route path='booked-tickets/confirmed' element={<Confirmed />} />
         </Route>
       </Routes>
     </>

@@ -7,7 +7,7 @@ export default function Statistics() {
   return (
     <>
       <div className='flex flex-col h-full px-2 w-full p-4  pt-2 '>
-        <div className='py-3 flex justify-between px-3 items-center text-center w-full   '>
+        <div className='py-3 flex justify-between px-3 items-center text-center w-full  shadow-md bg-[#fff] rounded-lg '>
           <h1 className='text-3xl font-bold text-gray-700'>Thống kê</h1>
         </div>
         <div className=' w-full   flex  flex-col rounded-lg p-4 m-2 bg-gray-100 shadow-md'>

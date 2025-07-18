@@ -20,7 +20,6 @@ export default function Signin() {
   const [userInfo, setUserInfo] = useState<UserInfo | null>(null)
   // Hàm xử lý đăng nhập thành công với Google
   const handleGoogleLogin = async (response: any) => {
-    console.log('Google Login Success:', response)
     try {
       // Gọi API để lấy thông tin người dùng từ Google
       const userData = await axios.get(
@@ -54,12 +53,11 @@ export default function Signin() {
   // Hàm xử lý captcha
   const [captchaValue, setCaptchaValue] = useState(false)
   const handleCaptchaChange = (value: string | null) => {
-    console.log('Captcha value:', value)
     setCaptchaValue(!!value) // Chuyển đổi giá trị thành boolean
   }
 
   const handleFacebookLogin = (user: any) => {
-    console.log('Facebook Login Success:', user)
+    // Xử lý đăng nhập với Facebook
   }
 
   // luu thông tin người dùng vào localStorage

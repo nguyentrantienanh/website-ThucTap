@@ -29,13 +29,14 @@ function Tickets() {
 
   return (
     <>
-      <div className='   bg-[#fff]   px-2 sm:px-4 md:px-10 py-6'>
+      <div className='bg-[#fff] px-2 sm:px-4 md:px-10 py-6'>
         <div className='overflow-x-auto'>
-          <table className='min-w-full bg-[#1ba000] table-fixed rounded-t-2xl text-[13px]'>
+          <table className='min-w-full bg-[#1ba000] rounded-t-2xl text-[13px]'>
             <thead>
-              <tr className='text-[#fff]  whitespace-nowrap '>
-                <th className='py-2 px-2 text-left w-[100px]'>PNR</th>
-                <th className='py-2 px-2 text-left w-[100px]'>AC / Non-AC</th>
+              <tr className='text-[#fff] [#fff]space-nowrap'>
+                <th className='py-2 px-2 text-left w-[90px]'>ID</th>
+                <th className='py-2 px-2 text-left w-[90px]'>PNR</th>
+                <th className='py-2 px-2 text-left  text-nowrap'>AC / Non-AC</th>
                 <th className='py-2 px-2 text-left w-[120px]'>Start</th>
                 <th className='py-2 px-2 text-left w-[120px]'>Drop</th>
                 <th className='py-2 px-2 text-left w-[100px]'>Date</th>
@@ -43,14 +44,15 @@ function Tickets() {
                 <th className='py-2 px-2 text-left w-[120px]'>Seats</th>
                 <th className='py-2 px-2 text-left w-[100px]'>Status</th>
                 <th className='py-2 px-2 text-left w-[80px]'>Fare</th>
-                <th className='py-2 px-2 text-left w-[80px]'>Action</th>
+                <th className='py-2 px-2 text-center'>Info</th>
               </tr>
             </thead>
 
             <tbody>
               {ve.length > 0 ? (
                 ve.map((item: any, index: number) => (
-                  <tr key={index} className='bg-[#fff] text-xs text-gray-800 whitespace-nowrap'>
+                  <tr key={index} className='bg-[#fff] text-xs text-gray-800   space-nowrap border-b'>
+                    <td className='py-2 px-2 text-gray-500'>{item.id}</td>
                     <td className='py-2 px-2 text-[#4447ff]'>{item.ticketId}</td>
                     <td className='py-2 px-2 text-[#a7a7a7]'>{item.type}</td>
                     <td className='py-2 px-2 text-[#04b925]  '> {t(`${item.diemDen}`)}</td>
@@ -98,7 +100,7 @@ function Tickets() {
                 ))
               ) : (
                 <tr>
-                  <td colSpan={10} className='text-center text-gray-500  bg-[#fff] py-4'>
+                  <td colSpan={11} className='text-center text-gray-500  bg-[#fff] py-4'>
                     No tickets booked yet.
                   </td>
                 </tr>

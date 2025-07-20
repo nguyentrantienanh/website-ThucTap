@@ -10,11 +10,9 @@ function TicketConfirmed() {
 
   const { t } = useTranslation('Home')
 
-  const seats = ve
-    .map((item: any) => item.seats)
-    .map((item: any) => {
-      return item.map((seat: any) => seat.name)
-    })
+  const seats = ConfirmedTickets.map((item: any) => item.seats).map((item: any) => {
+    return item.map((seat: any) => seat.name)
+  })
 
   // click thông tin vé
   const [informationticket, setinformationticket] = useState(false)
@@ -33,6 +31,7 @@ function TicketConfirmed() {
           <table className='min-w-full bg-[#1ba000] table-fixed rounded-t-2xl text-[13px]'>
             <thead>
               <tr className='text-[#fff]  whitespace-nowrap '>
+                <th className='py-2 px-2 text-left w-[90px]'>ID</th>
                 <th className='py-2 px-2 text-left w-[90px]'>PNR</th>
                 <th className='py-2 px-2 text-left w-[90px]'>AC / Non-AC</th>
                 <th className='py-2 px-2 text-left w-[120px]'>Start</th>
@@ -42,13 +41,14 @@ function TicketConfirmed() {
                 <th className='py-2 px-2 text-left w-[120px]'>Seats</th>
                 <th className='py-2 px-2 text-left w-[100px]'>Status</th>
                 <th className='py-2 px-2 text-left w-[80px]'>Fare</th>
-                <th className='py-2 px-2 text-left w-[80px]'>Action</th>
+                <th className='py-2 px-2 text-left w-[80px]'>Info</th>
               </tr>
             </thead>
             <tbody>
               {ConfirmedTickets.length > 0 ? (
                 ConfirmedTickets.map((item: any, index: number) => (
                   <tr key={index} className='bg-[#fff] text-xs text-gray-800 whitespace-nowrap'>
+                    <td className='py-2 px-2 text-gray-500'>{item.id}</td>
                     <td className='py-2 px-2 text-blue-600'>{item.ticketId}</td>
                     <td className='py-2 px-2 text-gray-500'>{item.type}</td>
                     <td className='py-2 px-2 text-green-600'>{t(item.diemDen)}</td>
@@ -78,7 +78,7 @@ function TicketConfirmed() {
                 ))
               ) : (
                 <tr>
-                  <td colSpan={10} className='text-center py-4 bg-gray-300 text-gray-500'>
+                  <td colSpan={11} className='text-center py-4 bg-gray-300 text-gray-500'>
                     No confirmed tickets found
                   </td>
                 </tr>

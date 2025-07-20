@@ -8,7 +8,6 @@ import Contact from './Page/Contact'
 import Buyticket from './Page/Buytickets/Buytickets'
 import Ticket from './Page/Buytickets/Buyticket'
 import Page404 from './Page/page404'
-import ScrollToTop from './services/ScrollToTop'
 import LoadingPage from './Page/Loding'
 import Signin from './Component/auth/Signin'
 import Signup from './Component/auth/Signup'
@@ -34,8 +33,14 @@ import BookedTickets from './features/admin/Page/Booked/BookedTickets'
 import Rejected from './features/admin/Page/Booked/Rejected'
 import Pending from './features/admin/Page/Booked/Pending'
 import Confirmed from './features/admin/Page/Booked/Confirmed'
+import UserAccount from './features/admin/Page/Account/UserAccount'
+import UserAccountActive from './features/admin/Page/Account/Active'
+import UserAccountLocked from './features/admin/Page/Account/Locked'
 
+// services
+import ScrollToTop from './services/ScrollToTop'
 // import ScrollToShow from './services/ScrollToShow'
+import { ExpiredTickets } from './services/Expiredtickets'
 import './App.css'
 import { BrowserRouter, HashRouter, Routes, Route } from 'react-router-dom'
 import Dashboard from './features/user/Dashboard'
@@ -161,6 +166,10 @@ function AdminRoutes() {
           <Route path='booked-tickets/rejected' element={<Rejected />} />
           <Route path='booked-tickets/pending' element={<Pending />} />
           <Route path='booked-tickets/confirmed' element={<Confirmed />} />
+          <Route path='users' element={<UserAccount />} />
+          <Route path='users/account-active' element={<UserAccountActive />} />
+          <Route path='users/account-locked' element={<UserAccountLocked />} />
+          <Route path='*' element={<Page404 />} />
         </Route>
       </Routes>
     </>
@@ -174,6 +183,10 @@ function App() {
 }
 
 export default function RootApp() {
+  // Xử lý vé hết hạn
+  useEffect(() => {
+    ExpiredTickets()
+  }, [])
   return (
     <BrowserRouter>
       <App />

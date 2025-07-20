@@ -8,8 +8,13 @@ import FacebookLoginButton from '../../services/FacebookLoginButton'
 import axios from 'axios'
 
 type UserInfo = {
+  id: number
   email: string
   firstname: string
+  status: number
+  username?: string
+  password?: string
+  address?: string
   lastname: string
   googleId: string
   imageUrl: string
@@ -18,25 +23,47 @@ type UserInfo = {
 
 export default function Signin() {
   const [userInfo, setUserInfo] = useState<UserInfo | null>(null)
-  // Hàm xử lý đăng nhập thành công với Google
   const handleGoogleLogin = async (response: any) => {
     try {
-      // Gọi API để lấy thông tin người dùng từ Google
-      const userData = await axios.get(
+      const { data } = await axios.get(
         `https://www.googleapis.com/oauth2/v3/userinfo?access_token=${response.access_token}`
       )
-      const user: UserInfo = {
-        email: userData.data.email,
-        firstname: userData.data.family_name,
-        lastname: userData.data.given_name,
-        googleId: userData.data.sub,
-        imageUrl: userData.data.picture,
-        name: userData.data.name
+
+      // Lấy danh sách user đã lưu
+      const userList: UserInfo[] = JSON.parse(localStorage.getItem('userList') || '[]')
+
+      // Kiểm tra xem người dùng đã tồn tại chưa (dựa vào googleId)
+      const existingUser = userList.find((u) => u.googleId === data.sub)
+
+      let user: UserInfo
+
+      if (existingUser) {
+        // Nếu đã có, dùng lại thông tin cũ
+        user = existingUser
+      } else {
+        // Nếu chưa có, tạo user mới và thêm vào danh sách
+        user = {
+          id: Date.now(), // Gán ID mới
+          email: data.email,
+          firstname: data.family_name,
+          lastname: data.given_name,
+          googleId: data.sub,
+          imageUrl: data.picture,
+          name: data.name,
+          status: 1
+        }
+
+        userList.push(user)
+        localStorage.setItem('userList', JSON.stringify(userList))
       }
-      setUserInfo(user)
+
+      // Lưu thông tin user đang đăng nhập
+      localStorage.setItem('userInfo', JSON.stringify(user))
+
+      // Chuyển hướng sang dashboard
       window.location.href = '/user/dashboard'
     } catch (error) {
-      console.error('Error fetching user data:', error)
+      console.error('Lỗi đăng nhập Google:', error)
     }
   }
 
@@ -72,6 +99,17 @@ export default function Signin() {
     if (storedUserInfo) {
       setUserInfo(JSON.parse(storedUserInfo))
     }
+  }, [])
+
+  const [username, setUsername] = useState('')
+  const [password, setPassword] = useState('')
+  useEffect(() => {
+    window.addEventListener('pageshow', (e) => {
+      if (e.persisted) {
+        setUsername('')
+        setPassword('')
+      }
+    })
   }, [])
 
   return (
@@ -117,6 +155,9 @@ export default function Signin() {
                 <input
                   type='username'
                   id='username'
+                  autoComplete='new-username'
+                  value={username}
+                  onChange={(e) => setUsername(e.target.value)}
                   className='mt-1   w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none  focus:ring-green-500 focus:shadow-green-300 focus:border-green-500 sm:text-sm'
                   placeholder='Enter Your username'
                 />
@@ -128,6 +169,9 @@ export default function Signin() {
                 <input
                   type='password'
                   id='password'
+                  value={password}
+                  autoComplete='new-password'
+                  onChange={(e) => setPassword(e.target.value)}
                   className='mt-1   w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none  focus:ring-green-500 focus:shadow-green-300 focus:border-green-500 sm:text-sm'
                   placeholder='Enter Your password'
                 />

@@ -2,7 +2,6 @@ import { Link, useLocation } from 'react-router-dom'
 import logo from '../../../assets/logo/Bus_Ticket_Header.png'
 import Icon from '../../../icons/Icon'
 import { useState } from 'react'
-import { set } from 'date-fns'
 
 const adminNav = [
   {
@@ -30,8 +29,8 @@ const adminNav = [
     path: '/admin/users',
     icon: 'user',
     sub: [
-      { id: '1', name: 'Hoạt động', path: '/admin/users/active' },
-      { id: '2', name: 'Bị khóa', path: '/admin/users/banned' }
+      { id: '1', name: 'Hoạt động', path: '/admin/users/account-active' },
+      { id: '2', name: 'Bị khóa', path: '/admin/users/account-locked' }
     ]
   },
   { id: 5, name: 'Hỗ trợ khách hàng', path: '/admin/support', icon: 'support' }

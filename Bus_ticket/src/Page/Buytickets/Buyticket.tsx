@@ -81,7 +81,9 @@ export default function Buyticket() {
         }
       })
       // lưu thông tin đặt vé
+      const newId = Date.now()
       const bookingDetails = {
+        id: newId,
         ticketId: ticketId,
         type: ticket().find((item) => item.id === ticketId)?.type,
         dateStart: calendar,
@@ -90,7 +92,8 @@ export default function Buyticket() {
         starttime: ticket().find((item) => item.id === ticketId)?.starttime,
         seats: seats,
         price: tongtien,
-        status: 3
+        status: 3,
+        timestamp: new Date().toISOString()
       }
       // Kiểm tra nếu ghế đã được đặt trước
       const stored = localStorage.getItem('vedadat')
@@ -124,6 +127,7 @@ export default function Buyticket() {
       window.alert(t('Buyticket:please_login'))
     }
   }
+
   // Tính toán giá vé dựa trên id
   // const tien = ticket.find((item) => item.id === parseInt(id || ''))?.price || 0
   // const tongtien = Number(tien)
@@ -159,11 +163,13 @@ export default function Buyticket() {
             {group.map((seat) => {
               let isBooked = false
               if (veData) {
+                // kiểm tra nếu có dữ liệu vé đã đặt và isBooked sẽ là true nếu ghế đã được đặt
                 isBooked =
                   veData.filter(
                     (booking: any) => booking.seats.some((s: any) => s.id === seat.id) && booking.dateStart === calendar
                   ).length > 0
               }
+
               return (
                 <div
                   key={seat?.id}

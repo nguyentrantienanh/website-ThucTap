@@ -164,6 +164,18 @@ function Icon(props: { name: string }) {
   } else if (props.name == 'x-circle') {
     // Dấu X tròn
     return <i className='fa-solid fa-xmark-circle'></i>
+  } else if (props.name == 'money') {
+    // Biểu tượng tiền
+    return <i className='fa-solid fa-money-check-dollar'></i>
+  } else if (props.name == 'eye') {
+    // Biểu tượng mắt (hiện mật khẩu)
+    return <i className='fa-solid fa-eye'></i>
+  } else if (props.name == 'eye-off') {
+    // Biểu tượng mắt bị gạch chéo (ẩn mật khẩu)
+    return <i className='fa-solid fa-eye-slash'></i>
+  } else if (props.name == 'lock') {
+    // Biểu tượng khóa
+    return <i className='fa-solid fa-lock'></i>
   }
 }
 

@@ -22,7 +22,7 @@ export default function SupportTicket() {
                 <th className='py-2 px-2   '>Status</th>
                 <th className='py-2 px-4  '>Priority</th>
                 <th className='py-2 px-4  '>Last Reply</th>
-                <th className='py-2 px-4  text-end'>Action</th>
+                <th className='py-2 px-4  text-end'>Info</th>
               </tr>
             </thead>
 

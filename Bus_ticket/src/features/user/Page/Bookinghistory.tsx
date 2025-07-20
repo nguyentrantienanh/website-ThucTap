@@ -28,38 +28,39 @@ export function Booking() {
 
   return (
     <>
-      <div className=' bg-[#ececec]  '>
-        <div className=' mx-10 py-10 '>
-          <table className='min-w-full bg-[#1ba000]  rounded-t-2xl  text-[15px] '>
+      <div className='bg-[#fff] px-2 sm:px-4 md:px-10 py-6'>
+        <div className='overflow-x-auto'>
+          <table className='min-w-full bg-[#1ba000] rounded-t-2xl text-[13px]'>
             <thead>
-              <tr className='  text-[#fff] '>
-                <th className='py-2 px-4   '>PNR Number</th>
-                <th className='py-2 px-4  '>AC / Non-Ac</th>
-                <th className='py-2 px-4 '>Starting Point</th>
-                <th className='py-2 px-4 '>Dropping Point</th>
-                <th className='py-2 px-4 '>Journey Date</th>
-                <th className='py-2 px-4 '>Pickup Time</th>
-                <th className='py-2 px-4 '>Booked Seats</th>
-                <th className='py-2 px-4 '>Status</th>
-                <th className='py-2 px-4 '>Fare</th>
-                <th className='py-2 px-4 '>Action</th>
+              <tr className='text-[#fff] [#fff]space-nowrap'>
+                <th className='py-2 px-2 text-left w-[90px]'>ID</th>
+                <th className='py-2 px-2 text-left w-[90px]'>PNR</th>
+                <th className='py-2 px-2 text-left  text-nowrap'>AC / Non-AC</th>
+                <th className='py-2 px-2 text-left w-[120px]'>Start</th>
+                <th className='py-2 px-2 text-left w-[120px]'>Drop</th>
+                <th className='py-2 px-2 text-left w-[100px]'>Date</th>
+                <th className='py-2 px-2 text-left w-[80px]'>Time</th>
+                <th className='py-2 px-2 text-left w-[120px]'>Seats</th>
+                <th className='py-2 px-2 text-left w-[100px]'>Status</th>
+                <th className='py-2 px-2 text-left w-[80px]'>Fare</th>
+                <th className='py-2 px-2 text-center'>Info</th>
               </tr>
             </thead>
 
             <tbody>
               {ve.length > 0 ? (
                 ve.map((item: any, index: number) => (
-                  <tr key={index} className='text-[#000] bg-[#fff] text-nowrap text-[14px]'>
-                    <td className='py-2 px-4 text-[#4447ff]'>{item.ticketId}</td>
-                    <td className='py-2 px-4 text-[#a7a7a7]'>{item.type}</td>
-                    <td className='py-2 px-4 text-[#04b925]  '> {t(`Home:${item.diemDen}`)}</td>
-                    <td className='py-2 px-4 text-[#04b925]'> {t(`Home:${item.diemDi}`)} </td>
-                    <td className='py-2 px-4 text-[#4c4c4c] font-medium'>{item.dateStart}</td>
-                    <td className='py-2 px-4 text-[#7337ff] font-mono'>{item.starttime}</td>
-                    <td className='py-2 px-4 text-[#04b925]'>{seats[index].join(',')}</td>
-                    {/* <td className='py-2 px-4 text-[#7337ff] font-mono'>{item.status}</td> */}
+                  <tr key={index} className='bg-[#fff] text-xs text-gray-800 [#fff]space-nowrap border-b'>
+                    <td className='py-2 px-2 text-gray-500'>{item.id}</td>
+                    <td className='py-2 px-2 text-[#4447ff]'>{item.ticketId}</td>
+                    <td className='py-2 px-2 text-[#a7a7a7]'>{item.type}</td>
+                    <td className='py-2 px-2 text-[#04b925]  '> {t(`${item.diemDen}`)}</td>
+                    <td className='py-2 px-2 text-[#04b925]'> {t(`${item.diemDi}`)} </td>
+                    <td className='py-2 px-2 text-[#4c4c4c] font-medium'>{item.dateStart}</td>
+                    <td className='py-2 px-2 text-[#7337ff] font-mono'>{item.starttime}</td>
+                    <td className='py-2 px-2 text-[#04b925]'>{seats[index].join(',')}</td>
 
-                    <td className='py-2 px-4'>
+                    <td className='py-2 px-2'>
                       {Status.map((status) => {
                         if (item.status === status.id) {
                           return (
@@ -75,12 +76,12 @@ export function Booking() {
                       })}
                     </td>
 
-                    <td className='py-2 px-4 text-[#1645ff] text-nowrap'>
+                    <td className='py-2 px-2 text-[#1645ff] text-nowrap'>
                       ${item.price} <span className=''>USD</span>
                     </td>
                     {/* thông tin vé */}
 
-                    <td className='py-2 px-4'>
+                    <td className='py-2 px-2'>
                       <button
                         onClick={() => {
                           setinformationticket(true)
@@ -98,7 +99,7 @@ export function Booking() {
                 ))
               ) : (
                 <tr>
-                  <td colSpan={10} className='text-center text-gray-500  bg-[#fff] py-4'>
+                  <td colSpan={11} className='text-center text-gray-500  bg-[#fff] py-4'>
                     No tickets booked yet.
                   </td>
                 </tr>

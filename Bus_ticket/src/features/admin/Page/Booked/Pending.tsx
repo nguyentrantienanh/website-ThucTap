@@ -9,11 +9,9 @@ function TicketPending() {
 
   const { t } = useTranslation('Home')
 
-  const seats = ve
-    .map((item: any) => item.seats)
-    .map((item: any) => {
-      return item.map((seat: any) => seat.name)
-    })
+  const seats = PendingTickets.map((item: any) => item.seats).map((item: any) => {
+    return item.map((seat: any) => seat.name)
+  })
 
   // click thông tin vé
   const [informationticket, setinformationticket] = useState(false)
@@ -24,10 +22,10 @@ function TicketPending() {
   // thongtinve
   const thongtinve = JSON.parse(localStorage.getItem('thongtinve') || '{}')
 
-  // hàm xử lý xác nhận vé xách nhận status === 1
-  const handleConfirm = (ticketId: string) => {
+  // hàm xử lý xác nhận vé xách nhận status === 1   lấy id
+  const handleConfirm = (id: number) => {
     const updatedTickets = ve.map((item: any) => {
-      if (item.ticketId === ticketId) {
+      if (item.id === id) {
         return { ...item, status: 1 }
       }
       return item
@@ -35,10 +33,11 @@ function TicketPending() {
     localStorage.setItem('vedadat', JSON.stringify(updatedTickets))
     window.location.reload()
   }
+
   // hàm xử lý hủy vé status === 2
-  const handleCancel = (ticketId: string) => {
+  const handleCancel = (Id: string) => {
     const updatedTickets = ve.map((item: any) => {
-      if (item.ticketId === ticketId) {
+      if (item.id === Id) {
         return { ...item, status: 2 }
       }
       return item
@@ -54,8 +53,9 @@ function TicketPending() {
           <table className='min-w-full bg-[#1ba000] rounded-t-2xl text-[13px]'>
             <thead>
               <tr className='text-[#fff] [#fff]space-nowrap'>
+                <th className='py-2 px-2 text-left w-[90px]'>ID</th>
                 <th className='py-2 px-2 text-left w-[90px]'>PNR</th>
-                <th className='py-2 px-2 text-left w-[90px]'>AC / Non-AC</th>
+                <th className='py-2 px-2 text-left  text-nowrap'>AC / Non-AC</th>
                 <th className='py-2 px-2 text-left w-[120px]'>Start</th>
                 <th className='py-2 px-2 text-left w-[120px]'>Drop</th>
                 <th className='py-2 px-2 text-left w-[100px]'>Date</th>
@@ -64,13 +64,14 @@ function TicketPending() {
                 <th className='py-2 px-2 text-left w-[100px]'>Status</th>
                 <th className='py-2 px-2 text-left w-[80px]'>Fare</th>
                 <th className='py-2 px-2 text-center'>Info</th>
-                <th className='py-2 px-2 text-left w-[80px]'>Action</th>
+                <th className='py-2 px-2 text-left w-[80px]'> Action</th>
               </tr>
             </thead>
             <tbody>
               {PendingTickets.length > 0 ? (
                 PendingTickets.map((item: any, index: number) => (
                   <tr key={index} className='bg-[#fff] text-xs text-gray-800 [#fff]space-nowrap border-b'>
+                    <td className='py-2 px-2 text-gray-500'>{item.id}</td>
                     <td className='py-2 px-2 text-blue-600'>{item.ticketId}</td>
                     <td className='py-2 px-2 text-gray-500'>{item.type}</td>
                     <td className='py-2 px-2 text-green-600'>{t(item.diemDen)}</td>
@@ -101,13 +102,13 @@ function TicketPending() {
                     <td className='py-2 px-2'>
                       <div className='flex justify-center space-x-2'>
                         <button
-                          onClick={() => handleConfirm(item.ticketId)}
+                          onClick={() => handleConfirm(item.id)}
                           className='bg-green-500 hover:bg-green-600 text-[#fff] px-3 py-1 rounded-md text-xs transition whitespace-nowrap'
                         >
                           Xác nhận
                         </button>
                         <button
-                          onClick={() => handleCancel(item.ticketId)}
+                          onClick={() => handleCancel(item.id)}
                           className='bg-red-500 hover:bg-red-600 text-[#fff] px-3 py-1 rounded-md text-xs transition'
                         >
                           Hủy
@@ -118,7 +119,7 @@ function TicketPending() {
                 ))
               ) : (
                 <tr>
-                  <td colSpan={11} className='text-center bg-gray-100 py-4 text-gray-500'>
+                  <td colSpan={12} className='text-center bg-gray-100 py-4 text-gray-500'>
                     No Pending tickets found.
                   </td>
                 </tr>

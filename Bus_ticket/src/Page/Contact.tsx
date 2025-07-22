@@ -10,45 +10,45 @@ function Contact() {
         className=' w-full h-50 flex items-center justify-center  '
         style={{ backgroundImage: `url(${backgroundContact})`, backgroundSize: 'cover', backgroundPosition: 'center' }}
       >
-        <div className='w-full h-full flex items-center justify-center bg-[#00000068]  '>
+        <div className=' w-full h-full flex items-center justify-center bg-[#00000068] '>
           <h1 className='text-4xl font-bold mb-4 text-[#fff]  '>{t('title')}</h1>
         </div>
       </div>
-      <section className='w-full  flex flex-col items-center gap-5 px-10 py-5 bg-[#f9f9f9] xl:px-[25%]'>
+      <section className='flex flex-col gap-5 xl:px-[15%] bg-[#f9f9f9]'>
         <div className='flex py-10 flex-col gap-3 items-center'>
-          <strong className='text-[34px]'>{t('letsGetInTouch')}</strong>
-          <span className='text-[18px] text-gray-500'>{t('subtitle')}</span>
+          <strong className='text-[30px]  font-bold'>{t('letsGetInTouch')}</strong>
+          <span className='text-[16px]   text-gray-600'>{t('subtitle')}</span>
         </div>
-        <div className=' py-10 grid grid-cols-3 gap-20 w-full h-full justify-items-center '>
-          <div className='w-full h-30 flex border-1 p-5 border-[#0e9e4d] gap-3 rounded-2xl'>
+        <div className='grid grid-cols-1 md:grid-cols-3 gap-5 px-5'>
+          <div className='w-full h-30 flex border-1 py-5 px-2 lg:px-5 border-[#0e9e4d] gap-3 rounded-2xl'>
             <i className=' text-2xl text-[#0e9e4d] pt-1'>
               <Icon name='address' />
             </i>
             <div className='items-start flex flex-col'>
-              <strong className='text-[30px]'>{t('addressTitle')}</strong>
+              <strong className='text-[20px] sm:text-[20px] lg:text-[24px] '>{t('addressTitle')}</strong>
               <p className='text-[16px] text-gray-300'>{t('address')}</p>
             </div>
           </div>
-          <div className='w-full h-30 flex border-1 p-5 border-[#0e9e4d] gap-3 rounded-2xl'>
+          <div className='w-full h-30 flex border-1 py-5 px-2 lg:px-5 border-[#0e9e4d] gap-3 rounded-2xl'>
             <i className=' text-2xl text-[#0e9e4d] pt-1'>
               <Icon name='phone' />
             </i>
             <div className='items-start flex flex-col'>
-              <strong className='text-[30px]'>{t('callTitle')}</strong>
+              <strong className='text-[20px] sm:text-[20px] lg:text-[24px]'>{t('callTitle')}</strong>
               <p className='text-[16px] text-gray-300'>{t('phone')}</p>
             </div>
           </div>
-          <div className='w-full h-30 flex border-1 p-5 border-[#0e9e4d] gap-3 rounded-2xl'>
+          <div className='w-full h-30 flex border-1 py-5 px-2 lg:px-5 border-[#0e9e4d] gap-3 rounded-2xl'>
             <i className=' text-2xl text-[#0e9e4d] pt-1'>
               <Icon name='email' />
             </i>
             <div className='items-start flex flex-col'>
-              <strong className='text-[30px]'>{t('emailTitle')}</strong>
+              <strong className='text-[20px] sm:text-[20px] lg:text-[24px]'>{t('emailTitle')}</strong>
               <p className='text-[16px] text-gray-300'>{t('email')}</p>
             </div>
           </div>
         </div>
-        <div className='grid grid-cols-2 gap-5 mt-5 w-full justify-items-center'>
+        <div className='grid grid-cols-1 md:grid-cols-2 gap-5 px-5 py-5'>
           <div className='w-full h-full p-5  shadow-lg rounded-lg'>
             <form action='' className='flex flex-col gap-3'>
               <strong>{t('formTitle')}</strong>
@@ -100,7 +100,7 @@ function Contact() {
               </div>
             </form>
           </div>
-          <div className=' w-full h-full  '>
+          <div className='w-full h-full shadow-lg rounded-lg  '>
             <iframe
               className=' w-full h-full'
               data-src='https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d15596.876986944912!2d109.1959979!3d12.233429!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x317067afcd045dbf%3A0x4feb318618fc1dcf!2sAdamas%20Boutique%20Hotel!5e0!3m2!1svi!2s!4v1714620728105!5m2!1svi!2s'

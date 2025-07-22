@@ -8,9 +8,7 @@ export const ticket = () => {
         seatLayout: '2x2',
         type: 'AC',
         starttime: '08:00 AM',
-        startingpoint: 'Home_location.Ha Noi',
         endtime: '04:30 PM',
-        endpoint: 'Home_location.Phu Quoc',
         timetogo: '08:30 min',
         offday: 'Friday',
         facilities: ['Water Bottle', 'Pillow', 'Wifi'],
@@ -56,9 +54,7 @@ export const ticket = () => {
         seatLayout: '2x2',
         type: 'AC',
         starttime: '09:00 AM',
-        startingpoint: 'Home_location.Ho Chi Minh',
         endtime: '05:30 PM',
-        endpoint: 'Home_location.Quy Nhon',
         timetogo: '08:30 min',
         offday: 'Friday',
         facilities: ['Water Bottle', 'Pillow', 'Wifi'],
@@ -117,9 +113,7 @@ export const ticket = () => {
         seatLayout: '2x2',
         type: 'AC',
         starttime: '10:00 AM',
-        startingpoint: 'Home_location.Da Nang',
         endtime: '06:30 PM',
-        endpoint: 'Home_location.Vung Tau',
         timetogo: '08:30 min',
         offday: 'Friday',
         facilities: ['Water Bottle', 'Pillow', 'Wifi'],
@@ -189,9 +183,7 @@ export const ticket = () => {
         seatLayout: '2x2',
         type: 'AC',
         starttime: '11:00 AM',
-        startingpoint: 'Home_location.Nha Trang',
         endtime: '07:30 PM',
-        endpoint: 'Home_location.Hue',
         timetogo: '08:30 min',
         offday: 'Friday',
         facilities: ['Water Bottle', 'Pillow', 'Wifi'],
@@ -241,9 +233,7 @@ export const ticket = () => {
         seatLayout: '2x2',
         type: 'AC',
         starttime: '11:00 PM',
-        startingpoint: 'Home_location.Can Tho',
         endtime: '08:30 AM',
-        endpoint: 'Home_location.Da Lat',
         timetogo: '08:30 min',
         offday: 'Friday',
         facilities: ['Water Bottle', 'Pillow', 'Wifi'],
@@ -320,9 +310,9 @@ export const ticket = () => {
           seatLayout: '2x2',
           type: 'AC',
           starttime: '07:00 AM',
-          startingpoint: 'Home_location.Ha Noi',
+
           endtime: '03:00 PM',
-          endpoint: 'Home_location.Hue',
+
           timetogo: '08:00 min',
           offday: 'Monday',
           facilities: ['Water Bottle', 'Pillow'],
@@ -344,9 +334,9 @@ export const ticket = () => {
           seatLayout: '2x2',
           type: 'AC',
           starttime: '06:00 AM',
-          startingpoint: 'Home_location.Ho Chi Minh',
+
           endtime: '02:00 PM',
-          endpoint: 'Home_location.Da Lat',
+
           timetogo: '08:00 min',
           offday: 'Tuesday',
           facilities: ['Water Bottle', 'Wifi'],
@@ -368,9 +358,9 @@ export const ticket = () => {
           seatLayout: '2x2',
           type: 'AC',
           starttime: '05:00 AM',
-          startingpoint: 'Home_location.Da Nang',
+
           endtime: '01:00 PM',
-          endpoint: 'Home_location.Ho Chi Minh',
+
           timetogo: '08:00 min',
           offday: 'Wednesday',
           facilities: ['Pillow', 'Wifi'],
@@ -392,9 +382,9 @@ export const ticket = () => {
           seatLayout: '2x2',
           type: 'AC',
           starttime: '08:30 AM',
-          startingpoint: 'Home_location.Hue',
+
           endtime: '04:30 PM',
-          endpoint: 'Home_location.Nha Trang',
+
           timetogo: '08:00 min',
           offday: 'Thursday',
           facilities: ['Water Bottle'],
@@ -416,9 +406,9 @@ export const ticket = () => {
           seatLayout: '2x2',
           type: 'AC',
           starttime: '09:30 AM',
-          startingpoint: 'Home_location.Quy Nhon',
+
           endtime: '05:30 PM',
-          endpoint: 'Home_location.Can Tho',
+
           timetogo: '08:00 min',
           offday: 'Friday',
           facilities: ['Pillow', 'Wifi'],
@@ -440,9 +430,9 @@ export const ticket = () => {
           seatLayout: '2x2',
           type: 'AC',
           starttime: '10:30 AM',
-          startingpoint: 'Home_location.Da Lat',
+
           endtime: '06:30 PM',
-          endpoint: 'Home_location.Ha Noi',
+
           timetogo: '08:00 min',
           offday: 'Saturday',
           facilities: ['Water Bottle', 'Pillow'],
@@ -464,9 +454,9 @@ export const ticket = () => {
           seatLayout: '2x2',
           type: 'AC',
           starttime: '11:30 AM',
-          startingpoint: 'Home_location.Vung Tau',
+
           endtime: '07:30 PM',
-          endpoint: 'Home_location.Ho Chi Minh',
+
           timetogo: '08:00 min',
           offday: 'Sunday',
           facilities: ['Water Bottle', 'Wifi'],
@@ -488,9 +478,9 @@ export const ticket = () => {
           seatLayout: '2x2',
           type: 'AC',
           starttime: '12:30 PM',
-          startingpoint: 'Home_location.Hue',
+
           endtime: '08:30 PM',
-          endpoint: 'Home_location.Da Nang',
+
           timetogo: '08:00 min',
           offday: 'Monday',
           facilities: ['Pillow'],
@@ -512,9 +502,9 @@ export const ticket = () => {
           seatLayout: '2x2',
           type: 'AC',
           starttime: '01:30 PM',
-          startingpoint: 'Home_location.Nha Trang',
+
           endtime: '09:30 PM',
-          endpoint: 'Home_location.Quy Nhon',
+
           timetogo: '08:00 min',
           offday: 'Tuesday',
           facilities: ['Water Bottle'],
@@ -536,9 +526,9 @@ export const ticket = () => {
           seatLayout: '2x2',
           type: 'AC',
           starttime: '02:30 PM',
-          startingpoint: 'Home_location.Can Tho',
+
           endtime: '10:30 PM',
-          endpoint: 'Home_location.Phu Quoc',
+
           timetogo: '08:00 min',
           offday: 'Wednesday',
           facilities: ['Wifi'],

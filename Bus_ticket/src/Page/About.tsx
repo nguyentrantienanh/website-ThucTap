@@ -16,9 +16,9 @@ function About() {
         </div>
       </div>
 
-      <section className='grid grid-cols-1 gap-5 px-10 py-5 bg-[#f9f9f9] xl:px-[20%]'>
+      <section className='grid grid-cols-1 gap-5 px-5 py-5 bg-[#f9f9f9] xl:px-[20%]'>
         <div className=' grid grid-cols-1 md:grid-cols-2'>
-          <div className=''>
+          <div className='p-1'>
             <strong className='  items-center justify-center flex md:justify-start md:items-start text-[18px] sm:text-1xl lg:text-3xl '>
               {t('knowFewWords')}
             </strong>

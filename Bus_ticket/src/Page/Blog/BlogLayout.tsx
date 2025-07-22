@@ -16,17 +16,19 @@ function BlogLayout() {
         style={{ backgroundImage: `url(${backgroundBlog})`, backgroundSize: 'cover', backgroundPosition: 'center' }}
       >
         <div className='w-full h-full flex items-center justify-center bg-[#00000068]'>
-          <h1 className='text-4xl font-bold mb-4 text-center text-[#fff] px-[40%]'>
+          <h1 className={`font-bold mb-4 text-[#fff] text-[20px] sm:text-2xl lg:text-4xl text-center  `}>
             {isDetail ? blogPost?.title : 'Blog'}
           </h1>
         </div>
       </div>
-      <div className={` flex ${isDetail ? 'px-[25%]' : ''}  `}>
-        <div className={isDetail ? 'w-4/5 bg-gray-100 pr-4  ' : ''}>
+      <div
+        className={`flex ${isDetail ? 'flex-col md:flex-row' : 'flex-col'} gap-4 px-5 py-5 bg-[#f9f9f9] xl:px-[20%]`}
+      >
+        <div className={`w-full ${isDetail ? '  md:w-4/5 ' : 'w-full'} ${isDetail ? 'md:pr-4' : ''}`}>
           <Outlet />
         </div>
         {isDetail && (
-          <div className='w-120 p-4 bg-'>
+          <div className='w-full md:w-3/5'>
             <Blog_col />
           </div>
         )}

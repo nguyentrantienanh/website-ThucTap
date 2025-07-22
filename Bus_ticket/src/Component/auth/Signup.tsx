@@ -1,62 +1,25 @@
 import logo from '../../assets/logo/Bus_Ticket_Header.png'
 import background from '../../assets/auth/background-login.jpg'
 import Icon from '../../icons/Icon'
-import { useGoogleLogin } from '@react-oauth/google'
+
 import { useState } from 'react'
 import ReCAPTCHA from 'react-google-recaptcha'
-import FacebookLoginButton from '../../services/FacebookLoginButton'
 
 export default function Signin() {
-  const handleGoogleLogin = async () => {}
-
-  const handleGoogleLoginError = () => {}
-
-  const login = useGoogleLogin({
-    onSuccess: handleGoogleLogin,
-    onError: handleGoogleLoginError
-  })
-
   // Hàm xử lý captcha
   const [captchaValue, setCaptchaValue] = useState(false)
   const handleCaptchaChange = (value: string | null) => {
     setCaptchaValue(!!value) // Chuyển đổi giá trị thành boolean
   }
 
-  const handleFacebookLogin = (user: any) => {
-    // Xử lý đăng nhập với Facebook
-  }
-
   return (
-    <div className=' flex   w-full  bg-[#fff] '>
-      <div className='w-2/4   '>
+    <div className='flex flex-col md:flex-row items-center justify-center h-screen bg-gray-100'>
+      <div className='w-full md:w-2/4 h-full relative bg-cover bg-center'>
         <img src={background} alt='Background' className='  items-start object-cover object-left w-full h-full  ' />
       </div>
-      <div className='flex flex-col w-2/4 mx-10 gap-4 bg-[#fff]  '>
-        <img src={logo} alt='Bus Ticket Logo' className='w-48 my-[-10px]  mx-auto  ' />
-        <div className='gap-4 flex flex-col  '>
-          <div
-            onClick={() => login()}
-            className='cursor-pointer flex items-center justify-center p-1 rounded-[10px] gap-2 border border-[#8b8b8b] w-full'
-          >
-            <i>
-              <Icon name='google' />
-            </i>
-            <span className='text-[12px]'>Login With Google</span>
-          </div>
-          <FacebookLoginButton onLogin={handleFacebookLogin} />
+      <div className='flex flex-col items-center justify-center w-full md:w-2/4 h-full bg-[#fff] p-6 shadow-lg rounded-lg'>
+        <img src={logo} alt='Bus Ticket Logo' className='w-50 h-50 object-cover mb-4' />
 
-          <div className='flex items-center justify-center p-1 rounded-[10px] gap-2 border-1 border-[#8b8b8b] w-full  '>
-            <i>
-              <Icon name='linkedin' />
-            </i>
-            <span className='text-[12px]'> Login With Google</span>
-          </div>
-        </div>
-        <div className='flex items-center justify-center my-1'>
-          <div className='flex-grow border-t border-dashed border-gray-400'></div>
-          <span className='mx-2 text-gray-500 text-sm'>OR</span>
-          <div className='flex-grow border-t border-dashed border-gray-400'></div>
-        </div>
         <div>
           <form className='grid grid-cols-2 gap-4 my-4'>
             <div>

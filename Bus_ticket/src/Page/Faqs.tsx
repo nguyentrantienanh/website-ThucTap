@@ -14,7 +14,7 @@ function Faqs() {
           <h1 className='  font-bold mb-4 text-[#fff] text-[18px] sm:text-1xl lg:text-3xl '>{t('FAQs')}</h1>
         </div>
       </div>
-      <section className='flex flex-col gap-20 xl:px-[30%]'>
+      <section className='flex flex-col gap-20 xl:px-[20%]'>
         <FAQ />
 
         <BlogPost />

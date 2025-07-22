@@ -113,13 +113,13 @@ export default function Signin() {
   }, [])
 
   return (
-    <div className=' flex  w-full  bg-[#fff] '>
-      <div className='w-2/4   '>
+    <div className='flex flex-col md:flex-row items-center justify-center h-screen bg-gray-100'>
+      <div className='w-full md:w-2/4 h-full  '>
         <img src={background} alt='Background' className='  items-start object-cover object-left w-full h-full  ' />
       </div>
 
-      <div className='flex flex-col w-2/4   mx-10  bg-[#fff]  '>
-        <img src={logo} alt='Bus Ticket Logo' className='w-48   mx-auto  ' />
+      <div className='flex flex-col items-center justify-center w-full md:w-2/4 h-full bg-[#fff] p-6 shadow-lg rounded-lg'>
+        <img src={logo} alt='Bus Ticket Logo' className='w-50 h-50 object-cover mb-4' />
         {/* hiệu email người đăng nhập */}
 
         <div>

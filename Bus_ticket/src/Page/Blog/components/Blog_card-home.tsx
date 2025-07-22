@@ -6,7 +6,7 @@ function Blog() {
   return (
     <>
       <section className='flex flex-col gap-5 xl:px-[20%]'>
-        <div className='grid grid-cols-4   items-center justify-items-center gap-5 py-10 '>
+        <div className='grid grid-cols-4 max-[1500px]:grid-cols-3  max-[900px]:grid-cols-2 max-[450px]:grid-cols-1 items-center justify-items-center gap-5 max-[450px]:px-1  py-0 '>
           {BlogData().map((post: any) => (
             <div key={post.id} className='p-5 shadow-xl  '>
               <img src={post.image} alt={post.title} className='w-full h-60 object-cover rounded-lg' />

@@ -33,7 +33,7 @@ function Tickets() {
         <div className='overflow-x-auto'>
           <table className='min-w-full bg-[#1ba000] rounded-t-2xl text-[13px]'>
             <thead>
-              <tr className='text-[#fff] [#fff]space-nowrap'>
+              <tr className='text-[#fff]  space-nowrap  '>
                 <th className='py-2 px-2 text-left w-[90px]'>ID</th>
                 <th className='py-2 px-2 text-left w-[90px]'>PNR</th>
                 <th className='py-2 px-2 text-left  text-nowrap'>AC / Non-AC</th>
@@ -51,7 +51,7 @@ function Tickets() {
             <tbody>
               {ve.length > 0 ? (
                 ve.map((item: any, index: number) => (
-                  <tr key={index} className='bg-[#fff] text-xs text-gray-800   space-nowrap border-b'>
+                  <tr key={index} className='bg-[#fff] text-xs text-gray-800   border-b'>
                     <td className='py-2 px-2 text-gray-500'>{item.id}</td>
                     <td className='py-2 px-2 text-[#4447ff]'>{item.ticketId}</td>
                     <td className='py-2 px-2 text-[#a7a7a7]'>{item.type}</td>
@@ -59,7 +59,7 @@ function Tickets() {
                     <td className='py-2 px-2 text-[#04b925]'> {t(`${item.diemDi}`)} </td>
                     <td className='py-2 px-2 text-[#4c4c4c] font-medium'>{item.dateStart}</td>
                     <td className='py-2 px-2 text-[#7337ff] font-mono'>{item.starttime}</td>
-                    <td className='py-2 px-2 text-[#04b925]'>{seats[index].join(',')}</td>
+                    <td className='py-2 px-2 '>{seats[index].join(', ')}</td>
 
                     <td className='py-2 px-2'>
                       {Status.map((status) => {

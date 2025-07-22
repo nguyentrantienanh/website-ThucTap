@@ -123,7 +123,7 @@ function Header() {
   const Buytikets = () => {
     return (
       <Link to='/buytickets' className='flex items-center gap-2'>
-        <button className='bg-[#1ba000] text-[#fff] cursor-pointer p-2 rounded-[10px] hover:bg-[#1ba000]/70 transition-all duration-300 '>
+        <button className='flex items-center gap-2 bg-[#1ba000] text-[#fff] px-4 py-2 rounded-lg hover:bg-[#1ba000]/80 transition-all duration-300'>
           <span className='text-[13px]'>{t('Header_BUTTON.BuyTicket')}</span>
         </button>
       </Link>
@@ -134,10 +134,7 @@ function Header() {
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen)
   }
-  const [isverticalOpen, setIsverticalOpen] = useState(false)
-  const togglevertical = () => {
-    setIsverticalOpen(!isverticalOpen)
-  }
+
   // kiểm tra người dùng đã đăng nhập hay chưa
   const userInfo = JSON.parse(localStorage.getItem('userInfo') || '{}')
   const user = JSON.parse(localStorage.getItem('userthongtin') || '{}')
@@ -304,9 +301,6 @@ function Header() {
             <div className='   text-[24px] text-[#1ba000] cursor-pointer' onClick={toggleMenu}>
               <i>{isMenuOpen ? <Icon name='close' /> : <Icon name='menu' />}</i>
             </div>
-            <div className='  text-[24px] text-[#1ba000] cursor-pointer' onClick={togglevertical}>
-              <i>{isverticalOpen ? <Icon name='vertical' /> : <Icon name='vertical' />}</i>
-            </div>
           </div>
         </div>
       </div>
@@ -319,11 +313,77 @@ function Header() {
           ></div>
           <div className=' min-[900px]:hidden  fixed  top-0   items-start  w-full z-90 flex mt-1  '>
             <div
-              className='relative flex bg-[#ffffff] shadow-lg  w-full  justify-between p-6 animate-slideDown'
+              className='relative   bg-[#ffffff] flex flex-col shadow-lg  w-full  justify-between p-6 animate-slideDown'
               style={{ animation: 'slideDown 0.3s ease' }}
               onClick={(e) => e.stopPropagation()}
             >
-              <div className='  sm:w-1/3 '>
+              <div className='   flex flex-wrap gap-4 text-sm text-gray-700 justify-between max-[400px]:flex-col'>
+                <div className='flex flex-wrap gap-4 text-sm text-gray-700 justify-start max-[400px]:flex-col'>
+                  <div className='flex   gap-2'>
+                    <span className='text-[#1ba000]'>
+                      <Icon name='phone' />
+                    </span>
+                    <span>+84 972364028</span>
+                  </div>
+
+                  <div className='max-[400px]:hidden'>|</div>
+                  <div className='flex   gap-2'>
+                    <span className='text-[#1ba000]'>
+                      <Icon name='email' />
+                    </span>
+                    <span>nttanh0412@gmail.com</span>
+                  </div>
+                </div>
+
+                <div className=''>
+                  {userInfo && userInfo.email ? (
+                    <div className=' flex max-[450px]:flex-col max-[450px]:gap-5   '>
+                      <div className=' border-x-2 max-[450px]:border-none  px-3 max-[450px]:px-0  border-gray-400  '>
+                        <span>
+                          {t('Header_LOGIN.Hello')}: {user.name ? user.name : userInfo.name ? userInfo.name : '???'}
+                        </span>
+                      </div>
+                      <div className=' border-r-2 max-[450px]:border-none px-3 max-[450px]:px-0  border-gray-400'>
+                        {clickhome ? (
+                          <Link to={'/'}>
+                            <span onClick={handleclickhome}>{t('Header_NAV.Home')}</span>
+                          </Link>
+                        ) : (
+                          <Link to={'/user/dashboard'}>
+                            <span onClick={handleclickhome}>{t('Header_NAV.Dashboard')}</span>
+                          </Link>
+                        )}
+                      </div>
+                    </div>
+                  ) : (
+                    <div className='flex gap-2 '>
+                      <Link to={'/signin'}>
+                        <span className=''>
+                          <i className='pr-2    text-[#1ba000]'>
+                            <Icon name='signin' />
+                          </i>
+                          {t('Header_LOGIN.SingIn')}
+                        </span>
+                      </Link>
+
+                      <div className='px-3'>/</div>
+                      <Link to={'/signup'}>
+                        <span>
+                          <i className='px-2 text-[#1ba000]'>
+                            <Icon name='signup' />
+                          </i>
+                          {t('Header_LOGIN.SignUp')}
+                        </span>
+                      </Link>
+                    </div>
+                  )}
+                </div>
+                <div>
+                  <LanguageSwitch />
+                </div>
+              </div>
+
+              <div className='space-y-2  '>
                 {userInfo && userInfo.email && clickhome
                   ? navbardashboard.map((item, index) => (
                       <div key={index} className='relative group  '>
@@ -336,7 +396,7 @@ function Header() {
                                 : 'text-gray-700'
                           }`}
                         >
-                          <div className='flex items-center justify-between gap-2 p-2   hover:bg-gray-100 rounded w-full'>
+                          <div className='flex items-center justify-between gap-2 py-2   hover:bg-gray-100 rounded w-full'>
                             <Link to={item.path}>
                               <div className='flex items-center gap-2'>
                                 <span className='text-[#1ba000]'>
@@ -389,7 +449,7 @@ function Header() {
                               : 'text-gray-700'
                         }`}
                       >
-                        <div className='flex items-center gap-2 p-2 hover:bg-gray-100 rounded w-full'>
+                        <div className='flex items-center gap-2 py-2 hover:bg-gray-100 rounded w-full'>
                           <span className='text-[#1ba000]'>
                             <Icon name={item.icon} />
                           </span>
@@ -406,97 +466,8 @@ function Header() {
                 100% { transform: translateY(0); opacity: 1; }
               }
             `}
-            </style>
-          </div>
-        </div>
-      )}
-
-      {isverticalOpen && (
-        <div>
-          <div
-            className='fixed  bg-black opacity-30 z-90 top-0 w-full h-full '
-            onClick={() => setIsverticalOpen(false)}
-          ></div>
-          <div className=' min-[900px]:hidden    fixed  top-0  items-start  w-full z-90 flex mt-1  '>
-            <div
-              className=' max-[900px]:flex-col max-[900px]:gap-5   flex bg-[#fff] shadow-lg  w-full  p-6  max-[430px]:pt-2 max-[430px]:pb-7 animate-slideDown'
-              style={{ animation: 'slideDown 0.3s ease' }}
-              onClick={(e) => e.stopPropagation()}
-            >
-              <div className='flex gap-3 max-[900px]:justify-center max-[450px]:justify-start max-[400px]:flex-col'>
-                <div className='flex   gap-2'>
-                  <span className='text-[#1ba000]'>
-                    <Icon name='phone' />
-                  </span>
-                  <span>+84 972364028</span>
-                </div>
-
-                <div className='max-[400px]:hidden'>|</div>
-                <div className='flex   gap-2'>
-                  <span className='text-[#1ba000]'>
-                    <Icon name='email' />
-                  </span>
-                  <span>nttanh0412@gmail.com</span>
-                </div>
-              </div>
-              <div className='flex max-[900px]:justify-center gap-5 max-[450px]:gap-3  max-[450px]:flex-col '>
-                <div>
-                  <LanguageSwitch />
-                </div>
-                <div>
-                  {userInfo && userInfo.email ? (
-                    <div className=' flex max-[450px]:flex-col max-[450px]:gap-5   '>
-                      <div className=' border-x-2 max-[450px]:border-none  px-3 max-[450px]:px-0  border-gray-400  '>
-                        <span>
-                          {t('Header_LOGIN.Hello')}: {user.name ? user.name : userInfo.name ? userInfo.name : '???'}
-                        </span>
-                      </div>
-                      <div className=' border-r-2 max-[450px]:border-none px-3 max-[450px]:px-0  border-gray-400'>
-                        {clickhome ? (
-                          <Link to={'/'}>
-                            <span onClick={handleclickhome}>{t('Header_NAV.Home')}</span>
-                          </Link>
-                        ) : (
-                          <Link to={'/user/dashboard'}>
-                            <span onClick={handleclickhome}>{t('Header_NAV.Dashboard')}</span>
-                          </Link>
-                        )}
-                      </div>
-                    </div>
-                  ) : (
-                    <div className='flex gap-2 '>
-                      <Link to={'/signin'}>
-                        <span className=''>
-                          <i className='px-2 max-[350px]:px-0  text-[#1ba000]'>
-                            <Icon name='signin' />
-                          </i>
-                          {t('Header_LOGIN.SingIn')}
-                        </span>
-                      </Link>
-
-                      <div className='px-3'>/</div>
-                      <Link to={'/signup'}>
-                        <span>
-                          <i className='px-2 text-[#1ba000]'>
-                            <Icon name='signup' />
-                          </i>
-                          {t('Header_LOGIN.SignUp')}
-                        </span>
-                      </Link>
-                    </div>
-                  )}
-                </div>{' '}
-              </div>
-            </div>
-
-            <style>
-              {`
-              @keyframes slideDown {
-                0% { transform: translateY(-100%); opacity: 0; }
-                100% { transform: translateY(0); opacity: 1; }
-              }
-            `}
-            </style>
+            </style>{' '}
+            <div></div>
           </div>
         </div>
       )}

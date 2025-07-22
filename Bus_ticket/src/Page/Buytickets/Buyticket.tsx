@@ -218,15 +218,16 @@ export default function Buyticket() {
               const diemden = t(item.diemden)
               const name = `${item.type} - ${diemdi} - ${diemden}`
               return (
-                <h1 key={item.id} className='text-4xl font-bold mb-4 text-[#fff]'>
+                <h1 key={item.id} className='  font-bold mb-4 text-[#fff] text-center  text-[20px] sm:text-2xl lg:text-4xl'>
                   {name}
                 </h1>
               )
             })}
         </div>
       </div>
-      <div className='flex gap-[2%]    px-[15%]'>
-        <div className='w-4/7 border-1 rounded-[10px] border-gray-400 h-full sticky z-10  top-20 bg-[#fff] px-5 py-5  flex flex-col gap-5'>
+      <div className= 'flex flex-col md:flex-row gap-5 px-5 py-5 bg-[#f9f9f9] xl:px-[20%]'>
+     
+        <div className={` w-full ${isAuthenticated ? 'md:w-4/5' : 'w-full'} ${isAuthenticated ? 'md:pr-4' : ''}  border-1 rounded-[10px] border-gray-400 h-full md:sticky z-10  top-20 bg-[#fff] px-5 py-5  flex flex-col gap-5`}>
           <div className='flex flex-col gap-3'>
             <div className='text-[12px] '>
               <h1 className='text-gray-400 font-medium'>{t('Buyticket:journey_date')}</h1>
@@ -383,20 +384,20 @@ export default function Buyticket() {
             <div className='grid grid-cols-2   gap-x-20 gap-y-5 '>
               <div className=' cursor-pointer flex w-full items-center gap-2'>
                 <div className=' bg-[#fff] border-1 rounded-[3px]  h-5 w-15 p-1'>
-                  <div className='border-1 border-gray-500 h-full w-1 rounded-3xl ml-auto'></div>
+                  <div className='md:border-1 border-gray-500 md:h-full md:w-1 rounded-3xl ml-auto'></div>
                 </div>
                 <p className='text-[12px] text-gray-500 whitespace-nowrap '>{t('Buyticket:available_seats')}</p>
               </div>
               <div className='cursor-pointer  flex w-full items-center gap-2'>
                 <div className=' bg-[#008428]  rounded-[3px] h-5 w-15 p-1'>
-                  <div className='bg-[#fff]  h-full w-1 rounded-3xl ml-auto'></div>
+                  <div className='bg-[#fff]  md:h-full md:w-2 rounded-3xl ml-auto'></div>
                 </div>
                 <p className='text-[12px] text-gray-500 whitespace-nowrap '>{t('Buyticket:selected_by_you')}</p>
               </div>
 
               <div className='cursor-pointer flex w-full items-center gap-2'>
                 <div className=' bg-[#767676] rounded-[3px] h-5 w-15 p-1'>
-                  <div className='bg-[#fff]  h-full w-1 rounded-3xl ml-auto'></div>
+                  <div className='bg-[#fff]  md:h-full md:w-1 rounded-3xl ml-auto'></div>
                 </div>
                 <p className='text-[12px] text-gray-500 whitespace-nowrap '>{t('Buyticket:booked_by_others')}</p>
               </div>

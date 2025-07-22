@@ -26,11 +26,11 @@ function TicketConfirmed() {
 
   return (
     <>
-      <div className='   bg-[#fff]   px-2 sm:px-4 md:px-10 py-6'>
+      <div className='   bg-green-50   px-2 sm:px-4 md:px-10 py-6 min-h-screen'>
         <div className='overflow-x-auto'>
           <table className='min-w-full bg-[#1ba000] table-fixed rounded-t-2xl text-[13px]'>
             <thead>
-              <tr className='text-[#fff]  whitespace-nowrap '>
+              <tr className='text-[#fff]  space-nowrap text-nowrap'>
                 <th className='py-2 px-2 text-left w-[90px]'>ID</th>
                 <th className='py-2 px-2 text-left w-[90px]'>PNR</th>
                 <th className='py-2 px-2 text-left w-[90px]'>AC / Non-AC</th>
@@ -47,7 +47,7 @@ function TicketConfirmed() {
             <tbody>
               {ConfirmedTickets.length > 0 ? (
                 ConfirmedTickets.map((item: any, index: number) => (
-                  <tr key={index} className='bg-[#fff] text-xs text-gray-800 whitespace-nowrap'>
+                  <tr key={index} className='bg-[#fff] text-xs text-gray-800 space-nowrap even:bg-green-100 '>
                     <td className='py-2 px-2 text-gray-500'>{item.id}</td>
                     <td className='py-2 px-2 text-blue-600'>{item.ticketId}</td>
                     <td className='py-2 px-2 text-gray-500'>{item.type}</td>
@@ -55,7 +55,7 @@ function TicketConfirmed() {
                     <td className='py-2 px-2 text-green-600'>{t(item.diemDi)}</td>
                     <td className='py-2 px-2 font-medium'>{item.dateStart}</td>
                     <td className='py-2 px-2 text-purple-700 font-mono'>{item.starttime}</td>
-                    <td className='py-2 px-2'>{seats[index].join(', ')}</td>
+                    <td className='py-2 px-2 font-mono'>{seats[index].join(', ')}</td>
 
                     <td className='py-2 px-2 '>
                       <span className='px-3 py-1 rounded-full text-[#00d40e] bg-[#00ff2636] border-2'>Confirmed</span>
@@ -180,7 +180,7 @@ export default function Confirmed() {
   const totalConfirmed = ve.filter((item: any) => item.status === 1).length
   return (
     <>
-      <div className='flex flex-col  px-2 w-full py-4  pt-2 '>
+      <div className=' bg-green-50  flex flex-col  px-2 w-full py-4  pt-2 '>
         <div className='py-3 flex justify-between px-3 items-center text-center w-full shadow-md bg-[#fff] rounded-lg  '>
           <h1 className='text-3xl font-bold text-gray-700'>Vé đã được duyệt</h1>
           <div className='  flex justify-between px-2 items-center    w-30 h-full rounded-lg   m-2 bg-green-500 shadow-md'>

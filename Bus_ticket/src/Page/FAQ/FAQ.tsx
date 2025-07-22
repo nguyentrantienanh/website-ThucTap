@@ -69,7 +69,7 @@ function FAQ() {
               {faqsleft.map((faq) => (
                 <div key={faq.id} className=' '>
                   <h2
-                    className=' font-semibold cursor-pointer p-4  border-2 border-[#1db000] text-[18px]  sm:text-[20px] '
+                    className=' font-semibold cursor-pointer p-4  border-2 border-[#1db000]    text-[14px]  sm:text-[15px] lg:text-[16px]'
                     onClick={() => handleToggleleft(faq.id)}
                   >
                     <i className=' text-[#1db000] '>
@@ -101,7 +101,7 @@ function FAQ() {
               {faqsright.map((faq) => (
                 <div key={faq.id} className=' '>
                   <h2
-                    className='  font-semibold cursor-pointer p-4 border-2 border-[#1db000] text-[18px] sm:text-[20px] xl:text-1xl'
+                    className='  font-semibold cursor-pointer p-4 border-2 border-[#1db000]  text-[14px]  sm:text-[15px] lg:text-[16px]'
                     onClick={() => handleToggleright(faq.id)}
                   >
                     <i className=' text-[#1db000] '>

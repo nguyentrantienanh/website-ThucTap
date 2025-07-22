@@ -17,7 +17,7 @@ export default function SupportTicket() {
         <div className=' mx-20 py-10 '>
           <table className='min-w-full bg-[#1ba000]  rounded-t-2xl  '>
             <thead>
-              <tr className='  text-[#fff] '>
+              <tr className='  text-[#fff] space-nowrap text-nowrap'>
                 <th className='py-2 px-4   text-start '>Subject</th>
                 <th className='py-2 px-2   '>Status</th>
                 <th className='py-2 px-4  '>Priority</th>

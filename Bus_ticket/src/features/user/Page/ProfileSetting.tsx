@@ -4,24 +4,23 @@ import { useState } from 'react'
 
 import { googleLogout } from '@react-oauth/google'
 export default function ProfileSetting() {
-   
   const handleGoogleLogout = () => {
     googleLogout()
     localStorage.removeItem('userInfo') // Xóa thông tin người dùng khỏi localStorage
     localStorage.removeItem('userthongtin') // Xóa thông tin người dùng khỏi localStorage
     window.location.href = '/'
   }
-  const UserInfo = JSON.parse(localStorage.getItem('userInfo') || '{}');
+  const UserInfo = JSON.parse(localStorage.getItem('userInfo') || '{}')
   const user = JSON.parse(localStorage.getItem('userthongtin') || '{}')
- 
+
   // profile setting
   const [nameValue, setnameValue] = useState(user.name || `${UserInfo.firstname} ${UserInfo.lastname}`) // Lấy tên người dùng từ localStorage hoặc mặc định
   const [countryValue, setCountryValue] = useState(user.country || UserInfo.country || 'vietnam')
-  const [countryCode, setCountryCode] = useState(user.countryCode || UserInfo.countryCode ||  '84 +')  
-  const [phoneValue, setPhoneValue] = useState(user.phone ||  UserInfo.phone  || '') 
+  const [countryCode, setCountryCode] = useState(user.countryCode || UserInfo.countryCode || '84 +')
+  const [phoneValue, setPhoneValue] = useState(user.phone || UserInfo.phone || '')
   const [addressValue, setaddressValue] = useState(user.address || UserInfo.address || '')
-  const [emailValue, setemailValue] = useState(user.state || UserInfo.email || `${UserInfo.email}`) // 
-  const [zipcodeValue, setzipcodeValue] = useState(user.zipcode|| UserInfo.zipcode || '')
+  const [emailValue, setemailValue] = useState(user.state || UserInfo.email || `${UserInfo.email}`) //
+  const [zipcodeValue, setzipcodeValue] = useState(user.zipcode || UserInfo.zipcode || '')
   const [cityValue, setcityValue] = useState(user.city || UserInfo.city || '')
 
   const countryOptions = [
@@ -64,56 +63,47 @@ export default function ProfileSetting() {
 
   // hàm xử lý nhập thông tin đầy đủ chưa
   const isFormValid = () => {
-
-      return (
-    nameValue.trim() !== '' &&
-    countryValue.trim() !== '' &&
-    phoneValue.trim().length === 10 &&
-    (
-      addressValue.trim() !== '' ||
-      emailValue.trim() !== '' ||
-      zipcodeValue.trim() !== '' ||
-      cityValue.trim() !== ''
+    return (
+      nameValue.trim() !== '' &&
+      countryValue.trim() !== '' &&
+      phoneValue.trim().length === 10 &&
+      (addressValue.trim() !== '' || emailValue.trim() !== '' || zipcodeValue.trim() !== '' || cityValue.trim() !== '')
     )
-  )
   }
-const handleSaveUserthonin = () => {
-  const updatedUser = {
-    id: UserInfo.id,
-    email: emailValue,
-    firstname: nameValue.split(' ')[0] || '',
-    lastname: nameValue.split(' ')[1] || '',
-    googleId: UserInfo.googleId,
-    imageUrl: UserInfo.imageUrl,
-    name: nameValue,
-    country: countryValue,
-    countryCode,
-    phone: phoneValue,
-    address: addressValue,
-    zipcode: zipcodeValue,
-    city: cityValue
+  const handleSaveUserthonin = () => {
+    const updatedUser = {
+      id: UserInfo.id,
+      email: emailValue,
+      firstname: nameValue.split(' ')[0] || '',
+      lastname: nameValue.split(' ')[1] || '',
+      googleId: UserInfo.googleId,
+      imageUrl: UserInfo.imageUrl,
+      name: nameValue,
+      country: countryValue,
+      countryCode,
+      phone: phoneValue,
+      address: addressValue,
+      zipcode: zipcodeValue,
+      city: cityValue
+    }
+
+    localStorage.setItem('userthongtin', JSON.stringify(updatedUser))
+
+    const userList: (typeof updatedUser)[] = JSON.parse(localStorage.getItem('userList') || '[]')
+
+    const index = userList.findIndex((user) => user.id === updatedUser.id)
+
+    if (index !== -1) {
+      userList[index] = updatedUser // Cập nhật nếu đã có
+    } else {
+      userList.push(updatedUser) // Thêm mới nếu chưa có
+    }
+
+    localStorage.setItem('userList', JSON.stringify(userList))
+
+    window.alert('Thông tin đã được cập nhật!')
   }
 
-  localStorage.setItem('userthongtin', JSON.stringify(updatedUser))
-
-  const userList: typeof updatedUser[] = JSON.parse(localStorage.getItem('userList') || '[]')
-
-  const index = userList.findIndex(user => user.id === updatedUser.id)
-
-  if (index !== -1) {
-    userList[index] = updatedUser // Cập nhật nếu đã có
-  } else {
-    userList.push(updatedUser) // Thêm mới nếu chưa có
-  }
-
-  localStorage.setItem('userList', JSON.stringify(userList))
-
-  window.alert('Thông tin đã được cập nhật!')
-}
-
- 
-  
- 
   return (
     <>
       <div
@@ -171,24 +161,23 @@ const handleSaveUserthonin = () => {
                   </label>
                   <div className='flex flex-col '>
                     <div className='flex items-center border-1 border-gray-300 rounded-md shadow-sm'>
-                       <span className='p-2 border-1 w-20 bg-[#e2e2e2] border-gray-300 rounded-l-md'>{countryCode}</span>
-                    <input
-  type='text'
-  value={phoneValue}
-  onChange={handlePhoneChange}
-  maxLength={10} // giới hạn độ dài
-  className={`p-2 border-1 border-gray-300 rounded-r-md shadow-sm w-full 
+                      <span className='p-2 border-1 w-20 bg-[#e2e2e2] border-gray-300 rounded-l-md'>{countryCode}</span>
+                      <input
+                        type='text'
+                        value={phoneValue}
+                        onChange={handlePhoneChange}
+                        maxLength={10} // giới hạn độ dài
+                        className={`p-2 border-1 border-gray-300 rounded-r-md shadow-sm w-full 
     focus:outline-none focus:ring-green-500 focus:shadow-green-300 focus:border-green-500
     ${phoneValue.length > 0 && phoneValue.length !== 10 ? 'border-red-500' : ''}
   `}
-  placeholder='Nhập số điện thoại...'
-/>
+                        placeholder='Nhập số điện thoại...'
+                      />
                     </div>
-                   
-{phoneValue.length > 0 && phoneValue.length !== 10 && (
-  <span className='text-red-500 text-sm mt-1'>Số điện thoại phải có đúng 10 chữ số.</span>
-)}
 
+                    {phoneValue.length > 0 && phoneValue.length !== 10 && (
+                      <span className='text-red-500 text-sm mt-1'>Số điện thoại phải có đúng 10 chữ số.</span>
+                    )}
                   </div>
                 </div>
                 <div className='flex flex-col  gap-2'>

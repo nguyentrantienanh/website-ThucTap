@@ -30,19 +30,18 @@ export function Booking() {
     <>
       <div className='bg-[#fff] px-2 sm:px-4 md:px-10 py-6'>
         <div className='overflow-x-auto'>
-          <table className='min-w-full bg-[#1ba000] rounded-t-2xl text-[13px]'>
+          <table className='min-w-full text-sm md:text-[13px]'>
             <thead>
-              <tr className='text-[#fff] [#fff]space-nowrap'>
-                <th className='py-2 px-2 text-left w-[90px]'>ID</th>
-                <th className='py-2 px-2 text-left w-[90px]'>PNR</th>
-                <th className='py-2 px-2 text-left  text-nowrap'>AC / Non-AC</th>
+              <tr className='bg-[#1ba000] text-[#fff] text-nowrap'>
+                <th className='py-2 px-2 text-left w-[60px]  '>ID</th>
+                <th className='py-2 px-2 text-left hidden md:table-cell'>AC / Non-AC</th>
                 <th className='py-2 px-2 text-left w-[120px]'>Start</th>
                 <th className='py-2 px-2 text-left w-[120px]'>Drop</th>
                 <th className='py-2 px-2 text-left w-[100px]'>Date</th>
                 <th className='py-2 px-2 text-left w-[80px]'>Time</th>
                 <th className='py-2 px-2 text-left w-[120px]'>Seats</th>
                 <th className='py-2 px-2 text-left w-[100px]'>Status</th>
-                <th className='py-2 px-2 text-left w-[80px]'>Fare</th>
+                <th className='py-2 px-2 text-left w-[100px] hidden md:table-cell'>Fare</th>
                 <th className='py-2 px-2 text-center'>Info</th>
               </tr>
             </thead>
@@ -50,45 +49,37 @@ export function Booking() {
             <tbody>
               {ve.length > 0 ? (
                 ve.map((item: any, index: number) => (
-                  <tr key={index} className='bg-[#fff] text-xs text-gray-800 [#fff]space-nowrap border-b'>
-                    <td className='py-2 px-2 text-gray-500'>{item.id}</td>
-                    <td className='py-2 px-2 text-[#4447ff]'>{item.ticketId}</td>
-                    <td className='py-2 px-2 text-[#a7a7a7]'>{item.type}</td>
-                    <td className='py-2 px-2 text-[#04b925]  '> {t(`${item.diemDen}`)}</td>
-                    <td className='py-2 px-2 text-[#04b925]'> {t(`${item.diemDi}`)} </td>
+                  <tr key={index} className='bg-[#fff] text-gray-800 border-b text-nowrap'>
+                    <td className='py-2 px-2 text-gray-500   '>{item.id}</td>
+                    <td className='py-2 px-2 text-[#a7a7a7] hidden md:table-cell'>{item.type}</td>
+                    <td className='py-2 px-2 text-[#04b925]'>{t(`${item.diemDen}`)}</td>
+                    <td className='py-2 px-2 text-[#04b925]'>{t(`${item.diemDi}`)}</td>
                     <td className='py-2 px-2 text-[#4c4c4c] font-medium'>{item.dateStart}</td>
                     <td className='py-2 px-2 text-[#7337ff] font-mono'>{item.starttime}</td>
-                    <td className='py-2 px-2 text-[#04b925]'>{seats[index].join(',')}</td>
-
+                    <td className='py-2 px-2 text-[#04b925] '>{seats[index].join(', ')} </td>
                     <td className='py-2 px-2'>
-                      {Status.map((status) => {
-                        if (item.status === status.id) {
-                          return (
+                      {Status.map(
+                        (status) =>
+                          item.status === status.id && (
                             <span
                               key={status.id}
-                              className={`px-3 py-1 rounded-full text-[${status.colors}] bg-[${status.bg}] border-2`}
+                              className={`px-2 py-1 rounded-full text-[${status.colors}] bg-[${status.bg}] border text-xs`}
                             >
                               {status.name}
                             </span>
                           )
-                        }
-                        return null
-                      })}
+                      )}
                     </td>
-
-                    <td className='py-2 px-2 text-[#1645ff] text-nowrap'>
-                      ${item.price} <span className=''>USD</span>
+                    <td className='py-2 px-2 text-[#1645ff] hidden md:table-cell'>
+                      ${item.price} <span className='text-xs'>USD</span>
                     </td>
-                    {/* thông tin vé */}
-
-                    <td className='py-2 px-2'>
+                    <td className='py-2 px-2 text-center'>
                       <button
                         onClick={() => {
                           setinformationticket(true)
-                          // lưu thông tin vé đã click + trạng thái hiện tại của vé vào thotinve
                           localStorage.setItem('thongtinve', JSON.stringify([ve[index]]))
                         }}
-                        className=' cursor-pointer  bg-[#2800c91b] py-1 px-3 rounded'
+                        className='bg-[#2800c91b] py-1 px-3 rounded'
                       >
                         <span className='text-[#0000006c]'>
                           <Icon name='about' />
@@ -99,7 +90,7 @@ export function Booking() {
                 ))
               ) : (
                 <tr>
-                  <td colSpan={11} className='text-center text-gray-500  bg-[#fff] py-4'>
+                  <td colSpan={11} className='text-center text-gray-500 bg-[#fff] py-4'>
                     No tickets booked yet.
                   </td>
                 </tr>
@@ -108,6 +99,7 @@ export function Booking() {
           </table>
         </div>
       </div>
+
       {informationticket && (
         <div>
           <div className='bg-black fixed top-0 z-90 opacity-30 h-full w-full ' onClick={isclick}></div>

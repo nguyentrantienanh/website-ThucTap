@@ -48,11 +48,11 @@ function TicketPending() {
 
   return (
     <>
-      <div className='bg-[#fff] px-2 sm:px-4 md:px-10 py-6'>
+      <div className='bg-yellow-50 px-10 py-6 min-h-screen'>
         <div className='overflow-x-auto'>
-          <table className='min-w-full bg-[#1ba000] rounded-t-2xl text-[13px]'>
+          <table className='min-w-full bg-yellow-500 rounded-t-2xl text-[13px]'>
             <thead>
-              <tr className='text-[#fff] [#fff]space-nowrap'>
+              <tr className='text-[#fff] space-nowrap text-nowrap'>
                 <th className='py-2 px-2 text-left w-[90px]'>ID</th>
                 <th className='py-2 px-2 text-left w-[90px]'>PNR</th>
                 <th className='py-2 px-2 text-left  text-nowrap'>AC / Non-AC</th>
@@ -70,7 +70,7 @@ function TicketPending() {
             <tbody>
               {PendingTickets.length > 0 ? (
                 PendingTickets.map((item: any, index: number) => (
-                  <tr key={index} className='bg-[#fff] text-xs text-gray-800 [#fff]space-nowrap border-b'>
+                  <tr key={index} className='bg-[#fff] text-xs text-gray-800  space-nowrap border-b even:bg-yellow-100'>
                     <td className='py-2 px-2 text-gray-500'>{item.id}</td>
                     <td className='py-2 px-2 text-blue-600'>{item.ticketId}</td>
                     <td className='py-2 px-2 text-gray-500'>{item.type}</td>
@@ -78,7 +78,7 @@ function TicketPending() {
                     <td className='py-2 px-2 text-green-600'>{t(item.diemDi)}</td>
                     <td className='py-2 px-2 font-medium'>{item.dateStart}</td>
                     <td className='py-2 px-2 text-purple-700 font-mono'>{item.starttime}</td>
-                    <td className='py-2 px-2'>{seats[index].join(', ')}</td>
+                    <td className='py-2 px-2 font-mono'>{seats[index].join(', ')}</td>
                     <td className='py-2 px-2'>
                       <span className='px-3 py-1 rounded-full text-yellow-600 bg-yellow-100 border border-yellow-300'>
                         Pending
@@ -222,7 +222,7 @@ export default function Pending() {
 
   return (
     <>
-      <div className='flex flex-col  px-2 w-full py-4  pt-2 '>
+      <div className=' bg-yellow-50 flex flex-col  px-2 w-full py-4  pt-2 '>
         <div className='py-3 flex justify-between px-3 items-center text-center w-full shadow-md bg-[#fff] rounded-lg  '>
           <h1 className='text-3xl font-bold text-gray-700'>Vé chờ duyệt</h1>
           <div className='  flex justify-between px-2 items-center    w-30 h-full rounded-lg   m-2 bg-yellow-500 shadow-md'>

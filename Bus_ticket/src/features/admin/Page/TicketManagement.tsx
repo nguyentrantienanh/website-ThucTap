@@ -9,9 +9,24 @@ import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns'
 export default function TicketManagement() {
   const [tickets] = useState(ticket)
   const { t } = useTranslation(['Home', 'Buyticket'])
+  // showw thêm vé
   const [isAddticket, setIsAddticket] = useState(false)
   const handleAddTicket = () => {
     setIsAddticket(!isAddticket)
+  }
+  // show sửa vé
+  const [isUpndateticket, setUpdateticket] = useState(false)
+  const [isID, setId] = useState<number>(0)
+  const handUpdateticket = (id: number) => {
+    setUpdateticket(!isUpndateticket)
+    setId(id)
+  }
+
+  // xóa vé
+  const handleDeleteTicket = (id: number) => {
+    const updatedTickets = tickets.filter((ticket) => ticket.id !== id)
+    console.log('1', updatedTickets)
+    console.log('xóa', id)
   }
   const [startTime, setStartTime] = useState<Date | null>(null)
   const [endTime, setEndTime] = useState<Date | null>(null)
@@ -32,9 +47,34 @@ export default function TicketManagement() {
   const handleSeatChange = (e: any) => {
     setSelectedSeats(Number(e.target.value))
   }
-
   // hàm đếm vé ticket
   const countticket = tickets.length
+
+  // hàm value test
+  const ticketss = JSON.parse(localStorage.getItem('ticketstest') || '[]')
+  const [namevalua, setnameValue] = useState(ticketss[1].name || 'hi')
+  const hanldname = (e: any) => {
+    setnameValue(e.target.value)
+  }
+  const saveticketss = () => {
+    const updatedTicketss = {
+      name: namevalua
+    }
+
+    const ticketss: (typeof updatedTicketss)[] = JSON.parse(localStorage.getItem('ticketstest') || '[]')
+
+    const index = ticketss.findIndex((ticket) => ticket.name === updatedTicketss.name)
+
+    if (index !== -1) {
+      ticketss[index] = updatedTicketss // Cập nhật nếu đã có
+    } else {
+      ticketss.push(updatedTicketss) // Thêm mới nếu chưa có
+    }
+
+    localStorage.setItem('ticketstest', JSON.stringify(ticketss))
+
+    window.alert('Thông tin đã được cập nhật!')
+  }
 
   return (
     <div className='p-4  w-full space-y-4'>
@@ -79,7 +119,7 @@ export default function TicketManagement() {
               <div className='flex-1 flex justify-around text-sm text-gray-700'>
                 <div>
                   <p>{item.starttime}</p>
-                  <p className='text-gray-500'>{t(`Home:${item.startingpoint}`)}</p>
+                  <p className='text-gray-500'>{t(`Home:${item.diemdi}`)}</p>
                 </div>
                 <div className='flex flex-col items-center text-green-600'>
                   <Icon name='arrow-right' />
@@ -87,7 +127,7 @@ export default function TicketManagement() {
                 </div>
                 <div>
                   <p>{item.endtime}</p>
-                  <p className='text-gray-500'>{t(`Home:${item.endpoint}`)}</p>
+                  <p className='text-gray-500'>{t(`Home:${item.diemden}`)}</p>
                 </div>
               </div>
 
@@ -99,10 +139,18 @@ export default function TicketManagement() {
                   </span>
                 </p>
                 <div className='flex gap-2'>
-                  <button className='bg-yellow-500 text-[#fff] px-3 py-1 rounded-md text-sm hover:bg-yellow-600'>
-                    Sửa
+                  <button
+                    onClick={() => handUpdateticket(item.id)}
+                    className='bg-yellow-500 text-[#fff] px-3 py-1 rounded-md text-sm hover:bg-yellow-600 cursor-pointer'
+                  >
+                    Cập nhật
                   </button>
-                  <button className='bg-red-500 text-[#fff] px-3 py-1 rounded-md text-sm hover:bg-red-600'>Xóa</button>
+                  <button
+                    onClick={() => handleDeleteTicket(item.id)}
+                    className='bg-red-500 text-[#fff] px-3 py-1 rounded-md text-sm hover:bg-red-600 cursor-pointer'
+                  >
+                    Xóa
+                  </button>
                 </div>
               </div>
             </div>
@@ -136,19 +184,20 @@ export default function TicketManagement() {
               <LocalizationProvider dateAdapter={AdapterDateFns}>
                 <div className='flex'>
                   <div className='grid grid-cols-3 w-4/6   gap-4 p-6 bg-[#fff] rounded-xl shadow-md  '>
-                    {/* Điểm đi */}
+                    {/* Điểm xuất phát */}
                     <div className='flex flex-col'>
                       <label htmlFor='diemdi' className='font-medium text-gray-700 mb-1'>
-                        Điểm đi
+                        Điểm xuất phát
                       </label>
                       <input
                         id='diemdi'
                         name='diemdi'
+                        value={namevalua}
+                        onChange={hanldname}
                         className='p-2 rounded border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500'
-                        placeholder='Nhập điểm đi'
+                        placeholder='Nhập điểm xuất phát'
                       />
                     </div>
-
                     {/* Điểm đến */}
                     <div className='flex flex-col'>
                       <label htmlFor='diemden' className='font-medium text-gray-700 mb-1'>
@@ -157,64 +206,25 @@ export default function TicketManagement() {
                       <input
                         id='diemden'
                         name='diemden'
+                        value={namevalua}
+                        onChange={hanldname}
                         className='p-2 rounded border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500'
                         placeholder='Nhập điểm đến'
                       />
                     </div>
 
-                    {/* Điểm xuất phát */}
+                    {/* Sơ đồ ghế */}
                     <div className='flex flex-col'>
-                      <label htmlFor='startingpoint' className='font-medium text-gray-700 mb-1'>
-                        Điểm xuất phát
+                      <label htmlFor='seatLayout' className='font-medium text-gray-700 mb-1'>
+                        Sơ đồ ghế
                       </label>
-                      <input
-                        id='startingpoint'
-                        name='startingpoint'
-                        className='p-2 rounded border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500'
-                        placeholder='Nhập điểm xuất phát'
-                      />
-                    </div>
-
-                    {/* Điểm đến cuối */}
-                    <div className='flex flex-col'>
-                      <label htmlFor='endpoint' className='font-medium text-gray-700 mb-1'>
-                        Điểm đến cuối
-                      </label>
-                      <input
-                        id='endpoint'
-                        name='endpoint'
-                        className='p-2 rounded border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500'
-                        placeholder='Nhập điểm đến cuối'
-                      />
-                    </div>
-
-                    {/* Thời gian bắt đầu */}
-                    <div className='flex flex-col'>
-                      <label className='font-medium text-gray-700 mb-1'>Giờ bắt đầu</label>
-                      <TimePicker
-                        className='p-2 rounded border border-gray-300 focus:outline-none focus:ring-2 focus:ring-green-500'
-                        value={startTime}
-                        onChange={setStartTime}
-                      />
-                    </div>
-
-                    {/* Thời gian kết thúc */}
-                    <div className='flex flex-col'>
-                      <label className='font-medium text-gray-700 mb-1'>Giờ kết thúc</label>
-                      <TimePicker value={endTime} onChange={setEndTime} />
-                    </div>
-
-                    {/* Thời gian đi */}
-                    <div className='flex flex-col'>
-                      <label htmlFor='timetogo' className='font-medium text-gray-700 mb-1'>
-                        Thời gian đi
-                      </label>
-                      <input
-                        name='timetogo'
-                        className='p-2 rounded border border-gray-300 bg-gray-100'
-                        value={Timegoto()}
-                        readOnly
-                      />
+                      <select
+                        name='seatLayout'
+                        className='p-2 rounded border border-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-500'
+                      >
+                        <option value='Monday'>2x2</option>
+                        <option value='Tuesday'>4x4</option>
+                      </select>
                     </div>
 
                     {/* Loại xe */}
@@ -248,6 +258,33 @@ export default function TicketManagement() {
                         <option value='Saturday'>Saturday</option>
                         <option value='Sunday'>Sunday</option>
                       </select>
+                    </div>
+                    {/* Thời gian đi */}
+                    <div className='flex flex-col'>
+                      <label htmlFor='timetogo' className='font-medium text-gray-700 mb-1'>
+                        Thời gian đi
+                      </label>
+                      <input
+                        name='timetogo'
+                        className='p-2 rounded border border-gray-300 bg-gray-100'
+                        value={Timegoto()}
+                        readOnly
+                      />
+                    </div>
+                    {/* Thời gian bắt đầu */}
+                    <div className='flex flex-col'>
+                      <label className='font-medium text-gray-700 mb-1'>Giờ bắt đầu</label>
+                      <TimePicker
+                        className='p-2 rounded border border-gray-300 focus:outline-none focus:ring-2 focus:ring-green-500'
+                        value={startTime}
+                        onChange={setStartTime}
+                      />
+                    </div>
+
+                    {/* Thời gian kết thúc */}
+                    <div className='flex flex-col'>
+                      <label className='font-medium text-gray-700 mb-1'>Giờ kết thúc</label>
+                      <TimePicker value={endTime} onChange={setEndTime} />
                     </div>
                   </div>
 
@@ -320,7 +357,12 @@ export default function TicketManagement() {
               </div>
 
               <div className='flex justify-end gap-2 pt-4 border-t border-gray-200'>
-                <button className='bg-blue-600 text-[#fff] px-4 py-2 rounded-md hover:bg-blue-700'>Lưu</button>
+                <button
+                  onClick={saveticketss}
+                  className='bg-blue-600 text-[#fff] px-4 py-2 rounded-md hover:bg-blue-700'
+                >
+                  Lưu
+                </button>
                 <button
                   onClick={handleAddTicket}
                   className='bg-gray-300 text-black px-4 py-2 rounded-md hover:bg-gray-400'
@@ -335,22 +377,245 @@ export default function TicketManagement() {
               @keyframes slideDown{
               0% {
               top: 0;
-                transform: traslateY(-100%); opacity: 0; 
+                  opacity: 0; 
               }
                 100% {
-                  transform: traslateY(-100%); opacity: 1; 
+                  opacity: 1; 
                 }
               }
                 @keyframes slideUp{
                 0% {
                   top: 0;
-                  transform: translateY(0); opacity: 1; 
+                   opacity: 1; 
                 }
                 100% {
-                  transform: translateY(-100%); opacity: 0;
+                   opacity: 0;
               }
             `}
           </style>
+        </div>
+      )}
+      {isUpndateticket && (
+        <div>
+          {tickets.map((item) => {
+            const ticketUpdate = tickets.filter((item) => item.id === isID)
+            const seat = ticketUpdate.map((item) => item.seat)
+            const countseat = seat[0].length
+
+            return (
+              <div key={item.id}>
+                <div
+                  key={item.id}
+                  className='bg-black fixed top-0 left-0 z-100 opacity-5 w-screen h-screen'
+                  onClick={() => {
+                    handUpdateticket(item.id)
+                  }}
+                ></div>
+                <div
+                  className={` fixed top-1/35   left-1/2 transform -translate-x-1/2  rounded z-900`}
+                  style={{
+                    animation: isUpndateticket ? 'slideDown 0.4s ease' : 'slideUp 0.4s ease'
+                  }}
+                >
+                  <div className='bg-[#fff]  w-300  rounded-3xl p-6 flex flex-col gap-5'>
+                    <h2 className='text-xl font-semibold'>Cập nhật</h2>
+                    <LocalizationProvider dateAdapter={AdapterDateFns}>
+                      <div className='flex'>
+                        <div className='grid grid-cols-3 w-4/6   gap-4 p-6 bg-[#fff] rounded-xl shadow-md  '>
+                          {/* Điểm xuất phát */}
+                          <div className='flex flex-col'>
+                            <label htmlFor='diemdi' className='font-medium text-gray-700 mb-1'>
+                              Điểm xuất phát
+                            </label>
+                            <input
+                              id='diemdi'
+                              name='diemdi'
+                              value={namevalua}
+                              onChange={hanldname}
+                              className='p-2 rounded border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500'
+                              placeholder='Nhập điểm xuất phát'
+                            />
+                          </div>
+                          {/* Điểm đến */}
+                          <div className='flex flex-col'>
+                            <label htmlFor='diemden' className='font-medium text-gray-700 mb-1'>
+                              Điểm đến
+                            </label>
+                            <input
+                              id='diemden'
+                              name='diemden'
+                              className='p-2 rounded border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500'
+                              placeholder='Nhập điểm đến'
+                            />
+                          </div>
+
+                          {/* Sơ đồ ghế */}
+                          <div className='flex flex-col'>
+                            <label htmlFor='seatLayout' className='font-medium text-gray-700 mb-1'>
+                              Sơ đồ ghế
+                            </label>
+                            <select
+                              name='seatLayout'
+                              className='p-2 rounded border border-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-500'
+                            >
+                              <option value='Monday'>2x2</option>
+                              <option value='Tuesday'>4x4</option>
+                            </select>
+                          </div>
+
+                          {/* Loại xe */}
+                          <div className='flex flex-col'>
+                            <label htmlFor='type' className='font-medium text-gray-700 mb-1'>
+                              Loại xe
+                            </label>
+                            <select
+                              name='type'
+                              className='p-2 rounded border border-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-500'
+                            >
+                              <option value='AC'>AC</option>
+                              <option value='Non-AC'>Non-AC</option>
+                            </select>
+                          </div>
+
+                          {/* Ngày nghỉ */}
+                          <div className='flex flex-col'>
+                            <label htmlFor='offday' className='font-medium text-gray-700 mb-1'>
+                              Ngày nghỉ
+                            </label>
+                            <select
+                              name='offday'
+                              className='p-2 rounded border border-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-500'
+                            >
+                              <option value='Monday'>Monday</option>
+                              <option value='Tuesday'>Tuesday</option>
+                              <option value='Wednesday'>Wednesday</option>
+                              <option value='Thursday'>Thursday</option>
+                              <option value='Friday'>Friday</option>
+                              <option value='Saturday'>Saturday</option>
+                              <option value='Sunday'>Sunday</option>
+                            </select>
+                          </div>
+                          {/* Thời gian đi */}
+                          <div className='flex flex-col'>
+                            <label htmlFor='timetogo' className='font-medium text-gray-700 mb-1'>
+                              Thời gian đi
+                            </label>
+                            <input
+                              name='timetogo'
+                              className='p-2 rounded border border-gray-300 bg-gray-100'
+                              value={Timegoto()}
+                              readOnly
+                            />
+                          </div>
+                          {/* Thời gian bắt đầu */}
+                          <div className='flex flex-col'>
+                            <label className='font-medium text-gray-700 mb-1'>Giờ bắt đầu</label>
+                            <TimePicker
+                              className='p-2 rounded border border-gray-300 focus:outline-none focus:ring-2 focus:ring-green-500'
+                              value={startTime}
+                              onChange={setStartTime}
+                            />
+                          </div>
+
+                          {/* Thời gian kết thúc */}
+                          <div className='flex flex-col'>
+                            <label className='font-medium text-gray-700 mb-1'>Giờ kết thúc</label>
+                            <TimePicker value={endTime} onChange={setEndTime} />
+                          </div>
+                        </div>
+
+                        <div className='w-2/6 h-100 mx-2 p-6 bg-[#fff] rounded-xl shadow-md '>
+                          <div className='flex justify-between items-center   gap-4 mb-4'>
+                            <span className='font-medium text-gray-700 mb-1'> Ghế</span>
+                            <div className='flex   font-medium text-[13px] gap-2 mr-2'>
+                              <label className='flex items-center gap-1 '>{countseat}</label>
+                            </div>
+                          </div>
+                          <div className='  border-1 border-gray-500 rounded-[10px] p-2'>
+                            <div className='flex justify-center mt-[-18px] items-center gap-2'>
+                              <p className=' bg-gray-300 px-5   text-[12px] text-gray-500 '>{t('Buyticket:front')}</p>
+                            </div>
+                            <div>
+                              <div className='flex text-[16px] text-gray-600 justify-between items-center gap-2 px-5'>
+                                <h1 className=' font-medium'>{t('Buyticket:seat')}</h1>
+                                <i className=''>
+                                  {' '}
+                                  <Icon name='seat' />
+                                </i>
+                              </div>
+                              <div className='  py-5  overflow-y-auto h-[250px]'>
+                                <div className='grid grid-cols-4 gap-2'>
+                                  {Array.from({ length: countseat }).map((_, index) => (
+                                    <div
+                                      key={index}
+                                      className='w-10 h-12 flex flex-col items-center justify-center border border-gray-400 rounded hover:bg-green-500 hover:text-[#fff] transition cursor-pointer'
+                                    >
+                                      <span className='text-sm font-medium'>{index + 1}</span>
+                                      <div className='bg-gray-300 h-1 w-6 rounded-full mt-1'></div>
+                                    </div>
+                                  ))}
+                                </div>
+                              </div>
+                            </div>
+                            <div className='flex justify-center mb-[-17px] items-center gap-2'>
+                              <p className=' bg-gray-300 px-5 text-[12px] text-gray-500 '>{t('Buyticket:rear')}</p>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </LocalizationProvider>
+
+                    <div className='flex flex-wrap gap-4 text-sm'>
+                      <label className='flex items-center gap-2'>
+                        <input type='checkbox' value='Water Bottle' /> Nước suối
+                      </label>
+                      <label className='flex items-center gap-2'>
+                        <input type='checkbox' value='Pillow' /> Gối
+                      </label>
+                      <label className='flex items-center gap-2'>
+                        <input type='checkbox' value='Wifi' /> Wifi
+                      </label>
+                    </div>
+
+                    <div className='flex justify-end gap-2 pt-4 border-t border-gray-200'>
+                      <button className='bg-blue-600 text-[#fff] px-4 py-2 rounded-md hover:bg-blue-700'>Lưu</button>
+                      <button
+                        onClick={() => {
+                          handUpdateticket(item.id)
+                        }}
+                        className='bg-gray-300 text-black px-4 py-2 rounded-md hover:bg-gray-400'
+                      >
+                        Hủy
+                      </button>
+                    </div>
+                  </div>
+                </div>
+                <style>
+                  {`  
+              @keyframes slideDown{
+              0% {
+              top: 0;
+               ; opacity: 0; 
+              }
+                100% {
+                   opacity: 1; 
+                }
+              }
+                @keyframes slideUp{
+                0% {
+                   
+                   opacity: 1; 
+                }
+                  
+                100% {
+                
+                    opacity: 0;
+              }
+            `}
+                </style>
+              </div>
+            )
+          })}
         </div>
       )}
     </div>

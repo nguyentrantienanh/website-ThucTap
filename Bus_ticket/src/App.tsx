@@ -36,6 +36,9 @@ import Confirmed from './features/admin/Page/Booked/Confirmed'
 import UserAccount from './features/admin/Page/Account/UserAccount'
 import UserAccountActive from './features/admin/Page/Account/Active'
 import UserAccountLocked from './features/admin/Page/Account/Locked'
+import CustomerSupport from './features/admin/Page/Support/CustomerSupport'
+import ChatSupport from './features/admin/Page/Support/ChatSupport'
+import Page404admin from './features/admin/Page/Page404'
 
 // services
 import ScrollToTop from './services/ScrollToTop'
@@ -169,7 +172,9 @@ function AdminRoutes() {
           <Route path='users' element={<UserAccount />} />
           <Route path='users/account-active' element={<UserAccountActive />} />
           <Route path='users/account-locked' element={<UserAccountLocked />} />
-          <Route path='*' element={<Page404 />} />
+          <Route path='support' element={<CustomerSupport />} />
+          <Route path='support/chat/:id/:name' element={<ChatSupport />} />
+          <Route path='*' element={<Page404admin />} />
         </Route>
       </Routes>
     </>

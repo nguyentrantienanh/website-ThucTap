@@ -23,26 +23,26 @@ export default function Dashboard() {
 
   return (
     <>
-      <div className='  bg-[#ececec]  '>
+      <div className='flex flex-col w-full h-full  bg-[#ececec] '>
         <div
           className=' w-full h-50 flex items-center justify-center  '
           style={{ backgroundImage: `url(${backgruond})`, backgroundSize: 'cover', backgroundPosition: 'center' }}
         >
-          <div className='w-full h-full flex items-center justify-center bg-[#00000041]  '>
-            <h1 className='text-3xl font-bold mb-4 text-[#fff]  '>Dashboard</h1>
+          <div className='w-full h-full flex items-center justify-center bg-[#00000068] '>
+            <h1 className='text-4xl font-bold mb-4 text-[#fff] '>Dashboard</h1>
           </div>
         </div>
 
         <div className=' flex justify-center py-4'>
-          <p className='text-[20px] font-bold'>
+          <p className='text-[17px] sm:text-[20px]   lg:text-[25px] font-bold text-[#000000]'>
             Welcome, {user.name ? user.name : userInfo.name ? userInfo.name : '???'}!
           </p>
         </div>
-        <div className=' gap-5 flex justify-center py-5 '>
+        <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 px-5 py-5  max[1450px]:px-[20%]'>
           <div className='flex justify-center  gap-3  '>
             <div className='border-l-4 border-[#6eff34] bg-[#fff] flex items-center p-5 gap-3 rounded-2xl '>
               <div>
-                <h1 className='font-bold text-[15px]'>Total Booked Ticket</h1>
+                <h1 className='font-bold text-[15px] '>Total Booked Ticket</h1>
                 <p className='font-bold text-[22px]'>{countBooked}</p>
               </div>
               <div>
@@ -67,7 +67,7 @@ export default function Dashboard() {
               </div>
             </div>
           </div>
-          <div className='flex justify-center  gap-3  '>
+          <div className='  lg:col-span-1 md:col-span-2 flex justify-center  gap-3  '>
             <div className='border-l-4 border-[#efeb00] bg-[#fff] flex items-center p-5 gap-3 rounded-2xl '>
               <div>
                 <h1 className='font-bold text-[15px]'>Total Pending Ticket</h1>

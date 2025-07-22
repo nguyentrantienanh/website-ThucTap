@@ -194,7 +194,7 @@ function BuyticketLayout() {
 
   return (
     <>
-      <div className='bg-[#dedede]'>
+      <div className='bg-[#fff]  '>
         <div className='relative'>
           <div
             className=' w-full h-50 flex items-center justify-center'
@@ -208,10 +208,11 @@ function BuyticketLayout() {
           </div>
         </div>
 
-        <div className='flex  h-full gap-[2%]  content-start px-[10%] py-5 '>
-          <div className='  w-250 absolute mt-[-170px] rounded-t-[20px] border-b-1  bg-[#fff]  h-37'>
-            {/* nút reset */}
-            <div className='absolute  p-2 pl-2  flex items-center gap-2 cursor-pointer hover:text-[#1ba000] transition-all duration-300'>
+        <div className='flex flex-col lg:flex-row h-full gap-4 content-start px-2 sm:px-[5%] md:px-[10%] py-5'>
+          {/* Search Box */}
+          <div className='w-full  mx-auto relative lg:mt-[-170px] rounded-t-[20px]  bg-[#fff]'>
+            <div className='absolute p-2 flex items-center gap-2 cursor-pointer hover:text-[#1ba000] transition-all duration-300'>
+              {' '}
               <button
                 onClick={() => {
                   setSelectedDiemDi('')
@@ -225,8 +226,8 @@ function BuyticketLayout() {
                 {t('Buyticket:reset')}
               </button>
             </div>
-
-            <div className=' py-10 item-  my-2 px-2 grid grid-cols-4 gap-4 max-[450px]:flex-col  '>
+            {/* Search Form */}
+            <div className='py-10 my-2 px-2 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4'>
               <div
                 onClick={() => setShowDiemDiDropdown(!showDiemDiDropdown)}
                 className='  w-full border-1 border-[#8aff73] rounded-[10px] px-2 py-1 flex items-center gap-2'
@@ -234,7 +235,7 @@ function BuyticketLayout() {
                 <i className='text-[#70ff53]'>
                   <Icon name='directionarrow' />
                 </i>
-                <div className=' flex  justify-between relative w-full'>
+                <div className='flex justify-between relative w-full'>
                   <div
                     className='cursor-pointer text-[13px] px-2 py-1 bg-[#fff] rounded'
                     onClick={() => setShowDiemDiDropdown(!showDiemDiDropdown)}
@@ -242,7 +243,7 @@ function BuyticketLayout() {
                     {selectedDiemDi || t('Home:Home_location.All')}
                   </div>
                   {showDiemDiDropdown && (
-                    <div className='absolute left-0 top-full mt-1 bg-[#fff] border rounded shadow z-10 divide-y-1 divide-gray-500 w-full'>
+                    <div className='absolute left-0 top-full mt-1 bg-[#fff] border rounded shadow z-10 divide-y divide-gray-300 w-full'>
                       {diemDi.map((item) => (
                         <div
                           key={item.id}
@@ -265,7 +266,7 @@ function BuyticketLayout() {
 
               <div
                 onClick={() => setShowDiemDenDropdown(!showDiemDenDropdown)}
-                className=' border-1 border-[#8aff73] rounded-[10px] px-2 py-1 flex items-center gap-2 relative'
+                className='border border-[#8aff73] rounded-[10px] px-2 py-1 flex items-center gap-2'
               >
                 <i className='text-[#66ff47]'>
                   <Icon name='location' />
@@ -279,7 +280,7 @@ function BuyticketLayout() {
                     {selectedDiemDen || t('Home:Home_location.All')}
                   </div>
                   {showDiemDenDropdown && (
-                    <div className='absolute left-0 top-full mt-1 bg-[#fff] border rounded shadow z-10 divide-y-1 divide-gray-500  w-full'>
+                    <div className='absolute left-0 top-full mt-1 bg-[#fff] border rounded shadow z-10 divide-y divide-gray-300 w-full'>
                       {diemDen.map((item) => (
                         <div
                           key={item.id}
@@ -299,7 +300,7 @@ function BuyticketLayout() {
                   </i>
                 </div>
               </div>
-              <div className='border-1 text-[13px] border-[#8aff73] rounded-[10px] px-2 py-1 flex items-center gap-2'>
+              <div className='border border-[#8aff73] rounded-[10px] px-2 py-1 flex items-center gap-2'>
                 <i className='text-[#66ff47]'>
                   <Icon name='calendar' />
                 </i>
@@ -342,161 +343,173 @@ function BuyticketLayout() {
                 <span>{t('find_ticket')}</span>
               </button>
             </div>
-          </div>
-          {/* Filter */}
-          <div className='w-1/4 rounded-[10px] bg-[#fff] sticky z-10  top-23   h-full'>
-            <div className='flex justify-between border-b-1  p-2'>
-              <h1 className='text-[20px] mt-auto font-medium'>{t('Buyticket:filter')}</h1>
-              <p
-                className='text-[12px]  mt-auto text-[#5c5b5b] cursor-pointer hover:text-[#1ba000] transition-all duration-300'
-                onClick={() => {
-                  setFilterData({})
-                  localStorage.removeItem('filterData')
-                  document.querySelectorAll('input[type="checkbox"]').forEach((checkbox: any) => {
-                    checkbox.checked = false
-                  })
-                }}
-              >
-                {t('filter_reset_all')}
-              </p>
-            </div>
-            <div className='  p-2'>
-              <h1 className='text-[15px] font-semibold'>{t('Buyticket:filter_vehicle')}</h1>
-              <div className='flex flex-col gap-3 p-2'>
-                {Vehicle.map((vehicle) => (
-                  <div className='flex items-center text-[12px]' key={vehicle.id}>
-                    <input type='checkbox' onChange={handleChange} name={vehicle.name} />
-                    <div className='bg-[#f7f7f7] px-2 py-1 rounded-[10px] flex items-center gap-2'>
-                      <i>
-                        <Icon name='bus' />
-                      </i>
-                      <label className='' htmlFor={vehicle.name}>
-                        {vehicle.name}
-                      </label>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-            <div className='p-2'>
-              <h1 className='text-[15px] mt-auto font-medium'>{t('Buyticket:filter_routes')}</h1>
-              <div className='flex flex-col gap-3 p-2'>
-                {Routes.map((route) => {
-                  const routeKey = `route_${route.diemDi} - ${route.diemDen}`
-                  return (
-                    <div className='flex items-center text-[12px]' key={route.id}>
-                      <input
-                        type='checkbox'
-                        onChange={handleChange}
-                        name={routeKey}
-                        checked={filterData[routeKey] || false}
-                      />
+            <div className='flex flex-col md:flex-row mt-5 w-full  '>
+  {/* Filter (ẩn trên mobile) */}
+  <div className='hidden lg:block  w-2/5   rounded-[10px] bg-[#fff] sticky z-10 top-20 h-fit shadow-lg border-gray-300 p-3'>
+    <div className='flex justify-between items-center mb-3'>
+      <h1 className='text-lg font-medium'>{t('Buyticket:filter')}</h1>
+      <button
+        onClick={() => {
+          setFilterData({})
+          localStorage.removeItem('filterData')
+          document.querySelectorAll('input[type="checkbox"]').forEach((checkbox: any) => {
+            checkbox.checked = false
+          })
+        }}
+        className='text-xs text-[#5c5b5b] hover:text-[#1ba000] transition-all'
+      >
+        {t('filter_reset_all')}
+      </button>
+    </div>
 
-                      <div className='bg-[#f7f7f7] px-2 py-1 rounded-[10px] flex items-center gap-2'>
-                        <i>
-                          <Icon name='road' />
-                        </i>
-                        <label htmlFor={`${route.diemDi} - ${route.diemDen}`}>
-                          {route.diemDi} - {route.diemDen}
-                        </label>
-                      </div>
-                    </div>
-                  )
-                })}
+    {/* Filter: Vehicle */}
+    <div className='mb-4'>
+      <h2 className='text-sm font-semibold'>{t('Buyticket:filter_vehicle')}</h2>
+      <div className='flex flex-col gap-2 mt-2'>
+        {Vehicle.map((vehicle) => (
+          <label key={vehicle.id} className='flex items-center text-sm gap-2'>
+            <input type='checkbox' onChange={handleChange} name={vehicle.name} className='w-4 h-4' />
+            <span className='flex items-center gap-2 bg-[#f7f7f7] px-2 py-1 rounded-[10px]'>
+              <Icon name='bus' />
+              {vehicle.name}
+            </span>
+          </label>
+        ))}
+      </div>
+    </div>
+
+    {/* Filter: Routes */}
+    <div className='mb-4'>
+      <h2 className='text-sm font-semibold'>{t('Buyticket:filter_routes')}</h2>
+      <div className='flex flex-col gap-2 mt-2'>
+        {Routes.map((route) => {
+          const routeKey = `route_${route.diemDi} - ${route.diemDen}`
+          return (
+            <label key={route.id} className='flex items-center text-sm gap-2'>
+              <input
+                type='checkbox'
+                onChange={handleChange}
+                name={routeKey}
+                checked={filterData[routeKey] || false}
+                className='w-4 h-4'
+              />
+              <span className='flex items-center gap-2 bg-[#f7f7f7] px-2 py-1 rounded-[10px]'>
+                <Icon name='road' />
+                {route.diemDi} - {route.diemDen}
+              </span>
+            </label>
+          )
+        })}
+      </div>
+    </div>
+
+    {/* Filter: Schedules */}
+    <div>
+      <h2 className='text-sm font-semibold'>{t('Buyticket:filter_schedules')}</h2>
+      <div className='flex flex-col gap-2 mt-2'>
+        {Schedules.map((shedule) => {
+          const scheduleKey = `schedule_${shedule.starttime} - ${shedule.endtime}`
+          return (
+            <label key={shedule.id} className='flex items-center text-sm gap-2'>
+              <input
+                type='checkbox'
+                onChange={handleChange}
+                name={scheduleKey}
+                checked={filterData[scheduleKey] || false}
+                className='w-4 h-4'
+              />
+              <span className='flex items-center gap-2 bg-[#f7f7f7] px-2 py-1 rounded-[10px]'>
+                <Icon name='clock' />
+                {shedule.starttime} - {shedule.endtime}
+              </span>
+            </label>
+          )
+        })}
+      </div>
+    </div>
+  </div>
+
+ <div className='w-full md:ml-4  px-2   '>
+  {filteredTickets.length > 0 ? (
+    <div className='  h-full space-y-4 w-full'>
+      {filteredTickets.map((item: any) => {
+        const diemdi = t(`Home:${item.diemdi}`)
+        const diemden = t(`Home:${item.diemden}`)
+        const name = `${item.type} -  ${diemdi} - ${diemden}`
+        return (
+          <div
+            key={item.id}
+            className='rounded-[10px] bg-[#fff] shadow-lg border border-gray-300 overflow-hidden'
+          >
+            {/* Thông tin vé */}
+            <div className='flex flex-col md:flex-row items-start md:items-center p-4 gap-4 '>
+              {/* Trái: Thông tin tuyến */}
+              <div className='flex-1'>
+                <h1 className='text-base md:text-lg font-semibold line-clamp-1'>{name}</h1>
+                <p className='text-[11px] text-gray-500'>Seat Layout - {item.seatLayout}</p>
+                <p className='text-amber-400 text-sm flex items-center gap-1 mt-1'>
+                  <Icon name='bus' /> {item.type}
+                </p>
+              </div>
+
+              {/* Giữa: Thời gian */}
+              <div className='flex items-center justify-between w-full md:w-auto md:gap-8 text-sm'>
+                <div className='text-center'>
+                  <p className='text-nowrap'>{item.starttime}</p>
+                  <p className='text-[11px] text-gray-500'>{diemdi}</p>
+                </div>
+                <div className='text-center'>
+                  <Icon name='arrow-right' className='text-green-500' />
+                  <p className='text-[11px] text-gray-500'>{item.timetogo}</p>
+                </div>
+                <div className='text-center'>
+                  <p className='text-nowrap'>{item.endtime}</p>
+                  <p className='text-[11px] text-gray-500'>{diemden}</p>
+                </div>
+              </div>
+
+              {/* Phải: Ngày nghỉ + chọn ghế */}
+              <div className='flex flex-col items-end gap-2 md:pl-4 w-full md:w-auto'>
+                <p className='text-[11px] text-nowrap'>
+                  {t('off_day')}:{' '}
+                  <span className='ml-1 bg-blue-200 text-blue-800 border border-blue-400 px-2 py-1 rounded-full'>
+                    {item.offday}
+                  </span>
+                </p>
+                <Link to={`/buytickets/${item.id}/${name}`} className='w-full md:w-auto'>
+                  <button className='bg-green-600 text-[#fff] text-sm px-4 py-2 rounded-md w-full md:w-auto'>
+                    {t('Buyticket:select_seat')}
+                  </button>
+                </Link>
               </div>
             </div>
-            <div className='p-2'>
-              <h1 className='text-[15px] mt-auto font-medium'>{t('Buyticket:filter_schedules')}</h1>
-              <div className='flex flex-col gap-3 p-2'>
-                {Schedules.map((shedule) => {
-                  const scheduleKey = `schedule_${shedule.starttime} - ${shedule.endtime}`
-                  return (
-                    <div className='flex items-center text-[12px]' key={shedule.id}>
-                      <input
-                        type='checkbox'
-                        onChange={handleChange}
-                        name={scheduleKey}
-                        checked={filterData[scheduleKey] || false}
-                      />
-                      <div className='bg-[#f7f7f7] px-2 py-1 rounded-[10px] flex items-center gap-2'>
-                        <i>
-                          <Icon name='clock' />
-                        </i>
-                        <label className='text-nowrap' htmlFor={`${shedule.starttime} - ${shedule.endtime}`}>
-                          {shedule.starttime} - {shedule.endtime}
-                        </label>
-                      </div>
-                    </div>
-                  )
-                })}
-              </div>
+
+            {/* Tiện nghi */}
+            <div className='border-t border-gray-200 px-4 py-2 text-sm flex flex-wrap gap-2 items-center'>
+              <p className='text-gray-500'>{t('facilities')}:</p>
+              {item.facilities.map((facility: any, index: any) => (
+                <span
+                  className='bg-gray-100 px-2 py-1 rounded-full text-gray-700 text-xs'
+                  key={index}
+                >
+                  {facility}
+                </span>
+              ))}
             </div>
-            <div></div>
           </div>
-          {/* ticket */}
-          {filteredTickets.length > 0 ? (
-            <div className=' h-full'>
-              {filteredTickets.map((item: any) => {
-                const diemdi = t(`Home:${item.diemdi}`)
-                const diemden = t(`Home:${item.diemden}`)
-                const name = `${item.type} -  ${diemdi} - ${diemden}`
-                return (
-                  <div key={item.id} className='mb-4 rounded-t-[10px] bg-[#fff]'>
-                    <div className='flex items-center py-5 px-2'>
-                      <div className='rounded-t-3xl gap-2 pr-10 flex flex-col w-90 justify-center items-start'>
-                        <h1 className='text-[20px] font-semibold line-clamp-1 text-ellipsis'>{name}</h1>
-                        <p className='text-[10px] text-gray-500'>Seat Layout - {item.seatLayout}</p>
-                        <p className='text-amber-300 text-[15px] flex items-center gap-2'>
-                          <Icon name='bus' /> <span>{item.type}</span>
-                        </p>
-                      </div>
-                      <div className='text-[15px] px-5 flex items-center justify-center gap-5'>
-                        <div>
-                          <p className='text-nowrap'>{item.starttime}</p>
-                          <p className='text-[10px] text-gray-500'>{t(`Home:${item.startingpoint}`)}</p>
-                        </div>
-                        <div className='flex   flex-col items-center justify-center gap-2'>
-                          <i className='text-[#5af521]'>
-                            <Icon name='arrow-right' />
-                          </i>
-                          <span className='text-gray-500 text-nowrap'>{item.timetogo}</span>
-                        </div>
-                        <div>
-                          <p className='text-nowrap'>{item.endtime}</p>
-                          <p className='text-[10px] text-gray-500'>{t(`Home:${item.endpoint}`)}</p>
-                        </div>
-                      </div>
-                      <div className='pl-10 items-center ml-auto flex flex-col gap-4'>
-                        <p className='text-[10px] flex items-center whitespace-nowrap'>
-                          {t('off_day')}:{' '}
-                          <span className='ml-1 bg-blue-200 text-[#1400ac] border-blue-500 border-2 p-1 rounded-[10px]'>
-                            {item.offday}
-                          </span>
-                        </p>
-                        <Link to={`/buytickets/${item.id}/${name}`}>
-                          <button className='text-[#fff] bg-[#00a108] rounded-[10px] p-2'>
-                            <span className='text-[15px] text-nowrap'>{t('Buyticket:select_seat')}</span>
-                          </button>
-                        </Link>
-                      </div>
-                    </div>
-                    <div className='border-t-1 border-gray-500 text-[12px] items-center gap-2 p-2 flex col-span-3'>
-                      <p>{t('facilities')} -</p>
-                      {item.facilities.map((facility: any, index: any) => (
-                        <span className='bg-gray-200 p-2 rounded-2xl text-gray-800' key={index}>
-                          {facility}
-                        </span>
-                      ))}
-                    </div>
-                  </div>
-                )
-              })}
-            </div>
-          ) : (
-            <div className='h-full flex items-center justify-center'>
-              <p className='text-[20px] text-gray-500'>{t('Buyticket:no_ticket')}</p>
-            </div>
-          )}
+        )
+      })}
+    </div>
+  ) : (
+    <div className='h-full flex items-center justify-center py-10'>
+      <p className='text-[18px] text-gray-500'>{t('Buyticket:no_ticket')}</p>
+    </div>
+  )}
+</div>
+
+</div>
+
+          </div>
         </div>
       </div>
     </>

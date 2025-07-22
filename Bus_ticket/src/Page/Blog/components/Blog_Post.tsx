@@ -11,7 +11,7 @@ function BlogPost() {
         {blogPost.map((post: any, blogid) => (
           <div
             key={post.id}
-            className={`p-5 shadow-xl max-[450px]:px-0 ${blogid === blogPost.length - 1 ? 'max-[900px]:col-span-2 max-[900px]:px-[30%] max-[450px]:col-span-1 max-[450px]:px-0' : ''} `}
+            className={`p-5 shadow-xl max-[450px]:px-1 ${blogid === blogPost.length - 1 ? 'max-[900px]:col-span-2 max-[900px]:px-[30%] max-[450px]:col-span-1 max-[450px]:px-0' : ''} `}
           >
             <img src={post.image} alt={post.title} className='w-full h-50 object-cover rounded-lg' />
             <div className='   mt-3'>

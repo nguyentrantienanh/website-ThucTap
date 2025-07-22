@@ -69,7 +69,7 @@ export default function Dashboard() {
 
         {/* Account */}
         <div>
-          <AccountVerified/>
+          <AccountVerified />
         </div>
 
         {/* Vé */}

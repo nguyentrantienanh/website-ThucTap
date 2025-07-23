@@ -414,7 +414,7 @@ function Header() {
                           </div>
                         </div>
                         <div
-                          className={`  left-0 top-full overflow-hidden bg-[#ffffff] transition-all duration-500 ease-in-out rounded mt-1 shadow-md divide-y-2 invisible  opacity-0 group-hover:opacity-100   group-hover:visible ${isopenclick === item.id ? 'visible max-h-40  opacity-100' : '  max-h-0 opacity-0'}`}
+                          className={`  left-0 top-full overflow-hidden bg-[#ffffff] transition-all duration-500 ease-in-out rounded  shadow-md divide-y invisible  opacity-0 group-hover:opacity-100   group-hover:visible ${isopenclick === item.id ? 'visible max-h-40  opacity-100' : '  max-h-0 opacity-0'}`}
                         >
                           {item.sub && item.sub.length > 0 && (
                             <ul className='   divide-y-1  divide-gray-300 flex flex-col '>

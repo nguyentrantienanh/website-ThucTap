@@ -16,9 +16,10 @@ type UserInfo = {
   password?: string
   address?: string
   lastname: string
-  googleId: string
+  googleId?: string
   imageUrl: string
   name: string
+  ticket: any[]
 }
 
 export default function Signin() {
@@ -50,7 +51,8 @@ export default function Signin() {
           googleId: data.sub,
           imageUrl: data.picture,
           name: data.name,
-          status: 1
+          status: 1,
+          ticket: []
         }
 
         userList.push(user)

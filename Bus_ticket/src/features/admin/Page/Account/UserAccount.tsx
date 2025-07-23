@@ -94,7 +94,7 @@ function Account() {
                       )}
                     </td>
                     <td className='py-2 px-2'>
-                      {user.status === 1 ? (
+                      {user.status === 0 ? (
                         <span className='px-3 py-1 rounded-full text-red-600 bg-red-100 border border-red-400 text-xs font-medium flex items-center gap-1'>
                           <Icon name='lock' />
                           Đã Khóa
@@ -164,9 +164,6 @@ function AccountVerified() {
           <div className='flex flex-col text-[#fff] items-end h-full p-4 gap-2 pl-2'>
             <span className='font-bold text-3xl'>{countUsers}</span>
             <span className='text-[#fff]/70 text-sm'>người dùng</span>
-            <button className=' cursor-pointer px-3 py-1 bg-[#fff] text-[#4F46E5] rounded-md text-sm font-semibold shadow-sm hover:bg-gray-100'>
-              View All
-            </button>
           </div>
         </div>
 
@@ -178,9 +175,6 @@ function AccountVerified() {
           <div className='flex flex-col text-[#fff] items-end h-full p-4 gap-2 pl-2'>
             <span className='font-bold text-3xl'>{countVerified}</span>
             <span className='text-[#fff]/70 text-sm'>người dùng đã xác minh</span>
-            <button className=' cursor-pointer px-3 py-1 bg-[#fff] text-[#10B981] rounded-md text-sm font-semibold shadow-sm hover:bg-gray-100'>
-              View All
-            </button>
           </div>
         </div>
 
@@ -192,9 +186,6 @@ function AccountVerified() {
           <div className='flex flex-col text-[#fff] items-end h-full p-4 gap-2 pl-2'>
             <span className='font-bold text-3xl'>{countUnverifiedEmail}</span>
             <span className='text-[#fff]/70 text-sm'>người dùng chưa xác minh Email</span>
-            <button className=' cursor-pointer px-3 py-1 bg-[#fff] text-[#F59E0B] rounded-md text-sm font-semibold shadow-sm hover:bg-gray-100'>
-              View All
-            </button>
           </div>
         </div>
 
@@ -206,9 +197,6 @@ function AccountVerified() {
           <div className='flex flex-col text-[#fff] items-end h-full p-4 gap-2 pl-2'>
             <span className='font-bold text-3xl'>{countUnverifiedPhone}</span>
             <span className='text-[#fff]/70 text-sm'>người dùng chưa xác minh SMS</span>
-            <button className=' cursor-pointer px-3 py-1 bg-[#fff] text-[#EF4444] rounded-md text-sm font-semibold shadow-sm hover:bg-gray-100'>
-              View All
-            </button>
           </div>
         </div>
       </div>
@@ -239,9 +227,6 @@ export default function UserAccount() {
               <div className='flex flex-col text-[#fff] items-end h-full p-4 gap-2 pl-2'>
                 <span className='font-bold text-3xl'>{Activity}</span>
                 <span className='text-[#fff]/70 text-sm'>người dùng hoạt động</span>
-                <button className=' cursor-pointer px-3 py-1 bg-[#fff] text-[#10B981] rounded-md text-sm font-semibold shadow-sm hover:bg-gray-100'>
-                  View All
-                </button>
               </div>
             </div>
             {/* Người chưa xác minh SMS */}
@@ -252,9 +237,6 @@ export default function UserAccount() {
               <div className='flex flex-col text-[#fff] items-end h-full p-4 gap-2 pl-2'>
                 <span className='font-bold text-3xl'>{Disable}</span>
                 <span className='text-[#fff]/70 text-sm'>người dùng Vô hiệu hóa</span>
-                <button className=' cursor-pointer px-3 py-1 bg-[#fff] text-[#EF4444] rounded-md text-sm font-semibold shadow-sm hover:bg-gray-100'>
-                  View All
-                </button>
               </div>
             </div>
           </div>

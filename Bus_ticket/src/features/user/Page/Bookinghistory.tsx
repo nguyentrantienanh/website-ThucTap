@@ -3,7 +3,14 @@ import backgruond from '../../../assets/background.jpg'
 import { useState, useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 export function Booking() {
-  const ve = JSON.parse(localStorage.getItem('vedadat') || '[]')
+
+  const UserList = JSON.parse(localStorage.getItem('userList') || '[]')
+  const UserInfo = JSON.parse(localStorage.getItem('userInfo') || '{}')
+  
+  const currentUser = UserList.find((user: any) => user.id === UserInfo.id) || {}
+ console.log('currentUser', currentUser)
+
+  const ve = currentUser.ticket || []
   const { t } = useTranslation('Home')
 
   const seats = ve

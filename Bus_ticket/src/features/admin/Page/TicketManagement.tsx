@@ -79,22 +79,22 @@ export default function TicketManagement() {
   return (
     <div className='p-4  w-full space-y-4'>
       <div className='py-3 flex justify-between px-3 items-center text-center w-full shadow-md bg-[#fff] rounded-lg '>
-        <div className='flex items-center gap-2  '>
-          <h1 className='text-3xl font-bold text-gray-700'>Quản lý vé</h1>
-          <div className='  flex justify-between px-2 items-center    w-30 h-full rounded-lg   m-2 bg-[#4f46e5] shadow-md'>
-            <i className='    text-4xl text-[#fff]/20'>
+        <div className='flex items-center gap-2'>
+          <h1 className='text-1xl items-center text-nowrap sm:text-3xl  font-bold text-gray-700'>Quản lý vé</h1>
+          <div className='   flex justify-between px-2 items-center  w-10  sm:w-30 h-full rounded-lg bg-blue-500 shadow-md'>
+            <i className='   text-[10px] sm:text-4xl text-[#fff]/20'>
               <Icon name='ticket' />
             </i>
             <div className='flex flex-col text-[#fff]  '>
-              <span className='font-bold text-2xl'>{countticket}</span>
+              <span className='font-bold text-[12px] sm:text-2xl'>{countticket}</span>
             </div>
           </div>
         </div>
 
-        <div>
+        <div className='flex items-center gap-2'>
           <button
             onClick={handleAddTicket}
-            className=' cursor-pointer bg-blue-500 text-[#fff] px-4 py-2 rounded-md hover:bg-blue-600 transition-colors'
+            className=' max-sm:text-nowrap max-sm:text-[12px] cursor-pointer bg-blue-500 text-[#fff] px-1  sm:px-4 sm:py-2 rounded-md hover:bg-blue-600 transition-colors'
           >
             Thêm vé
           </button>
@@ -107,38 +107,41 @@ export default function TicketManagement() {
 
         return (
           <div key={item.id} className='border-1 rounded-xl bg-[#fff] shadow-md overflow-hidden'>
-            <div className='flex flex-col md:flex-row items-center p-5 gap-4'>
-              <div className='flex-1 space-y-1'>
-                <h1 className='text-lg font-semibold truncate'>{name}</h1>
-                <p className='text-sm text-gray-500'>Sơ đồ ghế: {item.seatLayout}</p>
-                <p className='text-amber-500 text-sm flex items-center gap-1'>
+            <div className='flex flex-col lg:flex-row  p-5 gap-4'>
+              <div className='flex-1 space-y-1 '>
+                <h1 className='text-base lg:text-lg font-semibold  '>{name}</h1>
+                <p className='text-[11px] text-gray-500'>Sơ đồ ghế: {item.seatLayout}</p>
+                <p className='text-amber-400 text-sm flex items-center gap-1 mt-1'>
                   <Icon name='bus' /> {item.type}
                 </p>
               </div>
 
-              <div className='flex-1 flex justify-around text-sm text-gray-700'>
-                <div>
-                  <p>{item.starttime}</p>
-                  <p className='text-gray-500'>{t(`Home:${item.diemdi}`)}</p>
+              {/* Giữa: Thời gian */}
+              <div className='flex items-center justify-between w-full lg:w-auto lg:gap-8 text-sm'>
+                <div className='text-center'>
+                  <p className='text-nowrap'>{item.starttime}</p>
+                  <p className='text-[11px] text-gray-500'>{t(`Home:${item.diemdi}`)}</p>
                 </div>
-                <div className='flex flex-col items-center text-green-600'>
-                  <Icon name='arrow-right' />
-                  <span className='text-xs text-gray-500'>{item.timetogo}</span>
+                <div className='text-center'>
+                  <i className='text-green-600'>
+                    <Icon name='arrow-right' />
+                  </i>
+                  <p className='text-[11px] text-gray-500'>{item.timetogo}</p>
                 </div>
-                <div>
-                  <p>{item.endtime}</p>
-                  <p className='text-gray-500'>{t(`Home:${item.diemden}`)}</p>
+                <div className='text-center'>
+                  <p className='text-nowrap'>{item.endtime}</p>
+                  <p className='text-[11px] text-gray-500'>{t(`Home:${item.diemden}`)}</p>
                 </div>
               </div>
 
-              <div className='flex flex-col items-end gap-2'>
-                <p className='text-xs'>
+              <div className='flex flex-col items-end gap-2 lg:pl-4 w-full lg:w-auto'>
+                <p className='text-[11px] text-nowrap'>
                   {t('off_day')}:{' '}
-                  <span className='ml-1 bg-blue-100 text-blue-700 px-2 py-1 rounded-xl border border-blue-400'>
+                  <span className='ml-1 bg-blue-200 text-blue-800 border border-blue-400 px-2 py-1 rounded-full'>
                     {item.offday}
                   </span>
                 </p>
-                <div className='flex gap-2'>
+                <div className=' max-lg:hidden flex gap-2'>
                   <button
                     onClick={() => handUpdateticket(item.id)}
                     className='bg-yellow-500 text-[#fff] px-3 py-1 rounded-md text-sm hover:bg-yellow-600 cursor-pointer'
@@ -155,13 +158,28 @@ export default function TicketManagement() {
               </div>
             </div>
 
-            <div className='border-t px-5 py-3 flex flex-wrap gap-2 text-sm text-gray-700 bg-gray-50'>
-              <p>{t('facilities')}:</p>
+            <div className='border-t border-gray-200 px-4 py-2 text-sm flex flex-wrap gap-2 items-center'>
+              <p className='text-gray-500'>{t('Home:facilities')}:</p>
               {item.facilities.map((facility, index) => (
-                <span key={index} className='bg-gray-200 px-3 py-1 rounded-full'>
+                <span key={index} className='bg-gray-100 px-2 py-1 rounded-full text-gray-700 text-xs'>
                   {facility}
                 </span>
               ))}
+            </div>
+            {/* Responsive mobile nút cập nhật + xóa */}
+            <div className='lg:hidden border-t px-5 py-3 flex justify-between items-center bg-gray-50'>
+              <button
+                onClick={() => handUpdateticket(item.id)}
+                className='bg-yellow-500 text-[#fff] px-3 py-1 rounded-md text-sm hover:bg-yellow-600 cursor-pointer'
+              >
+                Cập nhật
+              </button>
+              <button
+                onClick={() => handleDeleteTicket(item.id)}
+                className='bg-red-500 text-[#fff] px-3 py-1 rounded-md text-sm hover:bg-red-600 cursor-pointer'
+              >
+                Xóa
+              </button>
             </div>
           </div>
         )

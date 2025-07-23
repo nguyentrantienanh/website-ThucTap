@@ -14,8 +14,8 @@ export default function ChatSupport() {
   const handleSendMessage = () => {
     if (!message.trim()) return alert('Vui lòng nhập tin nhắn')
     const newMessage = {
-      id: 1,
-      sender: 'admin',
+      id: 2,
+      sender: 'user',
       text: message,
       timestamp: new Date().toLocaleString()
     }
@@ -23,7 +23,7 @@ export default function ChatSupport() {
       ...chat[0],
       messages: [...chat[0].messages, newMessage],
       lastMessage: message,
-      status: 1 // Cập nhật trạng thái thành "Đã trả lời"
+      status: 1
     }
     const updatedChats = chats.map((item: any) => (item.id === chat[0].id ? updatedChat : item))
     localStorage.setItem('chats', JSON.stringify(updatedChats))
@@ -50,11 +50,11 @@ export default function ChatSupport() {
               ? messages.map((item: any, index: number) => (
                   <div
                     key={index}
-                    className={`flex items-center mb-4 ${item.id === 1 ? 'justify-end' : 'justify-start'}`}
+                    className={`flex items-center mb-4 ${item.id === 2 ? 'justify-end' : 'justify-start'}`}
                   >
                     <div
                       className={`max-w-xs px-4 py-2 rounded-lg ${
-                        item.id === 1 ? 'bg-green-500 text-[#fff]' : 'bg-gray-300 text-gray-800'
+                        item.id === 2 ? 'bg-green-500 text-[#fff]' : 'bg-gray-300 text-gray-800'
                       }`}
                     >
                       <p className='text-sm'>{item.text}</p>

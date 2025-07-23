@@ -14,12 +14,22 @@ export default function Buyticket() {
   const { t } = useTranslation(['Home', 'Buyticket'])
 
   // dữ liệu vé đã đặt trong localStorage
-  const veData = JSON.parse(localStorage.getItem('vedadat') || '[]')
+ 
+  const UserList = JSON.parse(localStorage.getItem('userList') || '[]')
+  const veData = UserList.map((user: any) => user.ticket).flat()
+
+  const GuestUser = JSON.parse(localStorage.getItem('guestUserInfo') || '[]')
+  const GuestUserTicket = GuestUser.map((user: any) => user.ticket).flat() 
+
+  // hàm để gộp dữ liệu vé đã đặt của người dùng đã đăng nhập và khách
+  const ve =  [...veData, ...GuestUserTicket]
+  console.log('veData222', ve)
+ 
   // State để lưu trữ các ghế đã chọn
   const [selectedSeats, setSelectedSeats] = useState<number[]>([])
   // lưu vào localStorage
-  const [ticketId] = useState<number>(parseInt(id || '0'))
-
+  const [ticketId] = useState<number>(parseInt(id || '0')) 
+ 
   // thông báo đăt vé thành công
   const [successMessage, setSuccessMessage] = useState<string | null>(null)
   const [severity, setSeverity] = useState<'success' | 'warning'>('success')
@@ -63,70 +73,126 @@ export default function Buyticket() {
 
   // kiểm tra đã đăng nhập hay chưa
   const isAuthenticated = localStorage.getItem('userInfo') !== null
-  const handleBooking = () => {
-    if (isAuthenticated) {
-      if (selectedSeats.length === 0) {
-        setSuccessMessage(t('Buyticket:please_select_seat'))
-        severitys('warning')
-        return
-      }
-      const seats = selectedSeats.map((seatId) => {
-        const seat = ticket()
-          .find((item) => item.id === ticketId)
-          ?.seat?.find((s) => s.id === seatId)
-        return {
-          id: seatId,
-          name: seat?.name,
-          price: Number(seat?.price) || 0
-        }
-      })
-      // lưu thông tin đặt vé
-      const newId = Date.now()
-      const bookingDetails = {
-        id: newId,
-        ticketId: ticketId,
-        type: ticket().find((item) => item.id === ticketId)?.type,
-        dateStart: calendar,
-        diemDi: ticket().find((item) => item.id === ticketId)?.diemdi,
-        diemDen: ticket().find((item) => item.id === ticketId)?.diemden,
-        starttime: ticket().find((item) => item.id === ticketId)?.starttime,
-        seats: seats,
-        price: tongtien,
-        status: 3,
-        timestamp: new Date().toISOString()
-      }
-      // Kiểm tra nếu ghế đã được đặt trước
-      const stored = localStorage.getItem('vedadat')
-
-      let existing = []
-
-      try {
-        const parsed = stored ? JSON.parse(stored) : []
-        existing = Array.isArray(parsed) ? parsed : []
-      } catch (e) {
-        console.error('Lỗi parse dữ liệu localStorage:', e)
-        existing = []
-      }
-      // thêm vé mới vào danh sách đã đặt
-      const updatedBookingDetails = [...existing, bookingDetails]
-
-      // Lưu vào localStorage
-      localStorage.setItem('vedadat', JSON.stringify(updatedBookingDetails))
-
-      // Hiển thị thông báo đặt vé thành công
-      setSuccessMessage(t('Buyticket:booking_success'))
-      severitys('success')
-
-      setSelectedSeats([]) // Reset các ghế đã chọn
-
-      setTimeout(() => {
-        setSuccessMessage(null)
-      }, 5000)
-    } else {
-      window.location.href = '/signin'
-      window.alert(t('Buyticket:please_login'))
-    }
+const handleBooking = () => {
+  if (selectedSeats.length === 0) {
+    setSuccessMessage(t('Buyticket:please_select_seat'))
+    severitys('warning')
+    return
   }
+
+  // Tạo danh sách ghế
+  const seats = selectedSeats.map((seatId) => {
+    const seat = ticket()
+      .find((item) => item.id === ticketId)
+      ?.seat?.find((s) => s.id === seatId)
+
+    return {
+      id: seatId,
+      name: seat?.name,
+      price: Number(seat?.price) || 0
+    }
+  })
+
+  // Tạo vé
+  const newId = Date.now()
+  const bookingDetails = {
+    id: newId,
+    ticketId: ticketId,
+    type: ticket().find((item) => item.id === ticketId)?.type,
+    dateStart: calendar,
+    diemDi: ticket().find((item) => item.id === ticketId)?.diemdi,
+    diemDen: ticket().find((item) => item.id === ticketId)?.diemden,
+    starttime: ticket().find((item) => item.id === ticketId)?.starttime,
+    seats: seats,
+    price: tongtien,
+    status: 3,
+    timestamp: new Date().toISOString()
+  }
+
+  // Thông báo
+  setSuccessMessage(t('Buyticket:booking_success'))
+  severitys('success')
+  setSelectedSeats([])
+  setTimeout(() => {
+    setSuccessMessage(null)
+  }, 5000)
+
+  // ===============================
+  // 🔐 XỬ LÝ KHI USER ĐÃ ĐĂNG NHẬP
+  // ===============================
+  const userInfoRaw = localStorage.getItem('userInfo')
+  const userListRaw = localStorage.getItem('userList')
+
+  if (userInfoRaw && userListRaw) {
+    try {
+      const userInfo = JSON.parse(userInfoRaw)
+      const userList: any[] = JSON.parse(userListRaw)
+
+      // ⚠️ Kiểm tra tồn tại user theo tên
+      const userIndex = userList.findIndex(
+        (user) => user.name?.toLowerCase() === userInfo.name?.toLowerCase()
+      )
+
+      if (userIndex !== -1) {
+        if (!Array.isArray(userList[userIndex].ticket)) {
+          userList[userIndex].ticket = []
+        }
+
+        userList[userIndex].ticket.push(bookingDetails)
+
+        // Lưu lại localStorage
+        localStorage.setItem('userList', JSON.stringify(userList))
+
+        // ✅ Điều hướng đến trang thanh toán
+        window.location.href = `/user/payment/${newId}`
+        return
+      } else {
+        console.warn('🔍 Không tìm thấy người dùng tương ứng trong userList.')
+      }
+    } catch (error) {
+      console.error('❌ Lỗi xử lý userList/userInfo:', error)
+    }
+  } else {
+    console.warn('❌ userInfo hoặc userList không tồn tại trong localStorage.')
+  }
+
+
+  // ====================================
+  // 🚫 NẾU KHÔNG ĐĂNG NHẬP (GUEST USER)
+  // ====================================
+  
+const guestRaw = localStorage.getItem('guestUserInfo')
+let guestList = []
+
+if (guestRaw) {
+  guestList = JSON.parse(guestRaw)
+}
+// Tạo ID tự động: id lớn nhất + 1, nếu chưa có ai thì là 1
+const guestListnewId = guestList.length > 0
+  ? Math.max(...guestList.map((guest: any) => guest.id || 0)) + 1
+  : 1
+
+// Tạo khách mới với vé hiện tại
+const newGuest = {
+  id: guestListnewId,
+  fullName: '',
+  phone: '',
+  email: '',
+  cccd: '',
+  birthday: '',
+  ticket: [bookingDetails] // mỗi người chỉ có 1 vé riêng biệt
+}
+
+// Thêm vào danh sách
+guestList.push(newGuest)
+
+// Cập nhật lại vào localStorage
+localStorage.setItem('guestUserInfo', JSON.stringify(guestList))
+
+// Điều hướng đến trang nhập thông tin của người vừa tạo
+window.location.href = `/user/information-guest-user/${newId}/${guestListnewId}`
+  }
+
 
   // Tính toán giá vé dựa trên id
   // const tien = ticket.find((item) => item.id === parseInt(id || ''))?.price || 0
@@ -162,10 +228,10 @@ export default function Buyticket() {
           <div className='flex justify-between  py-1  items-center'>
             {group.map((seat) => {
               let isBooked = false
-              if (veData) {
+              if (ve ) {
                 // kiểm tra nếu có dữ liệu vé đã đặt và isBooked sẽ là true nếu ghế đã được đặt
                 isBooked =
-                  veData.filter(
+                  ve.filter(
                     (booking: any) => booking.seats.some((s: any) => s.id === seat.id) && booking.dateStart === calendar
                   ).length > 0
               }
@@ -218,16 +284,20 @@ export default function Buyticket() {
               const diemden = t(item.diemden)
               const name = `${item.type} - ${diemdi} - ${diemden}`
               return (
-                <h1 key={item.id} className='  font-bold mb-4 text-[#fff] text-center  text-[20px] sm:text-2xl lg:text-4xl'>
+                <h1
+                  key={item.id}
+                  className='  font-bold mb-4 text-[#fff] text-center  text-[20px] sm:text-2xl lg:text-4xl'
+                >
                   {name}
                 </h1>
               )
             })}
         </div>
       </div>
-      <div className= 'flex flex-col md:flex-row gap-5 px-5 py-5 bg-[#f9f9f9] xl:px-[20%]'>
-     
-        <div className={` w-full ${isAuthenticated ? 'md:w-4/5' : 'w-full'} ${isAuthenticated ? 'md:pr-4' : ''}  border-1 rounded-[10px] border-gray-400 h-full md:sticky z-10  top-20 bg-[#fff] px-5 py-5  flex flex-col gap-5`}>
+      <div className='flex flex-col md:flex-row gap-5 px-5 py-5 bg-[#f9f9f9] xl:px-[20%]'>
+        <div
+          className={` w-full ${isAuthenticated ? 'md:w-4/5' : 'w-full'} ${isAuthenticated ? 'md:pr-4' : ''}  border-1 rounded-[10px] border-gray-400 h-full md:sticky z-10  top-20 bg-[#fff] px-5 py-5  flex flex-col gap-5`}
+        >
           <div className='flex flex-col gap-3'>
             <div className='text-[12px] '>
               <h1 className='text-gray-400 font-medium'>{t('Buyticket:journey_date')}</h1>

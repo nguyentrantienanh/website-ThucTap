@@ -344,171 +344,169 @@ function BuyticketLayout() {
               </button>
             </div>
             <div className='flex flex-col md:flex-row mt-5 w-full  '>
-  {/* Filter (ẩn trên mobile) */}
-  <div className='hidden lg:block  w-2/5   rounded-[10px] bg-[#fff] sticky z-10 top-20 h-fit shadow-lg border-gray-300 p-3'>
-    <div className='flex justify-between items-center mb-3'>
-      <h1 className='text-lg font-medium'>{t('Buyticket:filter')}</h1>
-      <button
-        onClick={() => {
-          setFilterData({})
-          localStorage.removeItem('filterData')
-          document.querySelectorAll('input[type="checkbox"]').forEach((checkbox: any) => {
-            checkbox.checked = false
-          })
-        }}
-        className='text-xs text-[#5c5b5b] hover:text-[#1ba000] transition-all'
-      >
-        {t('filter_reset_all')}
-      </button>
-    </div>
-
-    {/* Filter: Vehicle */}
-    <div className='mb-4'>
-      <h2 className='text-sm font-semibold'>{t('Buyticket:filter_vehicle')}</h2>
-      <div className='flex flex-col gap-2 mt-2'>
-        {Vehicle.map((vehicle) => (
-          <label key={vehicle.id} className='flex items-center text-sm gap-2'>
-            <input type='checkbox' onChange={handleChange} name={vehicle.name} className='w-4 h-4' />
-            <span className='flex items-center gap-2 bg-[#f7f7f7] px-2 py-1 rounded-[10px]'>
-              <Icon name='bus' />
-              {vehicle.name}
-            </span>
-          </label>
-        ))}
-      </div>
-    </div>
-
-    {/* Filter: Routes */}
-    <div className='mb-4'>
-      <h2 className='text-sm font-semibold'>{t('Buyticket:filter_routes')}</h2>
-      <div className='flex flex-col gap-2 mt-2'>
-        {Routes.map((route) => {
-          const routeKey = `route_${route.diemDi} - ${route.diemDen}`
-          return (
-            <label key={route.id} className='flex items-center text-sm gap-2'>
-              <input
-                type='checkbox'
-                onChange={handleChange}
-                name={routeKey}
-                checked={filterData[routeKey] || false}
-                className='w-4 h-4'
-              />
-              <span className='flex items-center gap-2 bg-[#f7f7f7] px-2 py-1 rounded-[10px]'>
-                <Icon name='road' />
-                {route.diemDi} - {route.diemDen}
-              </span>
-            </label>
-          )
-        })}
-      </div>
-    </div>
-
-    {/* Filter: Schedules */}
-    <div>
-      <h2 className='text-sm font-semibold'>{t('Buyticket:filter_schedules')}</h2>
-      <div className='flex flex-col gap-2 mt-2'>
-        {Schedules.map((shedule) => {
-          const scheduleKey = `schedule_${shedule.starttime} - ${shedule.endtime}`
-          return (
-            <label key={shedule.id} className='flex items-center text-sm gap-2'>
-              <input
-                type='checkbox'
-                onChange={handleChange}
-                name={scheduleKey}
-                checked={filterData[scheduleKey] || false}
-                className='w-4 h-4'
-              />
-              <span className='flex items-center gap-2 bg-[#f7f7f7] px-2 py-1 rounded-[10px]'>
-                <Icon name='clock' />
-                {shedule.starttime} - {shedule.endtime}
-              </span>
-            </label>
-          )
-        })}
-      </div>
-    </div>
-  </div>
-
- <div className='w-full md:ml-4  px-2   '>
-  {filteredTickets.length > 0 ? (
-    <div className='  h-full space-y-4 w-full'>
-      {filteredTickets.map((item: any) => {
-        const diemdi = t(`Home:${item.diemdi}`)
-        const diemden = t(`Home:${item.diemden}`)
-        const name = `${item.type} -  ${diemdi} - ${diemden}`
-        return (
-          <div
-            key={item.id}
-            className='rounded-[10px] bg-[#fff] shadow-lg border border-gray-300 overflow-hidden'
-          >
-            {/* Thông tin vé */}
-            <div className='flex flex-col md:flex-row items-start md:items-center p-4 gap-4 '>
-              {/* Trái: Thông tin tuyến */}
-              <div className='flex-1'>
-                <h1 className='text-base md:text-lg font-semibold line-clamp-1'>{name}</h1>
-                <p className='text-[11px] text-gray-500'>Seat Layout - {item.seatLayout}</p>
-                <p className='text-amber-400 text-sm flex items-center gap-1 mt-1'>
-                  <Icon name='bus' /> {item.type}
-                </p>
-              </div>
-
-              {/* Giữa: Thời gian */}
-              <div className='flex items-center justify-between w-full md:w-auto md:gap-8 text-sm'>
-                <div className='text-center'>
-                  <p className='text-nowrap'>{item.starttime}</p>
-                  <p className='text-[11px] text-gray-500'>{diemdi}</p>
-                </div>
-                <div className='text-center'>
-                  <Icon name='arrow-right' className='text-green-500' />
-                  <p className='text-[11px] text-gray-500'>{item.timetogo}</p>
-                </div>
-                <div className='text-center'>
-                  <p className='text-nowrap'>{item.endtime}</p>
-                  <p className='text-[11px] text-gray-500'>{diemden}</p>
-                </div>
-              </div>
-
-              {/* Phải: Ngày nghỉ + chọn ghế */}
-              <div className='flex flex-col items-end gap-2 md:pl-4 w-full md:w-auto'>
-                <p className='text-[11px] text-nowrap'>
-                  {t('off_day')}:{' '}
-                  <span className='ml-1 bg-blue-200 text-blue-800 border border-blue-400 px-2 py-1 rounded-full'>
-                    {item.offday}
-                  </span>
-                </p>
-                <Link to={`/buytickets/${item.id}/${name}`} className='w-full md:w-auto'>
-                  <button className='bg-green-600 text-[#fff] text-sm px-4 py-2 rounded-md w-full md:w-auto'>
-                    {t('Buyticket:select_seat')}
+              {/* Filter (ẩn trên mobile) */}
+              <div className='hidden lg:block  w-2/5   rounded-[10px] bg-[#fff] sticky z-10 top-20 h-fit shadow-lg border-gray-300 p-3'>
+                <div className='flex justify-between items-center mb-3'>
+                  <h1 className='text-lg font-medium'>{t('Buyticket:filter')}</h1>
+                  <button
+                    onClick={() => {
+                      setFilterData({})
+                      localStorage.removeItem('filterData')
+                      document.querySelectorAll('input[type="checkbox"]').forEach((checkbox: any) => {
+                        checkbox.checked = false
+                      })
+                    }}
+                    className='text-xs text-[#5c5b5b] hover:text-[#1ba000] transition-all'
+                  >
+                    {t('filter_reset_all')}
                   </button>
-                </Link>
+                </div>
+
+                {/* Filter: Vehicle */}
+                <div className='mb-4'>
+                  <h2 className='text-sm font-semibold'>{t('Buyticket:filter_vehicle')}</h2>
+                  <div className='flex flex-col gap-2 mt-2'>
+                    {Vehicle.map((vehicle) => (
+                      <label key={vehicle.id} className='flex items-center text-sm gap-2'>
+                        <input type='checkbox' onChange={handleChange} name={vehicle.name} className='w-4 h-4' />
+                        <span className='flex items-center gap-2 bg-[#f7f7f7] px-2 py-1 rounded-[10px]'>
+                          <Icon name='bus' />
+                          {vehicle.name}
+                        </span>
+                      </label>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Filter: Routes */}
+                <div className='mb-4'>
+                  <h2 className='text-sm font-semibold'>{t('Buyticket:filter_routes')}</h2>
+                  <div className='flex flex-col gap-2 mt-2'>
+                    {Routes.map((route) => {
+                      const routeKey = `route_${route.diemDi} - ${route.diemDen}`
+                      return (
+                        <label key={route.id} className='flex items-center text-sm gap-2'>
+                          <input
+                            type='checkbox'
+                            onChange={handleChange}
+                            name={routeKey}
+                            checked={filterData[routeKey] || false}
+                            className='w-4 h-4'
+                          />
+                          <span className='flex items-center gap-2 bg-[#f7f7f7] px-2 py-1 rounded-[10px]'>
+                            <Icon name='road' />
+                            {route.diemDi} - {route.diemDen}
+                          </span>
+                        </label>
+                      )
+                    })}
+                  </div>
+                </div>
+
+                {/* Filter: Schedules */}
+                <div>
+                  <h2 className='text-sm font-semibold'>{t('Buyticket:filter_schedules')}</h2>
+                  <div className='flex flex-col gap-2 mt-2'>
+                    {Schedules.map((shedule) => {
+                      const scheduleKey = `schedule_${shedule.starttime} - ${shedule.endtime}`
+                      return (
+                        <label key={shedule.id} className='flex items-center text-sm gap-2'>
+                          <input
+                            type='checkbox'
+                            onChange={handleChange}
+                            name={scheduleKey}
+                            checked={filterData[scheduleKey] || false}
+                            className='w-4 h-4'
+                          />
+                          <span className='flex items-center gap-2 bg-[#f7f7f7] px-2 py-1 rounded-[10px]'>
+                            <Icon name='clock' />
+                            {shedule.starttime} - {shedule.endtime}
+                          </span>
+                        </label>
+                      )
+                    })}
+                  </div>
+                </div>
+              </div>
+
+              <div className='w-full md:ml-4  px-2   '>
+                {filteredTickets.length > 0 ? (
+                  <div className='  h-full space-y-4 w-full'>
+                    {filteredTickets.map((item: any) => {
+                      const diemdi = t(`Home:${item.diemdi}`)
+                      const diemden = t(`Home:${item.diemden}`)
+                      const name = `${item.type} -  ${diemdi} - ${diemden}`
+                      return (
+                        <div
+                          key={item.id}
+                          className='rounded-[10px] bg-[#fff] shadow-lg border border-gray-300 overflow-hidden'
+                        >
+                          {/* Thông tin vé */}
+                          <div className='flex flex-col md:flex-row items-start md:items-center p-4 gap-4 '>
+                            {/* Trái: Thông tin tuyến */}
+                            <div className='flex-1'>
+                              <h1 className='text-base md:text-lg font-semibold line-clamp-1'>{name}</h1>
+                              <p className='text-[11px] text-gray-500'>Seat Layout - {item.seatLayout}</p>
+                              <p className='text-amber-400 text-sm flex items-center gap-1 mt-1'>
+                                <Icon name='bus' /> {item.type}
+                              </p>
+                            </div>
+
+                            {/* Giữa: Thời gian */}
+                            <div className='flex items-center justify-between w-full md:w-auto md:gap-8 text-sm'>
+                              <div className='text-center'>
+                                <p className='text-nowrap'>{item.starttime}</p>
+                                <p className='text-[11px] text-gray-500'>{t(`Home:${item.diemdi}`)}</p>
+                              </div>
+                              <div className='text-center'>
+                                <i className='text-green-600'>
+                                  <Icon name='arrow-right' />
+                                </i>
+
+                                <p className='text-[11px] text-gray-500'>{item.timetogo}</p>
+                              </div>
+                              <div className='text-center'>
+                                <p className='text-nowrap'>{item.endtime}</p>
+                                <p className='text-[11px] text-gray-500'>{t(`Home:${item.diemden}`)}</p>
+                              </div>
+                            </div>
+
+                            {/* Phải: Ngày nghỉ + chọn ghế */}
+                            <div className='flex flex-col items-end gap-2 md:pl-4 w-full md:w-auto'>
+                              <p className='text-[11px] text-nowrap'>
+                                {t('off_day')}:{' '}
+                                <span className='ml-1 bg-blue-200 text-blue-800 border border-blue-400 px-2 py-1 rounded-full'>
+                                  {item.offday}
+                                </span>
+                              </p>
+                              <Link to={`/buytickets/${item.id}/${name}`} className='w-full md:w-auto'>
+                                <button className='bg-green-600 text-[#fff] text-sm px-4 py-2 rounded-md w-full md:w-auto'>
+                                  {t('Buyticket:select_seat')}
+                                </button>
+                              </Link>
+                            </div>
+                          </div>
+
+                          {/* Tiện nghi */}
+                          <div className='border-t border-gray-200 px-4 py-2 text-sm flex flex-wrap gap-2 items-center'>
+                            <p className='text-gray-500'>{t('facilities')}:</p>
+                            {item.facilities.map((facility: any, index: any) => (
+                              <span className='bg-gray-100 px-2 py-1 rounded-full text-gray-700 text-xs' key={index}>
+                                {facility}
+                              </span>
+                            ))}
+                          </div>
+                        </div>
+                      )
+                    })}
+                  </div>
+                ) : (
+                  <div className='h-full flex items-center justify-center py-10'>
+                    <p className='text-[18px] text-gray-500'>{t('Buyticket:no_ticket')}</p>
+                  </div>
+                )}
               </div>
             </div>
-
-            {/* Tiện nghi */}
-            <div className='border-t border-gray-200 px-4 py-2 text-sm flex flex-wrap gap-2 items-center'>
-              <p className='text-gray-500'>{t('facilities')}:</p>
-              {item.facilities.map((facility: any, index: any) => (
-                <span
-                  className='bg-gray-100 px-2 py-1 rounded-full text-gray-700 text-xs'
-                  key={index}
-                >
-                  {facility}
-                </span>
-              ))}
-            </div>
-          </div>
-        )
-      })}
-    </div>
-  ) : (
-    <div className='h-full flex items-center justify-center py-10'>
-      <p className='text-[18px] text-gray-500'>{t('Buyticket:no_ticket')}</p>
-    </div>
-  )}
-</div>
-
-</div>
-
           </div>
         </div>
       </div>

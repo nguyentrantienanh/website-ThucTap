@@ -111,24 +111,27 @@ export default function ProfileSetting() {
         style={{ backgroundImage: `url(${background})`, backgroundSize: 'cover', backgroundPosition: 'center' }}
       >
         <div className='w-full h-full flex items-center justify-center bg-[#00000068]  '>
-          <h1 className='text-4xl font-bold mb-4 text-[#fff]  '>Profile Setting</h1>
+          <h1 className='text-2xl sm:text-3xl lg:text-4xl font-bold mb-4 text-[#fff]  '>Profile Setting</h1>
         </div>
       </div>
-      <div className='flex flex-col   mx-10  bg-[#fff]  '>
-        <h1 className='font-black pt-5 text-2xl'>Thông tin cá nhân</h1>
-        <div className='h-full py-10'>
-          <div className='p-4 mt-[-20px]  shadow-[0_5px_25px_rgba(0,0,0,0.25)]'>
-            <div className=' flex  gap-5  '>
+      <div className='flex flex-col  max-sm:items-center mx-10  bg-[#fff]  '>
+        <h1 className='font-black pt-5 text-1xl sm:text-2xl'>Thông tin cá nhân</h1>
+        <div className='h-full py-5'>
+          <div className='p-4  shadow-[0_5px_25px_rgba(0,0,0,0.25)]'>
+            <div className=' flex max-sm:flex-col max-sm:items-center gap-5  '>
               <div className=' justify-center items-center flex flex-col w-1/3  gap-2 p-4 rounded-md'>
-                <img src={UserInfo.imageUrl || Avatar} className=' w-40 h-40 object-cover rounded-2xl ' />
-                <p>
+                <img
+                  src={UserInfo.imageUrls || Avatar}
+                  className=' w-10 h-10 sm:w-20 sm:h-20 lg:w-30 lg:h-30 xl:w-40 xl:h-40 object-cover rounded-2xl '
+                />
+                <p className='text-nowrap'>
                   {UserInfo.firstname} {UserInfo.lastname}
                 </p>
-                <h2 className='text-lg font-semibold'>User Information</h2>
+                <h2 className='text-[14px] sm:text-[16px] text-nowrap font-semibold '>User Information</h2>
               </div>
 
-              <form className=' grid grid-cols-2 w-full gap-4 my-4'>
-                <div className='flex flex-col col-span-2 gap-2'>
+              <form className=' grid grid-cols-1 sm:grid-cols-2 w-full gap-4 sm:my-4'>
+                <div className='flex flex-col col-span-1 sm:col-span-2 gap-2 text-[15px] sm:text-[18px]'>
                   <label htmlFor=''>
                     Username <sup className='text-red-600'>*</sup>
                   </label>
@@ -139,14 +142,15 @@ export default function ProfileSetting() {
                     className='p-2 border-1 border-gray-300 rounded-md shadow-sm focus:outline-none  focus:ring-green-500 focus:shadow-green-300 focus:border-green-500  '
                   />
                 </div>
-                <div className='flex flex-col  gap-2'>
+
+                <div className='flex flex-col text-[15px] sm:text-[18px]  gap-2'>
                   <label htmlFor=''>
                     Country <sup className='text-red-600'>*</sup>
                   </label>
                   <select
                     value={countryValue}
                     onChange={handleCountryChange}
-                    className='p-2 border-1 border-gray-300 rounded-md shadow-sm focus:outline-none  focus:ring-green-500 focus:shadow-green-300 focus:border-green-500  '
+                    className=' text-[15px] sm:text-[18px] p-2 border-1 border-gray-300 rounded-md shadow-sm focus:outline-none  focus:ring-green-500 focus:shadow-green-300 focus:border-green-500  '
                   >
                     {countryOptions.map((option) => (
                       <option key={option.id} value={option.value} id={option.id}>
@@ -155,32 +159,36 @@ export default function ProfileSetting() {
                     ))}
                   </select>
                 </div>
-                <div className='flex flex-col gap-2'>
+                <div className='flex flex-col gap-2 text-[15px] sm:text-[18px]'>
                   <label htmlFor=''>
                     Mobile<sup className='text-red-600'>*</sup>
                   </label>
                   <div className='flex flex-col '>
-                    <div className='flex items-center border-1 border-gray-300 rounded-md shadow-sm'>
-                      <span className='p-2 border-1 w-20 bg-[#e2e2e2] border-gray-300 rounded-l-md'>{countryCode}</span>
+                    <div className='flex items-center border-1 border-gray-300 rounded-md shadow-sm '>
+                      <span className='p-2 border-1 w-20 bg-[#e2e2e2] border-gray-300 rounded-l-md text-[15px] sm:text-[18px] text-nowrap'>
+                        {countryCode}
+                      </span>
                       <input
                         type='text'
                         value={phoneValue}
                         onChange={handlePhoneChange}
                         maxLength={10} // giới hạn độ dài
-                        className={`p-2 border-1 border-gray-300 rounded-r-md shadow-sm w-full 
-    focus:outline-none focus:ring-green-500 focus:shadow-green-300 focus:border-green-500
-    ${phoneValue.length > 0 && phoneValue.length !== 10 ? 'border-red-500' : ''}
-  `}
+                        className={`p-2 border-1 text-[15px] sm:text-[18px] border-gray-300 rounded-r-md shadow-sm w-full 
+                               focus:outline-none focus:ring-green-500 focus:shadow-green-300 focus:border-green-500
+                                   ${phoneValue.length > 0 && phoneValue.length !== 10 ? 'border-red-500' : ''}
+                                      `}
                         placeholder='Nhập số điện thoại...'
                       />
                     </div>
 
                     {phoneValue.length > 0 && phoneValue.length !== 10 && (
-                      <span className='text-red-500 text-sm mt-1'>Số điện thoại phải có đúng 10 chữ số.</span>
+                      <span className='text-red-500   mt-1 text-[15px] sm:text-[18px]'>
+                        Số điện thoại phải có đúng 10 chữ số.
+                      </span>
                     )}
                   </div>
                 </div>
-                <div className='flex flex-col  gap-2'>
+                <div className='flex flex-col text-[15px] sm:text-[18px] gap-2'>
                   <label htmlFor=''>Address</label>
                   <input
                     type='text'
@@ -190,7 +198,7 @@ export default function ProfileSetting() {
                     placeholder='Nhập  địa chỉ'
                   />
                 </div>
-                <div className='flex flex-col  gap-2'>
+                <div className='flex flex-col text-[15px] sm:text-[18px] gap-2'>
                   <label htmlFor=''>Email</label>
                   <input
                     type='text'
@@ -200,7 +208,7 @@ export default function ProfileSetting() {
                     placeholder={` ${UserInfo.email}`}
                   />
                 </div>
-                <div className='flex flex-col  gap-2'>
+                <div className='flex flex-col text-[15px] sm:text-[18px] gap-2'>
                   <label htmlFor=''>Zip Code</label>
                   <input
                     type='text'
@@ -210,7 +218,7 @@ export default function ProfileSetting() {
                     placeholder='Nhập mã thành phố'
                   />
                 </div>
-                <div className='flex flex-col gap-2'>
+                <div className='flex flex-col text-[15px] sm:text-[18px] gap-2'>
                   <label htmlFor=''>City</label>
                   <input
                     type='text'
@@ -222,7 +230,7 @@ export default function ProfileSetting() {
                 </div>
               </form>
             </div>
-            <div className='px-10 flex gap-4'>
+            <div className='sm:px-10 px-2 mt-2 flex gap-4 max-sm:justify-between'>
               <button
                 onClick={handleSaveUserthonin}
                 className={`bg-[#23ff52] h-10 w-full mt-2  text-black font-semibold rounded ${isFormValid() ? 'hover:bg-[#00ff37] cursor-pointer' : 'opacity-50 cursor-not-allowed'}`}

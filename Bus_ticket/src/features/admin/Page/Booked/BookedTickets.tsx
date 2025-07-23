@@ -51,7 +51,7 @@ function Tickets() {
             <tbody>
               {ve.length > 0 ? (
                 ve.map((item: any, index: number) => (
-                  <tr key={index} className='bg-[#fff] text-xs text-gray-800   border-b'>
+                  <tr key={index} className='bg-[#fff] text-xs text-gray-800 text-nowrap   border-b'>
                     <td className='py-2 px-2 text-gray-500'>{item.id}</td>
                     <td className='py-2 px-2 text-[#4447ff]'>{item.ticketId}</td>
                     <td className='py-2 px-2 text-[#a7a7a7]'>{item.type}</td>
@@ -228,22 +228,22 @@ export default function BookedTickets() {
 
   return (
     <>
-      <div className='flex flex-col  px-2 w-full py-4  pt-2 '>
+      <div className='flex flex-col  px-2 w-full   pt-2 '>
         <div className='py-3 flex justify-between px-3 items-center text-center w-full shadow-md bg-[#fff] rounded-lg  '>
-          <h1 className='text-3xl font-bold text-gray-700'>Vé đã đặt</h1>
-          <div className='  flex justify-between px-2 items-center    w-30 h-full rounded-lg   m-2 bg-[#4f46e5] shadow-md'>
-            <i className='    text-4xl text-[#fff]/20'>
+          <h1 className=' text-1xl sm:text-3xl font-bold text-gray-700'>Vé đã đặt</h1>
+          <div className='  flex justify-between px-2 items-center  w-15  sm:w-30 h-full rounded-lg   m-2 bg-[#4f46e5] shadow-md'>
+            <i className='   text-[14px] sm:text-4xl text-[#fff]/20'>
               <Icon name='ticket' />
             </i>
             <div className='flex flex-col text-[#fff]  '>
-              <span className='font-bold text-2xl'>{countticket}</span>
+              <span className='font-bold text-[16px] sm:text-2xl'>{countticket}</span>
             </div>
           </div>
         </div>
       </div>
       {/* Account */}
       <div>
-        <div className=' grid grid-cols-4  col-span-4  '>
+        <div className=' grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4  py-3'>
           {/* số lượng vé đã đặt */}
           <div className='relative  rounded-lg overflow-hidden m-2 bg-[#4F46E5] shadow-md'>
             <i className='absolute bottom-[-5px] left-0 text-5xl text-[#fff]/20'>
@@ -252,9 +252,6 @@ export default function BookedTickets() {
             <div className='flex flex-col text-[#fff] items-end h-full p-4 gap-2 pl-2'>
               <span className='font-bold text-3xl'>{totalBooked}</span>
               <span className='text-[#fff]/70 text-sm'>Vé đã đặt</span>
-              <button className=' cursor-pointer px-3 py-1 bg-[#fff] text-[#4F46E5] rounded-md text-sm font-semibold shadow-sm hover:bg-gray-100'>
-                View All
-              </button>
             </div>
           </div>
           {/* Thanh toán thành công */}
@@ -265,9 +262,6 @@ export default function BookedTickets() {
             <div className='flex flex-col text-[#fff] items-end h-full p-4 gap-2 pl-2'>
               <span className='font-bold text-3xl'> {countConfirmed} </span>
               <span className='text-[#fff]/70 text-sm'>Thanh toán thành công</span>
-              <button className=' cursor-pointer px-3 py-1 bg-[#fff] text-green-600 rounded-md text-sm font-semibold shadow-sm hover:bg-gray-100'>
-                View All
-              </button>
             </div>
           </div>
           {/* Tổng vé  chờ thanh toán */}
@@ -278,9 +272,6 @@ export default function BookedTickets() {
             <div className='flex flex-col text-[#fff] items-end h-full p-4 gap-2 pl-2'>
               <span className='font-bold text-3xl'>{countPending}</span>
               <span className='text-[#fff]/70 text-sm'>Đang chờ thanh toán</span>
-              <button className=' cursor-pointer px-3 py-1 bg-[#fff] text-yellow-600 rounded-md text-sm font-semibold shadow-sm hover:bg-gray-100'>
-                View All
-              </button>
             </div>
           </div>
 
@@ -292,9 +283,6 @@ export default function BookedTickets() {
             <div className='flex flex-col text-[#fff] items-end h-full p-4 gap-2 pl-2'>
               <span className='font-bold text-3xl'>{countRejected}</span>
               <span className='text-[#fff]/70 text-sm'>Thanh toán bị từ chối</span>
-              <button className=' cursor-pointer px-3 py-1 bg-[#fff] text-red-600 rounded-md text-sm font-semibold shadow-sm hover:bg-gray-100'>
-                View All
-              </button>
             </div>
           </div>
         </div>

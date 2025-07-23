@@ -54,11 +54,11 @@ export default function Changepassword() {
         style={{ backgroundImage: `url(${Background})`, backgroundSize: 'cover', backgroundPosition: 'center' }}
       >
         <div className='w-full h-full flex items-center justify-center bg-[#00000068]'>
-          <h1 className='text-4xl font-bold mb-4 text-[#fff]'>Change Password</h1>
+          <h1 className='text-2xl sm:text-3xl lg:text-4xl font-bold mb-4 text-[#fff]'>Change Password</h1>
         </div>
       </div>
 
-      <div className='mx-100 my-10'>
+      <div className=' sm:px-[5%] lg:px-[15%] xl:px-[30%] my-10'>
         <form
           onSubmit={handleSubmit}
           className='rounded-2xl shadow-[0_5px_25px_rgba(0,0,0,0.25)] p-3 flex flex-col gap-8'

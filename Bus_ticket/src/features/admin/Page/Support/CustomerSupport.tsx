@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom'
 
 function AccountSupport() {
   const [chat] = useState(chatData)
+  const chats = JSON.parse(localStorage.getItem('chats') || '[]')
 
   return (
     <>
@@ -13,19 +14,17 @@ function AccountSupport() {
           <table className='min-w-full bg-[#1ba000] rounded-t-2xl text-[13px]'>
             <thead>
               <th className='py-2 px-2 text-left w-[90px]'>ID</th>
-              <th className='py-2 px-2 text-left w-[90px]'>Name</th>
-              <th className='py-2 px-2 text-left  w-[90px] text-nowrap'>description</th>
+              <th className='py-2 px-2 text-left w-[120px]'>Description</th>
               <th className='py-2 px-2 text-left w-[120px]'>lastMessage</th>
               <th className='py-2 px-2 text-left w-[120px]'>timestamp</th>
               <th className='py-2 px-2 text-left w-[100px]'>Action</th>
             </thead>
 
             <tbody>
-              {chat.length > 0 ? (
-                chat.map((item: any, index: number) => (
+              {chats.length > 0 ? (
+                chats.map((item: any, index: number) => (
                   <tr key={index} className='bg-[#fff] text-xs text-gray-800  text-nowrap space-nowrap border-b'>
                     <td className='py-2 px-2 text-gray-500'>{item.id}</td>
-                    <td className='py-2 px-2 text-gray-500'>{item.name}</td>
                     <td className='py-2 px-2 text-gray-500'>{item.description}</td>
                     <td className='py-2 px-2 text-gray-500'>{item.lastMessage}</td>
                     <td className='py-2 px-2 text-gray-500'>{item.timestamp}</td>

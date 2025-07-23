@@ -20,9 +20,12 @@ function TickParamsSelector({
   setTickPlacement
 }: TickParamsSelectorProps) {
   return (
-    <Stack direction='column' justifyContent='space-between' sx={{ width: '100%' }}>
+    <Stack direction='row' spacing={2} alignItems='center' justifyContent='center' sx={{ mb: 2 }}>
       <FormControl>
-        <FormLabel id='tick-placement-radio-buttons-group-label'>Vị trí tick</FormLabel>
+        <div className='hidden md:table-cell'>
+          <FormLabel id='tick-placement-radio-buttons-group-label'>Vị trí tick</FormLabel>
+        </div>
+
         <RadioGroup
           row
           aria-labelledby='tick-placement-radio-buttons-group-label'
@@ -30,10 +33,12 @@ function TickParamsSelector({
           value={tickPlacement}
           onChange={(event) => setTickPlacement(event.target.value as 'start' | 'end' | 'middle' | 'extremities')}
         >
-          <FormControlLabel value='start' control={<Radio />} label='start' />
-          <FormControlLabel value='end' control={<Radio />} label='end' />
-          <FormControlLabel value='middle' control={<Radio />} label='middle' />
-          <FormControlLabel value='extremities' control={<Radio />} label='extremities' />
+          <div className=' hidden md:table-cell  gap-2   '>
+            <FormControlLabel value='start' control={<Radio />} label='start' />
+            <FormControlLabel value='end' control={<Radio />} label='end' />
+            <FormControlLabel value='middle' control={<Radio />} label='middle' />
+            <FormControlLabel value='extremities' control={<Radio />} label='extremities' />
+          </div>
         </RadioGroup>
       </FormControl>
     </Stack>
@@ -57,13 +62,21 @@ export default function TickPlacementBars() {
   const [tickPlacement, setTickPlacement] = React.useState<'start' | 'end' | 'middle' | 'extremities'>('middle')
 
   return (
-    <div style={{ width: '100%' }}>
+    <div style={{ width: '100%', height: '100%' }} className='overflow-x-auto'>
       <TickParamsSelector
         tickPlacement={tickPlacement}
         tickLabelPlacement={'tick'}
         setTickPlacement={setTickPlacement}
       />
-      <BarChart dataset={dataset} xAxis={[{ dataKey: 'month', tickPlacement }]} {...chartSetting} />
+      {/* giao diện mobile thu gọn */}
+      <div style={{ minWidth: 400 }}>
+        <BarChart
+          dataset={dataset}
+          xAxis={[{ dataKey: 'month', tickPlacement }]}
+          {...chartSetting}
+          height={220} // giảm chiều cao cho mobile nếu muốn
+        />
+      </div>
     </div>
   )
 }

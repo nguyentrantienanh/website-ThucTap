@@ -178,9 +178,16 @@ function Icon(props: { name: string }) {
     return <i className='fa-solid fa-lock'></i>
   } else if (props.name == 'support') {
     return <i className='fa-solid fa-headset'></i>
-  } else if (props.name == 'send')
+  } else if (props.name == 'send'){
     // gửi tin nhắn
     return <i className='fa-solid fa-paper-plane'></i>
+  } else if (props.name == 'trash') {
+    // Biểu tượng thùng rác
+    return <i className="fa-solid fa-trash-can"></i>
+  } else if (props.name == 'cancel') {
+    // Biểu tượng hủy
+    return <i className="fa-solid fa-ban"></i>
+  }
 }
 
 export default Icon

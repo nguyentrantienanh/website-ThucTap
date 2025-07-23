@@ -21,6 +21,9 @@ import Ticketcreatenew from './features/user/Page/Support/Ticketcreatenew'
 import SupportTicket from './features/user/Page/Support/Support_Ticket'
 import ProfileSetting from './features/user/Page/ProfileSetting'
 import Changepassword from './features/user/Page/Changepassword'
+import ChatSupportUser from './features/user/Page/Support/ChatSupport'
+import Payment from './Page/Buytickets/Payment'
+import InformationGuestUser from  './Page/GuestUser/Information'
 
 // admin
 import ProtectedRouteAmin from './services/ProtectedRouteAmin'
@@ -55,7 +58,8 @@ import Icon from './icons/Icon'
 
 function AppRoutes() {
   const location = useLocation()
-  const hideHeaderFooter = ['/signin', '/signup', '/user/profile', '/admin']
+ 
+  const hideHeaderFooter = ['/signin', '/signup', '/admin',  '/user/payment/', '/user/information-guest-user/']
   // loading mỗi khi chuyển trang
   const [loading, setLoading] = useState(true)
   useEffect(() => {
@@ -66,15 +70,18 @@ function AppRoutes() {
 
     return () => clearTimeout(timer)
   }, [location.pathname])
-
+  // Kiểm tra xem đường dẫn hiện tại có nằm trong danh sách cần ẩn header và footer không
+const shouldHideHeaderFooter = hideHeaderFooter.some((path) =>
+  location.pathname === path || location.pathname.startsWith(path)
+)
   return (
     <>
-      {loading && (
+      {/* {loading && (
         <div className='loading-page overflow-hidden'>
           <LoadingPage />
         </div>
-      )}
-      {!hideHeaderFooter.includes(location.pathname) && <Header />}
+      )} */}
+     {!shouldHideHeaderFooter && <Header />}
       <ScrollToTop />
       <Routes>
         <Route path='/' element={<Home />} />
@@ -86,6 +93,7 @@ function AppRoutes() {
         <Route path='/buytickets/:id/:name' element={<Ticket />} />
         <Route path='/signin' element={<Signin />} />
         <Route path='/signup' element={<Signup />} />
+
 
         <Route
           path='/user/dashboard'
@@ -129,6 +137,14 @@ function AppRoutes() {
           }
         />
         <Route
+          path='/user/support/chat/:id/:name'
+          element={
+            <ProtectedRoute>
+              <ChatSupportUser />
+            </ProtectedRoute>
+          }
+        />
+        <Route
           path='/user/change-password'
           element={
             <ProtectedRoute>
@@ -136,13 +152,22 @@ function AppRoutes() {
             </ProtectedRoute>
           }
         />
+         <Route path='/user/information-guest-user/:id/:name' element={<InformationGuestUser />} />
         <Route path='viserbus/policy/privacy-policy' element={<PrivacyPolicy />} />
         <Route path='viserbus/policy/terms-of-service' element={<TermsOfService />} />
         <Route path='viserbus/policy/ticket-policy' element={<TicketPolicy />} />
         <Route path='viserbus/policy/refund-policy' element={<RefundPolicy />} />
+        <Route
+          path='/user/payment/:id'
+          element={
+            
+              <Payment />
+           
+          }
+        />
         <Route path='*' element={<Page404 />} />
       </Routes>
-      {!hideHeaderFooter.includes(location.pathname) && <Footer />}
+      {!shouldHideHeaderFooter && <Footer />}
       {/* <ScrollToShow/> */}
     </>
   )

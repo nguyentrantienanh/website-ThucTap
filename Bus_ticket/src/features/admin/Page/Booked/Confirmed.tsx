@@ -47,7 +47,10 @@ function TicketConfirmed() {
             <tbody>
               {ConfirmedTickets.length > 0 ? (
                 ConfirmedTickets.map((item: any, index: number) => (
-                  <tr key={index} className='bg-[#fff] text-xs text-gray-800 space-nowrap even:bg-green-100 '>
+                  <tr
+                    key={index}
+                    className='bg-[#fff] text-xs text-gray-800 space-nowrap text-nowrap even:bg-green-100 '
+                  >
                     <td className='py-2 px-2 text-gray-500'>{item.id}</td>
                     <td className='py-2 px-2 text-blue-600'>{item.ticketId}</td>
                     <td className='py-2 px-2 text-gray-500'>{item.type}</td>
@@ -182,13 +185,13 @@ export default function Confirmed() {
     <>
       <div className=' bg-green-50  flex flex-col  px-2 w-full py-4  pt-2 '>
         <div className='py-3 flex justify-between px-3 items-center text-center w-full shadow-md bg-[#fff] rounded-lg  '>
-          <h1 className='text-3xl font-bold text-gray-700'>Vé đã được duyệt</h1>
-          <div className='  flex justify-between px-2 items-center    w-30 h-full rounded-lg   m-2 bg-green-500 shadow-md'>
-            <i className='    text-4xl text-[#fff]/20'>
+          <h1 className='text-1xl sm:text-3xl font-bold text-gray-700'>Vé đã được duyệt</h1>
+          <div className='  flex justify-between px-2 items-center  w-15  sm:w-30 h-full rounded-lg   m-2 bg-green-500 shadow-md'>
+            <i className='  text-[14px]  sm:text-4xl text-[#fff]/20'>
               <Icon name='ticket' />
             </i>
             <div className='flex flex-col text-[#fff]  '>
-              <span className='font-bold text-2xl'>{totalConfirmed}</span>
+              <span className='font-bold text-[16px] sm:text-2xl'>{totalConfirmed}</span>
             </div>
           </div>
         </div>

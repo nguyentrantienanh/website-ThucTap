@@ -8,7 +8,7 @@ const Signin: React.FC = () => {
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = (e: any) => {
     e.preventDefault()
     if (username === ADMIN_USERNAME && password === ADMIN_PASSWORD) {
       localStorage.setItem('adminInfo', JSON.stringify({ adminId: 'admin123456' }))
@@ -75,7 +75,6 @@ const Signin: React.FC = () => {
         </div>
         <button
           className={`bg-[#23ff52] h-10 w-full mt-2 ${captchaValue ? 'hover:bg-[#00ff37] cursor-pointer' : 'opacity-50 cursor-not-allowed'} text-black font-semibold rounded`}
-          disabled={!captchaValue}
         >
           Đăng nhập
         </button>

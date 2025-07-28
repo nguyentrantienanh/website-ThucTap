@@ -40,7 +40,7 @@ const adminNav = [
 
 function HeaderAdmin() {
   // hàm Language
-  const { t } = useTranslation()
+  // const { t } = useTranslation()
   const { i18n } = useTranslation()
   const [language, setLanguage] = useState<'vi' | 'en'>('vi')
   const changeLanguage = (lang: 'vi' | 'en') => {
@@ -62,7 +62,7 @@ function HeaderAdmin() {
             alt=''
           />
         </div>
-        <div className='relative z-100   '>
+        <div className='relative z-[60]  '>
           <button
             className='text-[10px] text-nowrap cursor-pointer flex items-center gap-1 text-gray-700 hover:text-[#1ba000] transition-all duration-300'
             onClick={toggleLanguage}
@@ -72,7 +72,7 @@ function HeaderAdmin() {
           </button>
           {islanguageOpen && (
             <div
-              className='cursor-pointer  absolute top-full left-0 min-w-max bg-[#fff] shadow-lg rounded mt-1 '
+              className='cursor-pointer  absolute top-full  left-0 min-w-max bg-[#fff] shadow-lg rounded mt-1 '
               onClick={() => setIsLanguageOpen(false)}
             >
               <ul className='p-2  flex flex-col gap-2'>
@@ -80,7 +80,7 @@ function HeaderAdmin() {
                   <img src={vietnam} alt='' className=' w-5 h-5 rounded-full border border-gray-300' />
 
                   <li
-                    className='cursor-pointer hover:text-[#1ba000] transition-all duration-300'
+                    className='cursor-pointer hover:text-[#1ba000] transition-all duration-300 text-[10px] md:text-[14px]'
                     onClick={() => changeLanguage('vi')}
                   >
                     Tiếng Việt
@@ -90,7 +90,7 @@ function HeaderAdmin() {
                   <img src={my} alt='' className='w-5 h-5 rounded-full border border-gray-300' />
 
                   <li
-                    className='cursor-pointer hover:text-[#1ba000] transition-all duration-300'
+                    className='cursor-pointer hover:text-[#1ba000] transition-all duration-300 text-[10px] md:text-[14px]'
                     onClick={() => changeLanguage('en')}
                   >
                     English
@@ -106,115 +106,127 @@ function HeaderAdmin() {
 
   const location = useLocation()
   const [openshow, setopenshow] = useState<number | null>(null)
-  const [collapsed, setCollapsed] = useState(false)
+  const [collapsed, setCollapsed] = useState(false) // Desktop
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false) // Mobile
 
   const handleToggle = (id: number) => {
     setopenshow(openshow === id ? null : id)
-  }
-  const handleTogglecollapsed = () => {
-    setCollapsed(!collapsed)
-    setopenshow(null)
   }
 
   return (
     <>
       {' '}
       <aside
-        className={` h-screen top-0 left-0 bg-gray-100 flex flex-col justify-between  transition-all duration-500 z-90 ${collapsed ? 'w-18' : ' sm:w-72 max-[640px]:w-130 max-[500px]:w-100 max-[400px]:w-90  max-[350px]:w-80   '} `}
+        className={`md:h-screen top-0 left-0 bg-gray-100 flex flex-col justify-between transition-all duration-500 z-50 ${
+          collapsed ? 'md:w-18' : 'md:w-80'
+        }`}
       >
-        {/* Logo & Title */}
         <div>
           <div className='flex items-center justify-between p-4 border-b cursor-pointer'>
             <div className='flex items-center justify-center gap-2' onClick={() => setCollapsed(false)}>
               <img src={logo} alt='Logo' className='h-10 object-contain' />
-
               <span
                 className={`transition-all duration-300 text-nowrap text-[#1ba000] text-xl font-bold overflow-hidden text-ellipsis inline-block ${
-                  collapsed ? 'max-w-[0px]' : 'max-w-[100px]'
+                  collapsed ? 'md:max-w-[0px] md:overflow-hidden' : 'md:max-w-[100px]'
                 }`}
               >
                 ADMIN
               </span>
             </div>
+
             <div
-              className={` text-[10px] transition-all duration-300 text-nowrap text-[#1ba000] text-xl font-bold   text-ellipsis inline-block ${
-                collapsed ? 'max-w-[0px] overflow-hidden ' : 'max-w-[100px]'
+              className={`transition-all  duration-300 text-nowrap ${
+                collapsed ? 'md:max-w-[0px] md:overflow-hidden' : 'md:max-w-[100px] md:overflow-visible'
               }`}
             >
               <LanguageSwitch />
             </div>
-            {/* Nút mũi tên - click sẽ toggle thu gọn / mở rộng */}
-            <button onClick={handleTogglecollapsed} className='text-gray-500 hover:text-gray-700 '>
-              <i className=' cursor-pointer'>
-                {collapsed ? <Icon name='circle-right' /> : <Icon name='circle-left' />}
-              </i>
+
+            {/* Nút toggle cho desktop */}
+            <button
+              onClick={() => {
+                setCollapsed(!collapsed)
+                setopenshow(null)
+                setIsLanguageOpen(false)
+              }}
+              className='text-gray-500 hover:text-gray-700 max-md:hidden'
+            >
+              {collapsed ? <Icon name='circle-right' /> : <Icon name='circle-left' />}
+            </button>
+
+            {/* Nút toggle cho mobile */}
+            <button
+              className='text-gray-500 hover:text-gray-700 md:hidden'
+              onClick={() => {
+                setMobileMenuOpen(!mobileMenuOpen)
+                setopenshow(null)
+                setIsLanguageOpen(false)
+              }}
+            >
+              <Icon name={mobileMenuOpen ? 'up' : 'dow'} />
             </button>
           </div>
 
           {/* Navigation */}
-          <nav className='flex flex-col p-4 gap-1'>
+          <nav
+            className={`flex flex-col mt-2 overflow-hidden transition-all duration-500 ease-in-out ${
+              mobileMenuOpen
+                ? 'max-md:max-h-[500px] max-md:opacity-100' // Mobile: hiện khi menu mở
+                : 'max-md:max-h-0 max-md:opacity-0' // Mobile: ẩn khi menu đóng
+            } md:max-h-[calc(100vh-200px)] md:opacity-100 md:overflow-y-auto`}
+          >
             {adminNav.map((item) => (
-              <div
-                key={item.id}
-                className='relative group'
-                onClick={() => {
-                  handleToggle(item.id)
-                  setCollapsed(false)
-                }}
-              >
+              <div key={item.id} className='relative group'>
                 <Link
                   to={item.path}
                   className={`flex items-center gap-3 px-3 py-2 rounded hover:bg-green-100 transition-all ${
                     location.pathname.startsWith(item.path) ? 'bg-green-200 text-[#1ba000]' : 'text-gray-700'
                   }`}
+                  onClick={() => {
+                    // Đóng mobile menu khi click vào Link
+                    setMobileMenuOpen(false)
+                  }}
                 >
                   <Icon name={item.icon} />
                   <span
-                    className={`transition-all duration-300 text-nowrap overflow-hidden text-ellipsis inline-block ${
-                      collapsed ? 'max-w-[0px]' : 'max-w-full'
+                    className={`transition-all duration-300 overflow-hidden text-nowrap text-ellipsis inline-block ${
+                      collapsed ? 'md:max-w-[0px]' : 'md:max-w-full'
                     }`}
                   >
                     {item.name}
                   </span>
 
-                  <div className='  my-2 ml-auto'>
-                    {!collapsed && item.sub && item.sub.length > 0 && (
-                      <button
-                        key={item.id}
-                        className='  cursor-pointer text-gray-500 hover:text-gray-700'
-                        onClick={() => handleToggle(item.id)}
-                      >
-                        <i className='  flex items-center justify-center w-6 h-6'>
-                          {openshow === item.id ? (
-                            <i className='pr-2'>
-                              <Icon name='dow' />
-                            </i>
-                          ) : (
-                            <i className='pr-2'>
-                              <Icon name='up' />
-                            </i>
-                          )}
-                        </i>
-                      </button>
-                    )}
+                  <div
+                    className='ml-auto'
+                    onClick={(e) => {
+                      e.preventDefault()
+                      e.stopPropagation()
+                      handleToggle(item.id)
+                    }}
+                  >
+                    {item.sub && item.sub.length > 0 && <Icon name={openshow === item.id ? 'up' : 'dow'} />}
                   </div>
                 </Link>
 
                 {/* Submenu */}
                 {item.sub && item.sub.length > 0 && (
-                  <div className=' '>
-                    <div
-                      className={` divide-dashed  divide-y-1 divide-gray-300 overflow-hidden transition-all duration-500 ease-in-outleft-0 w-full bg-[#fff] shadow-sm shadow-emerald-300 rounded mt-1  ${
-                        openshow === item.id ? 'max-h-40 opacity-100' : 'max-h-0 opacity-0'
-                      } overflow-hidden`}
-                    >
+                  <div
+                    className={`overflow-hidden transition-all duration-500 ease-in-out ${
+                      openshow === item.id ? 'max-h-40 opacity-100' : 'max-h-0 opacity-0'
+                    }`}
+                  >
+                    <div className='divide-dashed divide-y-1 divide-gray-300 w-full bg-[#fff] shadow-sm shadow-emerald-300 rounded mt-1'>
                       {item.sub.map((subItem) => (
                         <Link
                           key={subItem.id}
                           to={subItem.path}
-                          className={`block px-4 py-2 text-gray-700 hover:bg-green-100  ${
+                          className={`block px-4 py-2 text-gray-700 hover:bg-green-100 ${
                             location.pathname === subItem.path ? 'bg-green-200 text-[#1ba000]' : ''
                           }`}
+                          onClick={() => {
+                            // Đóng mobile menu khi click submenu
+                            setMobileMenuOpen(false)
+                          }}
                         >
                           {subItem.name}
                         </Link>
@@ -225,22 +237,42 @@ function HeaderAdmin() {
               </div>
             ))}
           </nav>
+
+          {/* Logout trong mobile */}
+          <div
+            className={`md:hidden   border-t transition-all duration-500 ease-in-out ${
+              mobileMenuOpen
+                ? 'max-md:max-h-20 max-md:opacity-100 p-4'
+                : 'max-md:max-h-0 max-md:opacity-0 max-md:overflow-hidden'
+            }`}
+          >
+            <Link
+              to='/signin'
+              className='flex items-center gap-2 text-red-500 hover:text-red-600'
+              onClick={() => {
+                localStorage.removeItem('adminInfo')
+                setMobileMenuOpen(false) // Đóng menu khi logout
+              }}
+            >
+              <Icon name='logout' />
+              <span>Đăng xuất</span>
+            </Link>
+          </div>
         </div>
 
-        {/* Logout */}
-        <div className='p-4 border-t'>
+        {/* Logout cho desktop */}
+        <div className='p-4 border-t max-md:hidden'>
           <Link
             to='/signin'
-            className='flex items-center gap-2  text-red-500 hover:text-red-600'
+            className='flex items-center gap-2 text-red-500 hover:text-red-600'
             onClick={() => {
               localStorage.removeItem('adminInfo')
             }}
           >
             <Icon name='logout' />
-
             <span
               className={`transition-all duration-300 whitespace-nowrap overflow-hidden text-ellipsis inline-block ${
-                collapsed ? 'max-w-[0px]' : 'max-w-[100px]'
+                collapsed ? 'md:max-w-[0px]' : 'md:max-w-[100px]'
               }`}
             >
               Đăng xuất

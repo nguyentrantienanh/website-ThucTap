@@ -5,7 +5,7 @@ import Feedback from '../Component/Slider/Feedback'
 import BlogPost from './Blog/components/Blog_Post'
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
-
+import { Link } from 'react-router-dom'
 import { Navigation, Pagination } from 'swiper/modules'
 import { Swiper, SwiperSlide } from 'swiper/react'
 import { useLocation } from '../Data/Location'
@@ -70,9 +70,19 @@ function Home() {
               <p className='text-3xl w-130 font-bold py-4 max-[450px]:text-[20px] max-[450px]:w-70'>
                 {t('Home_SEARCH.GetTicket')}
               </p>
-              <button className='bg-[#1ba000] text-[#fff]  cursor-pointer p-2 rounded-[10px] hover:bg-[#1ba000]/70 transition-all duration-300  items-center justify-center '>
-                <span className='text-[14px]'>{t('Home_button.GetTicket')}</span>
-              </button>
+
+              <Link to='/buytickets'>
+                <button className='cursor-pointer rounded-[10px] relative group overflow-hidden border-2  p-2  border-green-600'>
+                  <span className='font-bold text-[#fff] text-xl relative z-10 group-hover:text-green-600 duration-500 text-[14px]'>
+                    {' '}
+                    {t('Home_button.GetTicket')}{' '}
+                  </span>
+                  <span className='absolute top-0 left-0 w-full  bg-green-600 duration-500 group-hover:-translate-x-full h-full' />
+                  <span className='absolute top-0 left-0 w-full bg-green-600 duration-500 group-hover:translate-x-full h-full' />
+                  <span className='absolute top-0 left-0 w-full bg-green-600 duration-500 delay-300 group-hover:-translate-y-full h-full' />
+                  <span className='absolute delay-300 top-0 left-0 w-full bg-green-600 duration-500 group-hover:translate-y-full h-full' />
+                </button>
+              </Link>
             </div>
             <div className='flex flex-col gap-4 max-[450px]:my-3  max-[900px]:my-10  max-[900px]:items-center max-[900px]:text-center max-[900px]:flex-col max-[900px]:flex'>
               <strong className='text-[20px]'>{t('Home_SEARCH.ChooseYourTicket')}</strong>
@@ -83,7 +93,6 @@ function Home() {
                 <div className='flex gap-4 max-[450px]:flex-col   '>
                   <div className='border-1 border-[#8aff73] rounded-[10px] px-2 py-1 flex items-center gap-2'>
                     <i className='text-[#70ff53]'>
-                      {' '}
                       <Icon name='directionarrow' />
                     </i>
                     <div className='relative w-50 max-[1040px]:w-30 '>
@@ -154,9 +163,12 @@ function Home() {
                 </div>
                 <button
                   onClick={handleSeach}
-                  className='bg-[#1ba000] text-[#fff] cursor-pointer p-2 rounded-[10px] hover:bg-[#1ba000]/70 transition-all duration-300 w-35 h-10 justify-self-center  '
+                  className=' cursor-pointer group/button relative rounded-[10px] inline-flex items-center justify-center overflow-hidden   justify-self-center   bg-green-600 w-35 h-10  backdrop-blur-lg p-2 text-base font-semibold text-[#fff] transition-all duration-600 ease-in-out hover:bg-green-400   '
                 >
                   <span className='text-[15px]'>{t('Home_button.FindTicket')}</span>
+                  <div className='absolute inset-0 flex h-full w-full justify-center [transform:skew(-13deg)_translateX(-100%)] group-hover/button:duration-1000 group-hover/button:[transform:skew(-13deg)_translateX(100%)]'>
+                    <div className='relative h-full w-10 bg-green-300' />
+                  </div>
                 </button>
               </form>
             </div>
@@ -198,9 +210,9 @@ function Home() {
             <div className='bg-[#fff] p-10 rounded-[10px] shadow-[#747474] shadow-sm transition duration-300 hover:shadow-2xl flex flex-col items-center gap-3'>
               <div className=' flex flex-col   '>
                 <div className=' text-end z-2 mb-[-30px] mr-[-20px]'>
-                  <span className=' bg-[#0e9e4d] p-4 rounded-full '>01</span>
+                  <span className=' bg-green-600 p-3 px-4 font-medium text-[#fff] rounded-full '>01</span>
                 </div>
-                <i className='   text-[#1ba000] text-[30px] bg-[rgba(14,158,77,0.25)] px-7 py-5  bg-size-[20px] border-10 border-[rgba(14,158,77,0.1)] rounded-full'>
+                <i className='   text-green-700 text-[30px] bg-[rgba(14,158,77,0.25)] px-7 py-6  bg-size-[20px] border-10 border-[rgba(14,158,77,0.1)] rounded-full'>
                   <Icon name='search' />
                 </i>
               </div>
@@ -213,9 +225,9 @@ function Home() {
             <div className='bg-[#fff] p-10 rounded-[10px] shadow-[#747474] shadow-sm transition duration-300 hover:shadow-2xl flex flex-col items-center gap-3'>
               <div className=' flex flex-col   '>
                 <div className=' text-end z-2 mb-[-30px] mr-[-20px]'>
-                  <span className=' bg-[#0e9e4d] p-4 rounded-full '>02</span>
+                  <span className=' bg-green-600 p-3 px-4 font-medium text-[#fff] rounded-full '>02</span>
                 </div>
-                <i className='    text-[#1ba000] text-[30px] bg-[rgba(14,158,77,0.25)] px-7 py-5  bg-size-[20px] border-10 border-[rgba(14,158,77,0.1)] rounded-full'>
+                <i className='    text-green-700 text-[30px] bg-[rgba(14,158,77,0.25)] px-7 py-6  bg-size-[20px] border-10 border-[rgba(14,158,77,0.1)] rounded-full'>
                   <Icon name='ticket' />
                 </i>
               </div>
@@ -226,9 +238,9 @@ function Home() {
             <div className=' max-[900px]:col-span-2 max-[900px]:mx-[25%] max-[600px]:col-span-1 max-[600px]:mx-0  bg-[#fff] p-10 rounded-[10px] shadow-[#747474] shadow-sm transition duration-300 hover:shadow-2xl flex flex-col items-center gap-3'>
               <div className=' flex flex-col   '>
                 <div className=' text-end z-2 mb-[-30px] mr-[-20px]'>
-                  <span className=' bg-[#0e9e4d] p-4 rounded-full '>03</span>
+                  <span className=' bg-green-600 p-3 px-4 font-medium text-[#fff] rounded-full'>03</span>
                 </div>
-                <i className='   text-[#1ba000] text-[30px] bg-[rgba(14,158,77,0.25)] px-7 py-5  bg-size-[20px] border-10 border-[rgba(14,158,77,0.1)] rounded-full'>
+                <i className='   text-green-700 text-[30px] bg-[rgba(14,158,77,0.25)] px-7 py-6  bg-size-[20px] border-10 border-[rgba(14,158,77,0.1)] rounded-full'>
                   <Icon name='bill' />
                 </i>
               </div>
@@ -263,13 +275,13 @@ function Home() {
                 {OurAmenities.map((amenity) => (
                   <SwiperSlide
                     key={amenity.id}
-                    className='bg-[#fff]    p-10 px-20 max-[1050px]:p-5 rounded-[10px]    transition duration-500 border-2 border-gray-300 hover:shadow-1xl hover:border-[#8dda7e] flex flex-col items-center gap-3 '
+                    className='bg-[#fff] group   p-10 px-20 max-[1050px]:p-5 rounded-[10px]  cursor-pointer   transition-all duration-700 border-2 border-gray-300 hover:shadow-1xl hover:border-[#8dda7e] flex flex-col items-center gap-3 '
                   >
                     <div className='flex flex-col items-center gap-2'>
-                      <i className='  text-[rgb(128,128,128)] border-b-5  text-[50px] max-[900px]:text-[50px] hover:text-[#0e9e4d] transition-all duration-500'>
+                      <i className='  text-[rgb(128,128,128)] border-b-5  text-[50px] max-[900px]:text-[50px] group-hover:text-[#0e9e4d]  '>
                         <Icon name={amenity.icon} />
                       </i>
-                      <div className='text-[20px] text-[rgb(146,146,146)] max-[900px]:text-[20px] whitespace-nowrap  hover:text-[#0e9e4d] '>
+                      <div className='text-[20px] text-[rgb(146,146,146)] max-[900px]:text-[20px] whitespace-nowrap  group-hover:text-[#0e9e4d] '>
                         {amenity.title}{' '}
                       </div>
                     </div>

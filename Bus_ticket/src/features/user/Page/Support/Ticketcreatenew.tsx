@@ -30,7 +30,7 @@ export default function Createnew() {
   // hàm xử lý lưu localStorage chat gồm [ id, description ,lastMessge, , Last Reply,  messages[id, sender, text, timestamp],Status,Priority ]
 
   const [description, setDescription] = useState('')
-  const [priority, setPriority] = useState('Hight')
+  const [priority, setPriority] = useState(1) // 1: Hight, 2: Medium, 3: Low
   const [chat, setChat] = useState('')
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
@@ -53,12 +53,26 @@ export default function Createnew() {
       timestamp: new Date().toLocaleString(),
       messages: [newMessage]
     }
-    const existingChats = JSON.parse(localStorage.getItem('chats') || '[]')
-    existingChats.push(newchats)
-    localStorage.setItem('chats', JSON.stringify(existingChats))
+    // lưu vào localStorage userlist[ chats[]]
+    const userInfoRaw = localStorage.getItem('userInfo')
+    const userListRaw = localStorage.getItem('userList')
+    if (!userInfoRaw || !userListRaw) {
+      return alert('Không tìm thấy thông tin người dùng')
+    }
+    const userInfo = JSON.parse(userInfoRaw)
+    const userList = JSON.parse(userListRaw)
+    const user = userList.find((item: any) => item.id === userInfo.id)
+    if (!user) {
+      return alert('Không tìm thấy người dùng')
+    }
+    // Thêm chat mới vào danh sách chats của người dùng
+    user.chats.push(newchats)
+    // Cập nhật lại danh sách người dùng
+    localStorage.setItem('userList', JSON.stringify(userList))
+
     alert('Ticket created successfully!')
     setDescription('')
-    setPriority('Hight')
+    setPriority(1)
     setChat('')
   }
 
@@ -91,13 +105,15 @@ export default function Createnew() {
               <label className=' text-[15px] sm:text-[18px] block text-sm font-medium text-gray-700' htmlFor=''>
                 Priority<sup className='text-red-600'>*</sup>
               </label>
-              <input
-                className='p-2 border-1 rounded-[10px] border-gray-200  shadow-sm focus:outline-none focus:ring-green-500 focus:shadow-green-300 focus:border-green-500 '
-                type='text'
-                placeholder='Hight'
+              <select
+                className='p-2 border-1 rounded-[10px] border-gray-200  shadow-sm focus:outline-none focus:ring-green-500 focus:shadow-green-300 focus:border-green-500'
                 value={priority}
-                onChange={(e) => setPriority(e.target.value)}
-              />
+                onChange={(e) => setPriority(Number(e.target.value))}
+              >
+                <option value='1'>Hight</option>
+                <option value='2'>Medium</option>
+                <option value='3'>Low</option>
+              </select>
             </div>
           </div>
           <div>

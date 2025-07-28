@@ -2,7 +2,18 @@ import Icon from '../../../../icons/Icon'
 import { useState, useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 
-const ve = JSON.parse(localStorage.getItem('vedadat') || '[]')
+const UserList = JSON.parse(localStorage.getItem('userList') || '[]')
+const veData = UserList.map((user: any) => user.ticket).flat()
+
+const GuestUser = JSON.parse(localStorage.getItem('guestUserInfo') || '[]')
+const GuestUserTicket = GuestUser.map((user: any) => user.ticket).flat()
+
+// hàm để gộp dữ liệu vé đã đặt của người dùng đã đăng nhập và khách
+const ve = [...veData, ...GuestUserTicket]
+
+// kiểm tra xem có vé nào đã đặt hay không userType === 1 khách hàng đã đăng nhập === 2 là khách hàng chưa đăng nhập
+const vechokhach = ve.filter((item: any) => item.userType === 1)
+console.log(vechokhach)
 
 function Tickets() {
   const { t } = useTranslation('Home')
@@ -44,7 +55,7 @@ function Tickets() {
                 <th className='py-2 px-2 text-left w-[120px]'>Seats</th>
                 <th className='py-2 px-2 text-left w-[100px]'>Status</th>
                 <th className='py-2 px-2 text-left w-[80px]'>Fare</th>
-                <th className='py-2 px-2 text-center'>Info</th>
+                <th className='py-2 px-2 text-center w-[80px]'>Info</th>
               </tr>
             </thead>
 
@@ -55,8 +66,11 @@ function Tickets() {
                     <td className='py-2 px-2 text-gray-500'>{item.id}</td>
                     <td className='py-2 px-2 text-[#4447ff]'>{item.ticketId}</td>
                     <td className='py-2 px-2 text-[#a7a7a7]'>{item.type}</td>
-                    <td className='py-2 px-2 text-[#04b925]  '> {t(`${item.diemDen}`)}</td>
-                    <td className='py-2 px-2 text-[#04b925]'> {t(`${item.diemDi}`)} </td>
+                    <td className='py-2 px-2 text-[#04b925]  '>
+                      {' '}
+                      {t(`${item.diemDen}`, { defaultValue: item.diemden })}
+                    </td>
+                    <td className='py-2 px-2 text-[#04b925]'> {t(`${item.diemDi}`, { defaultValue: item.diemdi })} </td>
                     <td className='py-2 px-2 text-[#4c4c4c] font-medium'>{item.dateStart}</td>
                     <td className='py-2 px-2 text-[#7337ff] font-mono'>{item.starttime}</td>
                     <td className='py-2 px-2 '>{seats[index].join(', ')}</td>
@@ -144,7 +158,8 @@ function Tickets() {
                   <h1 className='font-extrabold text-gray-400 text-[17px]'>Tuyến đường</h1>
                   <p className='font-mono text-gray-600 text-[17px] '>
                     {' '}
-                    {t(`${item.diemDi}`)} - {t(`${item.diemDen}`)}
+                    {t(`${item.diemDi}`, { defaultValue: item.diemdi })} -{' '}
+                    {t(`${item.diemDen}`, { defaultValue: item.diemden })}
                   </p>
                 </div>
                 <div className='flex justify-between px-4'>

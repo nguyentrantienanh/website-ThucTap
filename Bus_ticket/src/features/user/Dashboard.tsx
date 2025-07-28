@@ -3,10 +3,12 @@ import backgruond from '../../assets/background.jpg'
 import { useState, useEffect } from 'react'
 import { Booking } from './Page/Bookinghistory'
 export default function Dashboard() {
-  const user = JSON.parse(localStorage.getItem('userthongtin') || '{}')
+  const UserInfo = JSON.parse(localStorage.getItem('userInfo') || '{}')
+  const UserList = JSON.parse(localStorage.getItem('userList') || '[]')
 
-  const userInfo = JSON.parse(localStorage.getItem('userInfo') || '{}')
-  const ve = JSON.parse(localStorage.getItem('vedadat') || '[]')
+  const currentUser = UserList.find((user: any) => user.id === UserInfo.id) || {}
+  const ve = currentUser.ticket || []
+
   // hàm đếm
   const [countBooked, setCountBooked] = useState(0)
   const [countRejected, setCountRejected] = useState(0)
@@ -33,11 +35,6 @@ export default function Dashboard() {
           </div>
         </div>
 
-        <div className=' flex justify-center py-4'>
-          <p className='text-[17px] sm:text-[20px]   lg:text-[25px] font-bold text-[#000000]'>
-            Welcome, {user.name ? user.name : userInfo.name ? userInfo.name : '???'}!
-          </p>
-        </div>
         <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 px-5 py-5  max[1450px]:px-[20%]'>
           <div className='flex justify-center  gap-3  '>
             <div className='border-l-4 border-[#6eff34] bg-[#fff] flex items-center p-5 gap-3 rounded-2xl '>

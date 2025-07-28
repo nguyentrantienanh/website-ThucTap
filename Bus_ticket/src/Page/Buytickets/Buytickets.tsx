@@ -5,7 +5,7 @@ import { useState, useEffect, useRef } from 'react'
 import { ticket } from '../../Data/Ticket'
 import { Link } from 'react-router-dom'
 import { useLocation } from '../../Data/Location'
-import vi from 'date-fns/locale/vi'
+
 import { format } from 'date-fns'
 import { parse, isAfter } from 'date-fns'
 import { Calendar } from 'react-date-range'
@@ -122,8 +122,9 @@ function BuyticketLayout() {
   const filteredTickets = ticket().filter((item: any) => {
     const idDiemDi = diemDi.find((d) => d.name === selectedDiemDi)?.id || 0
     const idDiemDen = diemDen.find((d) => d.name === selectedDiemDen)?.id || 0
-    const diemDiMatch = idDiemDi === 0 || t(`Home:${item.diemdi}`) === selectedDiemDi
-    const diemDenMatch = idDiemDen === 0 || t(`Home:${item.diemden}`) === selectedDiemDen
+    const diemDiMatch = idDiemDi === 0 || t(`Home:${item.diemdi}`, { defaultValue: item.diemdi }) === selectedDiemDi
+    const diemDenMatch =
+      idDiemDen === 0 || t(`Home:${item.diemden}`, { defaultValue: item.diemden }) === selectedDiemDen
 
     // lọc theo filter Vehicle xét name của item.type với localStorage
     const filterData: { [key: string]: boolean } = JSON.parse(localStorage.getItem('filterData') || '{}')
@@ -139,8 +140,8 @@ function BuyticketLayout() {
       routeKeys.some((key) => {
         const route = key.replace('route_', '')
         const [filterDiemdi, filterDiemDen] = route.split(' - ').map((s) => s.trim().toLowerCase())
-        const itemDiemdi = t(`Home:${item.diemdi}`)?.trim().toLowerCase()
-        const itemDiemDen = t(`Home:${item.diemden}`)?.trim().toLowerCase()
+        const itemDiemdi = t(`Home:${item.diemdi}`, { defaultValue: item.diemdi })?.trim().toLowerCase()
+        const itemDiemDen = t(`Home:${item.diemden}`, { defaultValue: item.diemden })?.trim().toLowerCase()
 
         return itemDiemdi === filterDiemdi && itemDiemDen === filterDiemDen
       })
@@ -221,7 +222,7 @@ function BuyticketLayout() {
                   setShowDiemDenDropdown(false)
                   localStorage.removeItem('searchData')
                 }}
-                className=' cursor-pointer text-[12px] text-[#5c5b5b]'
+                className=' cursor-pointer text-[12px] text-[#5c5b5b]  hover:text-[#1ba000]'
               >
                 {t('Buyticket:reset')}
               </button>
@@ -235,7 +236,7 @@ function BuyticketLayout() {
                 <i className='text-[#70ff53]'>
                   <Icon name='directionarrow' />
                 </i>
-                <div className='flex justify-between relative w-full'>
+                <div className='flex justify-between relative w-full '>
                   <div
                     className='cursor-pointer text-[13px] px-2 py-1 bg-[#fff] rounded'
                     onClick={() => setShowDiemDiDropdown(!showDiemDiDropdown)}
@@ -243,7 +244,7 @@ function BuyticketLayout() {
                     {selectedDiemDi || t('Home:Home_location.All')}
                   </div>
                   {showDiemDiDropdown && (
-                    <div className='absolute left-0 top-full mt-1 bg-[#fff] border rounded shadow z-10 divide-y divide-gray-300 w-full'>
+                    <div className='absolute left-0 top-full mt-1 bg-[#fff] border rounded shadow z-11 divide-y divide-gray-300 w-full'>
                       {diemDi.map((item) => (
                         <div
                           key={item.id}
@@ -280,11 +281,11 @@ function BuyticketLayout() {
                     {selectedDiemDen || t('Home:Home_location.All')}
                   </div>
                   {showDiemDenDropdown && (
-                    <div className='absolute left-0 top-full mt-1 bg-[#fff] border rounded shadow z-10 divide-y divide-gray-300 w-full'>
+                    <div className='absolute   left-0 top-full mt-1 bg-[#fff] border rounded shadow z-11 divide-y divide-gray-300 w-full'>
                       {diemDen.map((item) => (
                         <div
                           key={item.id}
-                          className='px-3 py-1 hover:bg-[#e6ffe6]  cursor-pointer text-[14px]'
+                          className='px-3 py-1  hover:bg-[#e6ffe6]  cursor-pointer text-[14px]'
                           onClick={() => {
                             setSelectedDiemDen(item.name)
                             setShowDiemDenDropdown(false)
@@ -295,16 +296,19 @@ function BuyticketLayout() {
                       ))}
                     </div>
                   )}
-                  <i className='text-[14px] text-gray-600' onClick={() => setShowDiemDenDropdown(!showDiemDenDropdown)}>
+                  <i
+                    className='text-[14px] text-gray-600 cursor-pointer'
+                    onClick={() => setShowDiemDenDropdown(!showDiemDenDropdown)}
+                  >
                     <Icon name={showDiemDenDropdown ? 'up' : 'dow'} />
                   </i>
                 </div>
               </div>
-              <div className='border border-[#8aff73] rounded-[10px] px-2 py-1 flex items-center gap-2'>
+              <div className='   border border-[#8aff73] rounded-[10px] px-2 py-1 flex items-center gap-2'>
                 <i className='text-[#66ff47]'>
                   <Icon name='calendar' />
                 </i>
-                <div className='relative w-full'>
+                <div className='relative w-full  '>
                   <div ref={refCalendar}>
                     <input
                       className='focus:outline-none'
@@ -315,7 +319,7 @@ function BuyticketLayout() {
                     />
 
                     {open ? (
-                      <div className={` absolute   w-full h-full z-100 `} ref={refCalendar}>
+                      <div className={` absolute    w-full h-full z-100 `} ref={refCalendar}>
                         <Calendar
                           className='border-4  border-gray-300 rounded-lg shadow-xl'
                           // date = là ngày click vào
@@ -356,7 +360,7 @@ function BuyticketLayout() {
                         checkbox.checked = false
                       })
                     }}
-                    className='text-xs text-[#5c5b5b] hover:text-[#1ba000] transition-all'
+                    className='text-xs text-[#5c5b5b] hover:text-[#1ba000] transition-all cursor-pointer'
                   >
                     {t('filter_reset_all')}
                   </button>
@@ -368,7 +372,12 @@ function BuyticketLayout() {
                   <div className='flex flex-col gap-2 mt-2'>
                     {Vehicle.map((vehicle) => (
                       <label key={vehicle.id} className='flex items-center text-sm gap-2'>
-                        <input type='checkbox' onChange={handleChange} name={vehicle.name} className='w-4 h-4' />
+                        <input
+                          type='checkbox'
+                          onChange={handleChange}
+                          name={vehicle.name}
+                          className='w-4 h-4 cursor-pointer'
+                        />
                         <span className='flex items-center gap-2 bg-[#f7f7f7] px-2 py-1 rounded-[10px]'>
                           <Icon name='bus' />
                           {vehicle.name}
@@ -391,7 +400,7 @@ function BuyticketLayout() {
                             onChange={handleChange}
                             name={routeKey}
                             checked={filterData[routeKey] || false}
-                            className='w-4 h-4'
+                            className='w-4 h-4 cursor-pointer'
                           />
                           <span className='flex items-center gap-2 bg-[#f7f7f7] px-2 py-1 rounded-[10px]'>
                             <Icon name='road' />
@@ -416,7 +425,7 @@ function BuyticketLayout() {
                             onChange={handleChange}
                             name={scheduleKey}
                             checked={filterData[scheduleKey] || false}
-                            className='w-4 h-4'
+                            className='w-4 h-4 cursor-pointer'
                           />
                           <span className='flex items-center gap-2 bg-[#f7f7f7] px-2 py-1 rounded-[10px]'>
                             <Icon name='clock' />
@@ -433,8 +442,8 @@ function BuyticketLayout() {
                 {filteredTickets.length > 0 ? (
                   <div className='  h-full space-y-4 w-full'>
                     {filteredTickets.map((item: any) => {
-                      const diemdi = t(`Home:${item.diemdi}`)
-                      const diemden = t(`Home:${item.diemden}`)
+                      const diemdi = t(`Home:${item.diemdi}`, { defaultValue: item.diemdi })
+                      const diemden = t(`Home:${item.diemden}`, { defaultValue: item.diemden })
                       const name = `${item.type} -  ${diemdi} - ${diemden}`
                       return (
                         <div
@@ -456,7 +465,9 @@ function BuyticketLayout() {
                             <div className='flex items-center justify-between w-full md:w-auto md:gap-8 text-sm'>
                               <div className='text-center'>
                                 <p className='text-nowrap'>{item.starttime}</p>
-                                <p className='text-[11px] text-gray-500'>{t(`Home:${item.diemdi}`)}</p>
+                                <p className='text-[11px] text-gray-500'>
+                                  {t(`Home:${item.diemdi}`, { defaultValue: item.diemdi })}
+                                </p>
                               </div>
                               <div className='text-center'>
                                 <i className='text-green-600'>
@@ -467,7 +478,9 @@ function BuyticketLayout() {
                               </div>
                               <div className='text-center'>
                                 <p className='text-nowrap'>{item.endtime}</p>
-                                <p className='text-[11px] text-gray-500'>{t(`Home:${item.diemden}`)}</p>
+                                <p className='text-[11px] text-gray-500'>
+                                  {t(`Home:${item.diemden}`, { defaultValue: item.diemden })}
+                                </p>
                               </div>
                             </div>
 
@@ -480,7 +493,7 @@ function BuyticketLayout() {
                                 </span>
                               </p>
                               <Link to={`/buytickets/${item.id}/${name}`} className='w-full md:w-auto'>
-                                <button className='bg-green-600 text-[#fff] text-sm px-4 py-2 rounded-md w-full md:w-auto'>
+                                <button className='bg-green-600 text-[#fff] text-sm px-4 py-2 rounded-md w-full md:w-auto cursor-pointer'>
                                   {t('Buyticket:select_seat')}
                                 </button>
                               </Link>

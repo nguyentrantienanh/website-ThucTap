@@ -44,6 +44,20 @@ const calendarComponent = () => {
     }
   }, [])
 
+  // xử lý qua ngày tự động cập nhật
+  useEffect(() => {
+    const interval = setInterval(() => {
+      const currentDate = new Date()
+      const formattedDate = format(currentDate, 'dd/MM/yyyy')
+      if (isBefore(new Date(calendar.split('/').reverse().join('-')), currentDate)) {
+        setCalendar(formattedDate)
+        localStorage.setItem('DayData', formattedDate)
+      }
+    }, 60000) // kiểm tra mỗi phút
+
+    return () => clearInterval(interval)
+  }, [calendar])
+
   return (
     <div ref={refCalendar}>
       <input className='focus:outline-none' type='' value={calendar} readOnly onClick={() => setOpen(!open)} />

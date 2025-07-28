@@ -1,7 +1,6 @@
 import google from '../assets/auth/google.svg'
 import facebook from '../assets/auth/facebook.svg'
 import linkedin from '../assets/auth/linkdin.svg'
-import { el } from 'date-fns/locale'
 
 function Icon(props: { name: string }) {
   if (props.name == 'phone') {
@@ -146,6 +145,9 @@ function Icon(props: { name: string }) {
   } else if (props.name == 'circle-left') {
     // Dấu chấm tròn bên trái
     return <i className='fa-regular fa-circle-left'></i>
+  } else if (props.name == 'arrowleft') {
+    // Mũi tên bên nhọn
+    return <i className='fa-solid fa-arrow-left'></i>
   } else if (props.name == 'logout') {
     // Đăng xuất
     return <i className='fa-solid fa-right-from-bracket'></i>
@@ -178,15 +180,33 @@ function Icon(props: { name: string }) {
     return <i className='fa-solid fa-lock'></i>
   } else if (props.name == 'support') {
     return <i className='fa-solid fa-headset'></i>
-  } else if (props.name == 'send'){
+  } else if (props.name == 'send') {
     // gửi tin nhắn
     return <i className='fa-solid fa-paper-plane'></i>
   } else if (props.name == 'trash') {
     // Biểu tượng thùng rác
-    return <i className="fa-solid fa-trash-can"></i>
+    return <i className='fa-solid fa-trash-can'></i>
   } else if (props.name == 'cancel') {
     // Biểu tượng hủy
-    return <i className="fa-solid fa-ban"></i>
+    return <i className='fa-solid fa-ban'></i>
+  } else if (props.name == 'id') {
+    // Biểu tượng ID
+    return <i className='fa-solid fa-id-card'></i>
+  } else if (props.name == 'chat') {
+    // Biểu tượng chat
+    return <i className='fa-solid fa-comments'></i>
+  } else if (props.name == 'addchat') {
+    // Biểu tượng thêm chat
+    return <i className='fa-solid fa-comment-dots'></i>
+  } else if (props.name == 'bus-go') {
+    // Biểu tượng xe buýt đang chạy
+    return <i className='fa-solid fa-bus-side'></i>
+  } else if (props.name == 'download') {
+    // Biểu tượng tải xuống
+    return <i className='fa-solid fa-cloud-arrow-down'></i>
+  } else if (props.name == 'upload') {
+    // Biểu tượng tải lên
+    return <i className='fa-solid fa-cloud-arrow-up'></i>
   }
 }
 

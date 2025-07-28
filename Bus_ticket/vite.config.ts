@@ -8,7 +8,10 @@ export default defineConfig({
   plugins: [react(), tailwindcss()],
   
   server: {
-    port: 3000
+    host: true, // Tự động phát hiện IP
+    port: 3000, // Cổng mặc định
+    open: true, // Tự động mở browser
+    strictPort: false, // Cho phép dùng port khác nếu port này đã được sử dụng
   },
   css: {
     devSourcemap: true

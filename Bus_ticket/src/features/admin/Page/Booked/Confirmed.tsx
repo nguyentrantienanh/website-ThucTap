@@ -1,10 +1,16 @@
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import Icon from '../../../../icons/Icon'
+const UserList = JSON.parse(localStorage.getItem('userList') || '[]')
+const veData = UserList.map((user: any) => user.ticket).flat()
+
+const GuestUser = JSON.parse(localStorage.getItem('guestUserInfo') || '[]')
+const GuestUserTicket = GuestUser.map((user: any) => user.ticket).flat()
+
+// hàm để gộp dữ liệu vé đã đặt của người dùng đã đăng nhập và khách
+const ve = [...veData, ...GuestUserTicket]
 
 function TicketConfirmed() {
-  const ve = JSON.parse(localStorage.getItem('vedadat') || '[]')
-
   // hiện thị vé đã được duyệt
   const ConfirmedTickets = ve.filter((item: any) => item.status === 1)
 
@@ -125,7 +131,8 @@ function TicketConfirmed() {
                   <h1 className='font-extrabold text-gray-400 text-[17px]'>Tuyến đường</h1>
                   <p className='font-mono text-gray-600 text-[17px] '>
                     {' '}
-                    {t(`${item.diemDi}`)} - {t(`${item.diemDen}`)}
+                    {t(`${item.diemDi}`, { defaultValue: item.diemdi })} -{' '}
+                    {t(`${item.diemDen}`, { defaultValue: item.diemden })}
                   </p>
                 </div>
                 <div className='flex justify-between px-4'>
@@ -179,7 +186,6 @@ function TicketConfirmed() {
 export { TicketConfirmed }
 
 export default function Confirmed() {
-  const ve = JSON.parse(localStorage.getItem('vedadat') || '[]')
   const totalConfirmed = ve.filter((item: any) => item.status === 1).length
   return (
     <>

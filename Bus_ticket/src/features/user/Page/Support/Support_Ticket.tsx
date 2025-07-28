@@ -1,10 +1,12 @@
-import { useState } from 'react'
 import backgruond from '../../../../assets/background.jpg'
 import Icon from '../../../../icons/Icon'
 import { Link } from 'react-router-dom'
 
 export default function SupportTicket() {
-  const chats = JSON.parse(localStorage.getItem('chats') || '[]')
+  const UserList = JSON.parse(localStorage.getItem('userList') || '[]')
+  const UserInfo = JSON.parse(localStorage.getItem('userInfo') || '{}')
+  const user = UserList.find((item: any) => item.id === UserInfo.id)
+  const chats = user.chats
   return (
     <>
       <div
@@ -34,14 +36,30 @@ export default function SupportTicket() {
                   <tr key={index} className='text-[#000] bg-[#fff] text-nowrap '>
                     <td className='py-2 px-4 text-start'>{item.description}</td>
                     <td className='py-2 px-4 text-center'>
-                      <span className='border-1 bg-[#2e2e2e27] px-2 py-1 rounded-[10px] text-[12px] font-bold'>
-                        {item.status === 1 ? 'No Responded' : 'Responded'}
-                      </span>
+                      {item.status === 2 ? (
+                        <span className='border-1 border-red-600 text-red-600 bg-red-100 px-2 py-1 rounded-[10px] text-[12px] font-bold '>
+                          No Responded
+                        </span>
+                      ) : (
+                        <span className='border-1 border-green-600 text-green-600 bg-green-100 px-2 py-1 rounded-[10px] text-[12px] font-bold'>
+                          Responded
+                        </span>
+                      )}
                     </td>
                     <td className='py-2 px-4 text-center'>
-                      <span className='border-1 bg-[#2e2e2e27] px-2 py-1 rounded-[10px] text-[12px] font-bold '>
-                        {item.priority}
-                      </span>
+                      {item.priority === 1 ? (
+                        <span className='border-1 border-red-600 text-red-600 bg-red-100 px-2 py-1 rounded-[10px] text-[12px] font-bold '>
+                          Hight
+                        </span>
+                      ) : item.priority === 2 ? (
+                        <span className='border-1 border-yellow-600 text-yellow-600 bg-yellow-100 px-2 py-1 rounded-[10px] text-[12px] font-bold '>
+                          Medium
+                        </span>
+                      ) : (
+                        <span className='border-1 border-green-600 text-green-600 bg-green-100 px-2 py-1 rounded-[10px] text-[12px] font-bold '>
+                          Low
+                        </span>
+                      )}
                     </td>
                     <td className='py-2 px-4 text-center font-medium text-gray-500'>{item.timestamp}</td>
                     <td className='py-2 px-5 text-end cursor-pointer'>
@@ -55,7 +73,7 @@ export default function SupportTicket() {
                 ))
               ) : (
                 <tr>
-                  <td colSpan={5} className='text-center py-4 text-gray-500'>
+                  <td colSpan={5} className='text-center py-4 bg-gray-300 text-gray-500'>
                     No tickets found
                   </td>
                 </tr>

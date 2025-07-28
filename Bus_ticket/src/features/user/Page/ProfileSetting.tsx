@@ -1,8 +1,10 @@
 import background from '../../../assets/background.jpg'
 import Avatar from '../../../assets/avatar.jpg'
 import { useState } from 'react'
+import { useParams } from 'react-router-dom'
 
 import { googleLogout } from '@react-oauth/google'
+import Icon from '../../../icons/Icon'
 export default function ProfileSetting() {
   const handleGoogleLogout = () => {
     googleLogout()
@@ -10,18 +12,20 @@ export default function ProfileSetting() {
     localStorage.removeItem('userthongtin') // Xóa thông tin người dùng khỏi localStorage
     window.location.href = '/'
   }
+  const UserList = JSON.parse(localStorage.getItem('userList') || '[]')
+  const { id } = useParams<{ id: string }>()
+  const userlist = UserList.find((user: any) => user.id === parseInt(id || '0'))
   const UserInfo = JSON.parse(localStorage.getItem('userInfo') || '{}')
-  const user = JSON.parse(localStorage.getItem('userthongtin') || '{}')
 
   // profile setting
-  const [nameValue, setnameValue] = useState(user.name || `${UserInfo.firstname} ${UserInfo.lastname}`) // Lấy tên người dùng từ localStorage hoặc mặc định
-  const [countryValue, setCountryValue] = useState(user.country || UserInfo.country || 'vietnam')
-  const [countryCode, setCountryCode] = useState(user.countryCode || UserInfo.countryCode || '84 +')
-  const [phoneValue, setPhoneValue] = useState(user.phone || UserInfo.phone || '')
-  const [addressValue, setaddressValue] = useState(user.address || UserInfo.address || '')
-  const [emailValue, setemailValue] = useState(user.state || UserInfo.email || `${UserInfo.email}`) //
-  const [zipcodeValue, setzipcodeValue] = useState(user.zipcode || UserInfo.zipcode || '')
-  const [cityValue, setcityValue] = useState(user.city || UserInfo.city || '')
+  const [nameValue, setnameValue] = useState(userlist?.name || `${UserInfo.firstname} ${UserInfo.lastname}`) // Lấy tên người dùng từ localStorage hoặc mặc định
+  const [countryValue, setCountryValue] = useState(userlist?.country || UserInfo.country || 'vietnam')
+  const [countryCode, setCountryCode] = useState(userlist?.countryCode || UserInfo.countryCode || '84 +')
+  const [phoneValue, setPhoneValue] = useState(userlist?.phone || UserInfo.phone || '')
+  const [addressValue, setaddressValue] = useState(userlist?.address || UserInfo.address || '')
+  const [emailValue, setemailValue] = useState(userlist?.state || UserInfo.email || `${UserInfo.email}`) //
+  const [zipcodeValue, setzipcodeValue] = useState(userlist?.zipcode || UserInfo.zipcode || '')
+  const [cityValue, setcityValue] = useState(userlist?.city || UserInfo.city || '')
 
   const countryOptions = [
     { id: '1', maqg: '84 +', value: 'vietnam', label: 'Vietnam' },
@@ -71,6 +75,10 @@ export default function ProfileSetting() {
     )
   }
   const handleSaveUserthonin = () => {
+    if (!isFormValid()) {
+      window.alert('Vui lòng nhập đầy đủ thông tin!')
+      return
+    }
     const updatedUser = {
       id: UserInfo.id,
       email: emailValue,
@@ -87,22 +95,30 @@ export default function ProfileSetting() {
       city: cityValue
     }
 
-    localStorage.setItem('userthongtin', JSON.stringify(updatedUser))
-
-    const userList: (typeof updatedUser)[] = JSON.parse(localStorage.getItem('userList') || '[]')
-
-    const index = userList.findIndex((user) => user.id === updatedUser.id)
-
-    if (index !== -1) {
-      userList[index] = updatedUser // Cập nhật nếu đã có
-    } else {
-      userList.push(updatedUser) // Thêm mới nếu chưa có
-    }
-
-    localStorage.setItem('userList', JSON.stringify(userList))
+    localStorage.setItem('userInfo', JSON.stringify(updatedUser)) // Lưu thông tin người dùng đã cập nhật vào localStorage
+    // Cập nhật thông tin người dùng trong userList
+    const updatedUserList = UserList.map((user: any) => {
+      if (user.id === parseInt(id || '0')) {
+        return {
+          ...user,
+          name: nameValue,
+          country: countryValue,
+          countryCode,
+          phone: phoneValue,
+          address: addressValue,
+          email: emailValue,
+          zipcode: zipcodeValue,
+          city: cityValue
+        }
+      }
+      return user
+    })
+    localStorage.setItem('userList', JSON.stringify(updatedUserList))
 
     window.alert('Thông tin đã được cập nhật!')
+    window.location.reload()
   }
+  // hàm upload ảnh
 
   return (
     <>
@@ -122,12 +138,19 @@ export default function ProfileSetting() {
               <div className=' justify-center items-center flex flex-col w-1/3  gap-2 p-4 rounded-md'>
                 <img
                   src={UserInfo.imageUrls || Avatar}
-                  className=' w-10 h-10 sm:w-20 sm:h-20 lg:w-30 lg:h-30 xl:w-40 xl:h-40 object-cover rounded-2xl '
+                  className=' border-2 border-green-500 w-10 h-10 sm:w-20 sm:h-20 lg:w-30 lg:h-30 xl:w-40 xl:h-40 object-cover rounded-2xl '
                 />
-                <p className='text-nowrap'>
-                  {UserInfo.firstname} {UserInfo.lastname}
+
+                <button className='cursor-pointer'>
+                  <input type='file' id='img' className='hidden' />
+                  <i className=' text-[18px]  text-[#000000] '></i>
+                  <label htmlFor={`img`}>
+                    upload <Icon name='download' />
+                  </label>
+                </button>
+                <p className='text-nowrap font-medium'>
+                  {userlist?.name || `${UserInfo.firstname} ${UserInfo.lastname}`}
                 </p>
-                <h2 className='text-[14px] sm:text-[16px] text-nowrap font-semibold '>User Information</h2>
               </div>
 
               <form className=' grid grid-cols-1 sm:grid-cols-2 w-full gap-4 sm:my-4'>
@@ -218,6 +241,7 @@ export default function ProfileSetting() {
                     placeholder='Nhập mã thành phố'
                   />
                 </div>
+
                 <div className='flex flex-col text-[15px] sm:text-[18px] gap-2'>
                   <label htmlFor=''>City</label>
                   <input
@@ -233,17 +257,32 @@ export default function ProfileSetting() {
             <div className='sm:px-10 px-2 mt-2 flex gap-4 max-sm:justify-between'>
               <button
                 onClick={handleSaveUserthonin}
-                className={`bg-[#23ff52] h-10 w-full mt-2  text-black font-semibold rounded ${isFormValid() ? 'hover:bg-[#00ff37] cursor-pointer' : 'opacity-50 cursor-not-allowed'}`}
-                disabled={!isFormValid()}
+                className='rounded-lg relative w-full h-10 cursor-pointer  flex items-center justify-center border   border-green-400 bg-green-400 group hover:bg-green-400 active:bg-green-500 active:border-green-500'
               >
-                cập nhật
+                <span className='text-gray-200   font-semibold ml-8 transform group-hover:translate-x-20 group-hover:opacity-0 transition-all duration-300'>
+                  {' '}
+                  cập nhật
+                </span>
+                <span className='absolute right-0 h-full  w-10 rounded-lg bg-green-500 flex items-center justify-center transform group-hover:translate-x-0 group-hover:w-full transition-all duration-300'>
+                  <i className='text-[#fff]'>
+                    <Icon name='upload' />
+                  </i>
+                </span>
               </button>
 
               <button
                 onClick={handleGoogleLogout}
-                className={`bg-[#ff0000] h-10 w-full mt-2  cursor-pointer  text-black font-semibold rounded`}
+                className='rounded-lg relative w-full h-10 cursor-pointer  flex items-center justify-center border   border-red-400 bg-red-400 group hover:bg-red-400 active:bg-red-500 active:border-red-500'
               >
-                Đăng xuất
+                <span className='text-gray-200   font-semibold ml-8 transform group-hover:translate-x-20 group-hover:opacity-0 transition-all duration-300'>
+                  Đăng xuất
+                </span>
+                <span className='absolute right-0 h-full   w-10 rounded-lg bg-red-500 flex items-center justify-center transform group-hover:translate-x-0 group-hover:w-full transition-all duration-300'>
+                  <i className='text-[#fff]'>
+                    {' '}
+                    <Icon name='logout' />
+                  </i>
+                </span>
               </button>
             </div>
           </div>

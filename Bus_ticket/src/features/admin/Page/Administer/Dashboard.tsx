@@ -6,17 +6,21 @@ import { Link } from 'react-router-dom'
 
 import { useState, useEffect } from 'react'
 export default function Dashboard() {
-  const ve = JSON.parse(localStorage.getItem('vedadat') || '[]')
+  const UserList = JSON.parse(localStorage.getItem('userList') || '[]')
+  const veData = UserList.map((user: any) => user.ticket).flat()
+
+  const GuestUser = JSON.parse(localStorage.getItem('guestUserInfo') || '[]')
+  const GuestUserTicket = GuestUser.map((user: any) => user.ticket).flat()
+
+  // hàm để gộp dữ liệu vé đã đặt của người dùng đã đăng nhập và khách
+  const ve = [...veData, ...GuestUserTicket]
   // hàm đếm
   const [countConfirmed, setCountConfirmed] = useState(0)
-  const [countRejected, setCountRejected] = useState(0)
 
   useEffect(() => {
     const Confirmed = ve.filter((item: any) => item.status === 1).length
-    const Rejected = ve.filter((item: any) => item.status === 2).length
 
     setCountConfirmed(Confirmed)
-    setCountRejected(Rejected)
   })
 
   // hàm tính tổng doanh thu
@@ -27,13 +31,13 @@ export default function Dashboard() {
       }
       return total
     }, 0)
-    .toLocaleString('vi-VN', { style: 'currency', currency: 'VND' })
-
-  // hàm tính %  tỷ lệ thanh toán thành công
-  const percent = ((countConfirmed / (countConfirmed + countRejected)) * 100).toFixed(2) + '%'
+    .toLocaleString('vi', { style: 'currency', currency: 'VND' })
+  const ticketcount = ticket().length
 
   const totalBooked = ve.length
-  const ticketcount = ticket().length
+  // hàm tính %  tỷ lệ thanh toán thành công
+  const percent = ((countConfirmed / totalBooked) * 100).toFixed(2) + '%'
+
   return (
     <>
       <div className='bg-[#f0f0f0] min-h-screen'>
@@ -53,7 +57,7 @@ export default function Dashboard() {
         {/* các thông tin  */}
         <div>
           <div className=' bg-[#fff]  my-4  grid  grid-cols-1 sm:grid-cols-2   lg:grid-cols-4   py-6'>
-            {/* số lượng vé đã đặt */}
+            {/* số lượng vé   */}
             <div className='relative  rounded-lg overflow-hidden m-2 bg-blue-500 shadow-md'>
               <i className='absolute bottom-[-5px] left-0 text-4xl sm:text-5xl  text-[#fff]/20'>
                 <Icon name='ticket' />
@@ -68,7 +72,7 @@ export default function Dashboard() {
                 </Link>
               </div>
             </div>
-            {/* Thanh toán thành công */}
+            {/*  Vé đã đặt  */}
             <div className='relative rounded-lg overflow-hidden m-2 bg-orange-400 shadow-md'>
               <i className='absolute bottom-0 left-0 text-5xl text-[#fff]/20'>
                 <Icon name='check-circle' />

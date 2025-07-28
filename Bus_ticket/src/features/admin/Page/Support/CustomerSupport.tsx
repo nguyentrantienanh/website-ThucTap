@@ -1,12 +1,11 @@
-import { useState } from 'react'
+// import { useState } from 'react'
 import Icon from '../../../../icons/Icon'
-import { chatData } from '../../Dataset/chat'
+
 import { Link } from 'react-router-dom'
+const UserList = JSON.parse(localStorage.getItem('userList') || '[]')
 
+const chats = UserList.flatMap((user: any) => user.chats || [])
 function AccountSupport() {
-  const [chat] = useState(chatData)
-  const chats = JSON.parse(localStorage.getItem('chats') || '[]')
-
   return (
     <>
       <div className='bg-[#fff] px-2 sm:px-4 md:px-10 py-6'>
@@ -28,7 +27,7 @@ function AccountSupport() {
                     <td className='py-2 px-2 text-gray-500'>{item.description}</td>
                     <td className='py-2 px-2 text-gray-500'>{item.lastMessage}</td>
                     <td className='py-2 px-2 text-gray-500'>{item.timestamp}</td>
-                    <Link to={`/admin/support/chat/${item.id}/${item.name}`} className='py-2 px-2 text-gray-500'>
+                    <Link to={`/admin/support/chat/${item.id}/${item.description}`} className='py-2 px-2 text-gray-500'>
                       <td className='py-2   text-center   '>
                         <i className='cursor-pointer border-[#1ba000] bg-[#1ba0008e] border text-[15px] py-1 px-2 rounded-[10px] text-[#fff]'>
                           <Icon name='computer' />
@@ -38,7 +37,7 @@ function AccountSupport() {
                   </tr>
                 ))
               ) : (
-                <tr></tr>
+                <tr> trốngd</tr>
               )}
             </tbody>
           </table>
@@ -49,8 +48,7 @@ function AccountSupport() {
 }
 
 export default function CustomerSupport() {
-  const [chat] = useState(chatData)
-  const countchat = chat.length
+  const countchat = chats.length
   return (
     <>
       <div className='flex flex-col  px-2 w-full py-4  pt-2 '>

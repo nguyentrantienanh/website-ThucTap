@@ -1,7 +1,17 @@
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import Icon from '../../../../icons/Icon'
-const ve = JSON.parse(localStorage.getItem('vedadat') || '[]')
+
+const UserList = JSON.parse(localStorage.getItem('userList') || '[]')
+const veData = UserList.map((user: any) => user.ticket).flat()
+
+const GuestUser = JSON.parse(localStorage.getItem('guestUserInfo') || '[]')
+const GuestUserTicket = GuestUser.map((user: any) => user.ticket).flat()
+// hàm gộp UserList và GuestUser
+
+// hàm để gộp dữ liệu vé đã đặt của người dùng đã đăng nhập và khách
+const ve = [...veData, ...GuestUserTicket]
+console.log(ve)
 
 function TicketPending() {
   // hiện thị vé đã được duyệt
@@ -24,25 +34,67 @@ function TicketPending() {
 
   // hàm xử lý xác nhận vé xách nhận status === 1   lấy id
   const handleConfirm = (id: number) => {
-    const updatedTickets = ve.map((item: any) => {
-      if (item.id === id) {
-        return { ...item, status: 1 }
-      }
-      return item
-    })
-    localStorage.setItem('vedadat', JSON.stringify(updatedTickets))
+    const isRegisteredUser = UserList.some((user: any) => user.ticket?.some((t: any) => t.id === id))
+
+    if (isRegisteredUser) {
+      // Cập nhật cho user đã đăng nhập
+      const updatedUserList = UserList.map((user: any) => {
+        const hasTicket = user.ticket?.some((t: any) => t.id === id)
+        if (hasTicket) {
+          return {
+            ...user,
+            ticket: user.ticket.map((t: any) => (t.id === id ? { ...t, status: 1 } : t))
+          }
+        }
+        return user
+      })
+      localStorage.setItem('userList', JSON.stringify(updatedUserList))
+    } else {
+      const updatedGuestList = GuestUser.map((user: any) => {
+        const hasTicket = user.ticket?.some((t: any) => t.id === id)
+        if (hasTicket) {
+          return {
+            ...user,
+            ticket: user.ticket.map((t: any) => (t.id === id ? { ...t, status: 1 } : t))
+          }
+        }
+        return user
+      })
+      localStorage.setItem('guestUserInfo', JSON.stringify(updatedGuestList))
+    }
     window.location.reload()
   }
 
   // hàm xử lý hủy vé status === 2
-  const handleCancel = (Id: string) => {
-    const updatedTickets = ve.map((item: any) => {
-      if (item.id === Id) {
-        return { ...item, status: 2 }
-      }
-      return item
-    })
-    localStorage.setItem('vedadat', JSON.stringify(updatedTickets))
+  const handleCancel = (id: string) => {
+    const isRegisteredUser = UserList.some((user: any) => user.ticket?.some((t: any) => t.id === id))
+
+    if (isRegisteredUser) {
+      // Cập nhật cho user đã đăng nhập
+      const updatedUserList = UserList.map((user: any) => {
+        const hasTicket = user.ticket?.some((t: any) => t.id === id)
+        if (hasTicket) {
+          return {
+            ...user,
+            ticket: user.ticket.map((t: any) => (t.id === id ? { ...t, status: 2 } : t))
+          }
+        }
+        return user
+      })
+      localStorage.setItem('userList', JSON.stringify(updatedUserList))
+    } else {
+      const updatedGuestList = GuestUser.map((user: any) => {
+        const hasTicket = user.ticket?.some((t: any) => t.id === id)
+        if (hasTicket) {
+          return {
+            ...user,
+            ticket: user.ticket.map((t: any) => (t.id === id ? { ...t, status: 2 } : t))
+          }
+        }
+        return user
+      })
+      localStorage.setItem('guestUserInfo', JSON.stringify(updatedGuestList))
+    }
     window.location.reload()
   }
 
@@ -106,15 +158,15 @@ function TicketPending() {
                       <div className='flex justify-center space-x-2'>
                         <button
                           onClick={() => handleConfirm(item.id)}
-                          className='bg-green-500 hover:bg-green-600 text-[#fff] px-3 py-1 rounded-md text-xs transition whitespace-nowrap'
+                          className='bg-green-500 cursor-pointer hover:bg-green-600 text-[#fff] px-3 py-1 rounded-md text-xs transition whitespace-nowrap'
                         >
-                          <Icon name='check' /> 
+                          <Icon name='check' />
                         </button>
                         <button
                           onClick={() => handleCancel(item.id)}
-                          className='bg-red-500 hover:bg-red-600 text-[#fff] px-3 py-1 rounded-md text-xs transition'
+                          className='bg-red-500 cursor-pointer hover:bg-red-600 text-[#fff] px-3 py-1 rounded-md text-xs transition'
                         >
-                          <Icon name='cancel' /> 
+                          <Icon name='cancel' />
                         </button>
                       </div>
                     </td>
@@ -167,7 +219,8 @@ function TicketPending() {
                   <h1 className='font-extrabold text-gray-400 text-[17px]'>Tuyến đường</h1>
                   <p className='font-mono text-gray-600 text-[17px] '>
                     {' '}
-                    {t(`${item.diemDi}`)} - {t(`${item.diemDen}`)}
+                    {t(`${item.diemDi}`, { defaultValue: item.diemdi })} -{' '}
+                    {t(`${item.diemDen}`, { defaultValue: item.diemden })}
                   </p>
                 </div>
                 <div className='flex justify-between px-4'>

@@ -1,7 +1,15 @@
-import { useState } from 'react'
+// import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import Icon from '../../../../icons/Icon'
-const ve = JSON.parse(localStorage.getItem('vedadat') || '[]')
+const UserList = JSON.parse(localStorage.getItem('userList') || '[]')
+const veData = UserList.map((user: any) => user.ticket).flat()
+
+const GuestUser = JSON.parse(localStorage.getItem('guestUserInfo') || '[]')
+const GuestUserTicket = GuestUser.map((user: any) => user.ticket).flat()
+
+// hàm để gộp dữ liệu vé đã đặt của người dùng đã đăng nhập và khách
+const ve = [...veData, ...GuestUserTicket]
+
 function TicketRejected() {
   // hiện thị vé đã được duyệt
   const RejectedTickets = ve.filter((item: any) => item.status === 2)
@@ -12,15 +20,40 @@ function TicketRejected() {
     return item.map((seat: any) => seat.name)
   })
 
- // hàm xóa vé
+  // hàm xóa vé
   const handleDeleteTicket = (ticketId: number) => {
-    const updatedTickets = RejectedTickets.filter((item: any) => item.id !== ticketId)
-    localStorage.setItem('vedadat', JSON.stringify(updatedTickets))
+    const isRegisteredUser = UserList.some((user: any) => user.ticket?.some((t: any) => t.id === ticketId))
+    // const updatedTickets = RejectedTickets.filter((item: any) => item.id !== ticketId)
+    // localStorage.setItem('vedadat', JSON.stringify(updatedTickets))
+    // window.location.reload()
+    if (isRegisteredUser) {
+      // Cập nhật cho user đã đăng nhập
+      const updatedUserList = UserList.map((user: any) => {
+        const hasTicket = user.ticket?.some((t: any) => t.id === ticketId)
+        if (hasTicket) {
+          return {
+            ...user,
+            ticket: user.ticket.filter((t: any) => t.id !== ticketId)
+          }
+        }
+        return user
+      })
+      localStorage.setItem('userList', JSON.stringify(updatedUserList))
+    } else {
+      const updatedGuestList = GuestUser.map((user: any) => {
+        const hasTicket = user.ticket?.some((t: any) => t.id === ticketId)
+        if (hasTicket) {
+          return {
+            ...user,
+            ticket: user.ticket.filter((t: any) => t.id !== ticketId)
+          }
+        }
+        return user
+      })
+      localStorage.setItem('guestUserInfo', JSON.stringify(updatedGuestList))
+    }
     window.location.reload()
   }
-
-   
-
   return (
     <>
       <div className='bg-red-50 px-2 sm:px-4 md:px-10 py-6 min-h-screen'>
@@ -61,12 +94,11 @@ function TicketRejected() {
                       ${item.price} <span className='text-xs'>USD</span>
                     </td>
                     <td className='py-2 px-2'>
-               
                       <button
                         onClick={() => {
                           handleDeleteTicket(item.id)
                         }}
-                         className='bg-red-500 hover:bg-red-600 text-[#fff] px-3 py-1 rounded-md text-xs transition cursor-pointer'
+                        className='bg-red-500 hover:bg-red-600 text-[#fff] px-3 py-1 rounded-md text-xs transition cursor-pointer'
                       >
                         <Icon name='trash' />
                       </button>

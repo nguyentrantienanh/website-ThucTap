@@ -1,14 +1,12 @@
 import Icon from '../../../icons/Icon'
 import backgruond from '../../../assets/background.jpg'
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 export function Booking() {
-
   const UserList = JSON.parse(localStorage.getItem('userList') || '[]')
   const UserInfo = JSON.parse(localStorage.getItem('userInfo') || '{}')
-  
+
   const currentUser = UserList.find((user: any) => user.id === UserInfo.id) || {}
- console.log('currentUser', currentUser)
 
   const ve = currentUser.ticket || []
   const { t } = useTranslation('Home')
@@ -31,8 +29,8 @@ export function Booking() {
   }
 
   // thongtinve
-  const thongtinve = JSON.parse(localStorage.getItem('thongtinve') || '{}')
-
+  const thongtinve = JSON.parse(localStorage.getItem('thongtinve') || '[]')
+  const test = UserList.find((user: any) => user.ticket?.some((t: any) => t.id === thongtinve[0]?.id))
   return (
     <>
       <div className='bg-[#fff] px-2 sm:px-4 md:px-10 py-6'>
@@ -59,8 +57,8 @@ export function Booking() {
                   <tr key={index} className='bg-[#fff] text-gray-800 border-b text-nowrap'>
                     <td className='py-2 px-2 text-gray-500   '>{item.id}</td>
                     <td className='py-2 px-2 text-[#a7a7a7] hidden md:table-cell'>{item.type}</td>
-                    <td className='py-2 px-2 text-[#04b925]'>{t(`${item.diemDen}`)}</td>
-                    <td className='py-2 px-2 text-[#04b925]'>{t(`${item.diemDi}`)}</td>
+                    <td className='py-2 px-2 text-[#04b925]'>{t(`${item.diemDen}`, { defaultValue: item.diemdi })}</td>
+                    <td className='py-2 px-2 text-[#04b925]'>{t(`${item.diemDi}`, { defaultValue: item.diemden })}</td>
                     <td className='py-2 px-2 text-[#4c4c4c] font-medium'>{item.dateStart}</td>
                     <td className='py-2 px-2 text-[#7337ff] font-mono'>{item.starttime}</td>
                     <td className='py-2 px-2 text-[#04b925] '>{seats[index].join(', ')} </td>
@@ -80,13 +78,13 @@ export function Booking() {
                     <td className='py-2 px-2 text-[#1645ff] hidden md:table-cell'>
                       ${item.price} <span className='text-xs'>USD</span>
                     </td>
-                    <td className='py-2 px-2 text-center'>
+                    <td className='py-2 px-2 text-center  '>
                       <button
                         onClick={() => {
                           setinformationticket(true)
                           localStorage.setItem('thongtinve', JSON.stringify([ve[index]]))
                         }}
-                        className='bg-[#2800c91b] py-1 px-3 rounded'
+                        className='bg-[#2800c91b] cursor-pointer py-1 px-3 rounded'
                       >
                         <span className='text-[#0000006c]'>
                           <Icon name='about' />
@@ -97,7 +95,7 @@ export function Booking() {
                 ))
               ) : (
                 <tr>
-                  <td colSpan={11} className='text-center text-gray-500 bg-[#fff] py-4'>
+                  <td colSpan={11} className='text-center text-gray-500 py-4 bg-gray-200'>
                     No tickets booked yet.
                   </td>
                 </tr>
@@ -121,60 +119,89 @@ export function Booking() {
             }}
           >
             {thongtinve.map((item: any) => (
-              <div className='bg-[#fff] w-150 rounded-3xl py-4 flex flex-col gap-5 divide-y-2 divide-gray-200'>
-                <div className='flex justify-between px-4 py-2  border-b-2  '>
-                  <h1 className='font-extrabold text-gray-600 text-[17px]'>Ticket Booking History</h1>
-                  <span onClick={isclick}>
-                    <i className=' cursor-pointer'>
-                      <Icon name='close' />
-                    </i>
-                  </span>
-                </div>
-                <div className='flex justify-between px-4'>
-                  <h1 className='font-extrabold text-gray-400 text-[17px]'>Ngày: </h1>
-                  <p className='font-mono text-gray-600 text-[17px] '>{item.dateStart}</p>
-                </div>
-                <div className='flex justify-between px-4'>
-                  <h1 className='font-extrabold text-gray-400 text-[17px]'>mã vé</h1>
-                  <p className='font-mono text-gray-600 text-[17px] '>{item.ticketId}</p>
-                </div>
-                <div className='flex justify-between px-4'>
-                  <h1 className='font-extrabold text-gray-400 text-[17px]'>Tuyến đường</h1>
-                  <p className='font-mono text-gray-600 text-[17px] '>
-                    {' '}
-                    {t(`Home:${item.diemDi}`)} - {t(`Home:${item.diemDen}`)}
-                  </p>
-                </div>
-                <div className='flex justify-between px-4'>
-                  <h1 className='font-extrabold text-gray-400 text-[17px]'>Giá</h1>
-                  <p className='font-mono text-gray-600 text-[17px] '>{item.price} USD</p>
-                </div>
-                <div className='flex justify-between px-4'>
-                  <h1 className='font-extrabold text-gray-400 text-[17px]'>Trạng thái</h1>
-                  <p className='font-mono text-gray-600 text-[17px] '>
-                    <td className='py-2 px-4 '>
-                      {Status.map((status) => {
-                        if (item.status === status.id) {
-                          return (
-                            <span
-                              key={status.id}
-                              className={`px-3 py-1 rounded-full text-[${status.colors}] bg-[${status.bg}] border-2`}
-                            >
-                              {status.name}
-                            </span>
-                          )
-                        }
-                        return
-                      })}
-                    </td>
-                  </p>
-                </div>
+              <div className='  w-150 rounded-3xl py-4 flex flex-col gap-5 divide-y-2 divide-gray-200'>
+                <div
+                  key={item.id}
+                  className='bg-[#fff]   rounded-xl p-4 shadow space-y-2
+                  '
+                >
+                  <div className='flex justify-between px-2 py-2  border-b-2  '>
+                    <h1 className='font-extrabold text-gray-600 text-[17px] flex items-center'>
+                      Ticket Booking History{' '}
+                      <p className='font-mono px-2 text-gray-600 text-[14px] '>
+                        {Status.map((status) => {
+                          if (item.status === status.id) {
+                            return (
+                              <span
+                                key={status.id}
+                                className={`px-3 py-1 rounded-full text-[${status.colors}] bg-[${status.bg}] border-2`}
+                              >
+                                {status.name}
+                              </span>
+                            )
+                          }
+                          return
+                        })}
+                      </p>{' '}
+                    </h1>
 
-                <div className='pr-4'>
-                  <button onClick={isclick} className='  float-end bg-red-500 px-8 py-4 rounded-2xl'>
-                    {' '}
-                    xóa
-                  </button>
+                    <div className='flex justify-between px-4'></div>
+                    <span onClick={isclick}>
+                      <i className=' cursor-pointer'>
+                        <Icon name='close' />
+                      </i>
+                    </span>
+                  </div>
+                  <div className='flex justify-between items-center'>
+                    <span className='text-sm text-gray-500'>Số vé/code: {item.id}</span>
+                    <span className='bg-green-100 text-green-800 px-2 py-1 rounded-full text-xs font-semibold'>
+                      Chiều đi
+                    </span>
+                  </div>
+
+                  <div className='text-xl font-bold'>
+                    {item.type} - {t(item.diemDi)} - {t(item.diemDen)}{' '}
+                  </div>
+                  <p className='text-[11px] text-gray-500'>Sơ đồ ghế: {item.seatLayout}</p>
+
+                  <div className='flex justify-between items-center text-center border-t border-b py-2 border-dashed'>
+                    <div>
+                      <div className='text-xl font-bold'>{item.starttime}</div>
+                      <div className='text-sm font-medium'>{t(item.diemDi)}</div>
+                    </div>
+                    <div>
+                      <i className='text-green-600 border-b pl-4 pr-1'>
+                        ...
+                        <Icon name='bus-go' />
+                      </i>
+                      <div className='text-xs text-gray-500'>
+                        {item.timetogo?.slice(0, 2)} giờ {item.timetogo?.slice(3, 5)} phút
+                      </div>
+                    </div>
+
+                    <div>
+                      <div className='text-xl font-bold'>{item.endtime}</div>
+                      <div className='text-sm font-medium'>{t(item.diemDen)}</div>
+                    </div>
+                  </div>
+
+                  <div className='bg-gray-100 p-3 rounded-lg text-sm'>
+                    <div className='font-semibold  '>{test.fullName || test.name}</div>
+                    <div className='text-xs text-gray-600 '>
+                      CMND: <span className='font-normal'>{test.cccd || ''} </span>{' '}
+                    </div>
+                    <div className='text-xs text-gray-600 '> Ghi chú: Mang CMND/Hộ chiếu</div>
+                    <div className='mt-2 border-t pt-2 flex justify-between'>
+                      <div className=' '>
+                        {' '}
+                        <strong>Ghế:</strong>{' '}
+                        <span className='text-blue-600 font-medium '>
+                          {item.seats.map((s: any) => s.name).join(', ')}
+                        </span>{' '}
+                      </div>
+                      <div className='font-bold text-green-600'>{item.price.toLocaleString()}đ</div>
+                    </div>
+                  </div>
                 </div>
               </div>
             ))}
@@ -184,18 +211,19 @@ export function Booking() {
               @keyframes slideDown{
               0% {
               top: 0;
-                transform: traslateY(-100%); opacity: 0; 
+                transform: translateY(-100%); opacity: 0; 
               }
                 100% {
-                  transform: traslateY(-100%); opacity: 1; 
+                  transform: translateY(-0); opacity: 1; 
                 }
               }
                 @keyframes slideUp{
                 0% {
-                  top: 0;
+                 
                   transform: translateY(0); opacity: 1; 
                 }
                 100% {
+                top: 0;
                   transform: translateY(-100%); opacity: 0;
               }
             `}

@@ -3,9 +3,10 @@ import background from '../../assets/auth/background-login.jpg'
 import Icon from '../../icons/Icon'
 import { useGoogleLogin } from '@react-oauth/google'
 import { useState, useEffect } from 'react'
-import ReCAPTCHA from 'react-google-recaptcha'
-import FacebookLoginButton from '../../services/FacebookLoginButton'
+// import ReCAPTCHA from 'react-google-recaptcha'
+// import FacebookLoginButton from '../../services/FacebookLoginButton'
 import axios from 'axios'
+import { useNavigate } from 'react-router-dom'
 
 type UserInfo = {
   id: number
@@ -20,10 +21,13 @@ type UserInfo = {
   imageUrl: string
   name: string
   ticket: any[]
+  chats: any[]
+  type: number
 }
 
 export default function Signin() {
   const [userInfo, setUserInfo] = useState<UserInfo | null>(null)
+  const navigate = useNavigate()
   const handleGoogleLogin = async (response: any) => {
     try {
       const { data } = await axios.get(
@@ -34,7 +38,7 @@ export default function Signin() {
       const userList: UserInfo[] = JSON.parse(localStorage.getItem('userList') || '[]')
 
       // Kiểm tra xem người dùng đã tồn tại chưa (dựa vào googleId)
-      const existingUser = userList.find((u) => u.googleId === data.sub)
+      const existingUser = userList.find((u) => u.email === data.email)
 
       let user: UserInfo
 
@@ -46,13 +50,15 @@ export default function Signin() {
         user = {
           id: Date.now(), // Gán ID mới
           email: data.email,
-          firstname: data.family_name,
-          lastname: data.given_name,
+          firstname: data.given_name,
+          lastname: data.family_name,
           googleId: data.sub,
           imageUrl: data.picture,
           name: data.name,
           status: 1,
-          ticket: []
+          type: 1,
+          ticket: [],
+          chats: []
         }
 
         userList.push(user)
@@ -80,14 +86,14 @@ export default function Signin() {
   })
 
   // Hàm xử lý captcha
-  const [captchaValue, setCaptchaValue] = useState(false)
-  const handleCaptchaChange = (value: string | null) => {
-    setCaptchaValue(!!value) // Chuyển đổi giá trị thành boolean
-  }
+  // const [captchaValue, setCaptchaValue] = useState(false)
+  // const handleCaptchaChange = (value: string | null) => {
+  //   setCaptchaValue(!!value) // Chuyển đổi giá trị thành boolean
+  // }
 
-  const handleFacebookLogin = (user: any) => {
-    // Xử lý đăng nhập với Facebook
-  }
+  // const handleFacebookLogin = (user: any) => {
+  //   // Xử lý đăng nhập với Facebook
+  // }
 
   // luu thông tin người dùng vào localStorage
   useEffect(() => {
@@ -103,28 +109,52 @@ export default function Signin() {
     }
   }, [])
 
-  const [username, setUsername] = useState('')
+  const [useremail, setUseremail] = useState('')
   const [password, setPassword] = useState('')
+
   useEffect(() => {
     window.addEventListener('pageshow', (e) => {
       if (e.persisted) {
-        setUsername('')
+        setUseremail('')
         setPassword('')
       }
     })
   }, [])
 
+  const handleLogin = (e: any) => {
+    e.preventDefault()
+    try {
+      // Lấy danh sách user đã lưu
+      const userList: UserInfo[] = JSON.parse(localStorage.getItem('userList') || '[]')
+
+      // Tìm người dùng có email và mật khẩu khớp
+      const user = userList.find((u) => u.email === useremail && u.password === password)
+      if (user) {
+        // Lưu thông tin người dùng vào localStorage
+        localStorage.setItem('userInfo', JSON.stringify(user))
+        alert('Đăng nhập thành công!')
+        // Sử dụng navigate thay vì window.location.href
+        navigate('/user/dashboard')
+      } else {
+        alert('Tên đăng nhập hoặc mật khẩu không đúng.')
+      }
+    } catch (error) {
+      console.error('Lỗi đăng nhập:', error)
+      alert('Đã xảy ra lỗi trong quá trình đăng nhập. Vui lòng thử lại sau.')
+    }
+  }
+
   return (
-    <div className='flex flex-col md:flex-row items-center justify-center h-screen bg-gray-100'>
-      <div className='w-full md:w-2/4 h-full  '>
-        <img src={background} alt='Background' className='  items-start object-cover object-left w-full h-full  ' />
+    <div className='flex flex-col md:flex-row  min-h-screen  bg-gray-100'>
+      <div className='w-full md:w-2/4  '>
+        <img src={background} alt='Background' className='       object-cover object-left h-full w-full  ' />
       </div>
 
-      <div className='flex flex-col items-center justify-center w-full md:w-2/4 h-full bg-[#fff] p-6 shadow-lg rounded-lg'>
-        <img src={logo} alt='Bus Ticket Logo' className='w-50 h-50 object-cover mb-4' />
+      <div className='  flex flex-col items-center justify-start w-full md:w-2/4 min-h-screen bg-[#fff] py-8 px-4 overflow-y-auto'>
+        <img src={logo} alt='Bus Ticket Logo' className='w-32 h-32 object-contain mb-6' />
         {/* hiệu email người đăng nhập */}
 
-        <div>
+        <div className='w-full max-w-md'>
           <div className='gap-4 flex flex-col  '>
             <div
               onClick={() => login()}
@@ -135,7 +165,7 @@ export default function Signin() {
               </i>
               <span className='text-[12px]'>Login With Google</span>
             </div>
-            <FacebookLoginButton onLogin={handleFacebookLogin} />
+            {/* <FacebookLoginButton onLogin={handleFacebookLogin} /> */}
             <div className='flex items-center justify-center p-1 rounded-[10px] gap-2 border-1 border-[#8b8b8b] w-full  '>
               <i>
                 <Icon name='linkedin' />
@@ -148,20 +178,21 @@ export default function Signin() {
             <span className='mx-2 text-gray-500 text-sm'>OR</span>
             <div className='flex-grow border-t border-dashed border-gray-400'></div>
           </div>
+
           <div>
             <form className='flex flex-col gap-4'>
               <div>
                 <label htmlFor='username' className='block text-sm font-medium text-gray-700'>
-                  Username<sup className='text-red-600'>*</sup>
+                  Email<sup className='text-red-600'>*</sup>
                 </label>
                 <input
                   type='username'
                   id='username'
                   autoComplete='new-username'
-                  value={username}
-                  onChange={(e) => setUsername(e.target.value)}
+                  value={useremail}
+                  onChange={(e) => setUseremail(e.target.value)}
                   className='mt-1   w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none  focus:ring-green-500 focus:shadow-green-300 focus:border-green-500 sm:text-sm'
-                  placeholder='Enter Your username'
+                  placeholder='Enter Your  email'
                 />
               </div>
               <div>
@@ -178,12 +209,12 @@ export default function Signin() {
                   placeholder='Enter Your password'
                 />
               </div>
-              <div className=' flex  '>
+              {/* <div className=' flex  '>
                 <ReCAPTCHA
                   sitekey='6LfaJl8rAAAAAJJD6pV-vSh9tV8gvUeEFU6B6B5k' // Thay bằng site key của bạn
                   onChange={handleCaptchaChange}
                 />
-              </div>
+              </div> */}
               <div className='flex justify-between items-center mt-2'>
                 <div className='flex items-center'>
                   <input type='checkbox' id='rememberme' />
@@ -197,8 +228,9 @@ export default function Signin() {
               </div>
 
               <button
-                className={`bg-[#23ff52] h-10 w-full mt-2 ${captchaValue ? 'hover:bg-[#00ff37] cursor-pointer' : 'opacity-50 cursor-not-allowed'} text-black font-semibold rounded`}
-                disabled={!captchaValue}
+                onClick={handleLogin}
+                className={`bg-[#23ff52] h-10 w-full mt-2  `}
+                // disabled={!captchaValue}
               >
                 Đăng nhập
               </button>

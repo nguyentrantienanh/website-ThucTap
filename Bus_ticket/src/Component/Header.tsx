@@ -3,16 +3,15 @@ import '../App.css'
 import logo from '../assets/logo/Bus_Ticket_Header.png'
 import vietnam from '../assets/languageimg/vietnam.png'
 import my from '../assets/languageimg/my.png'
-import { use, useState } from 'react'
+import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Link, useLocation } from 'react-router-dom'
-import { googleLogout } from '@react-oauth/google'
+import { Link } from 'react-router-dom'
 
 function Header() {
   const { t } = useTranslation()
   const { i18n } = useTranslation()
   const [language, setLanguage] = useState<'vi' | 'en'>('vi')
-
+  const UserInfo = JSON.parse(localStorage.getItem('userInfo') || '{}')
   const changeLanguage = (lang: 'vi' | 'en') => {
     setLanguage(lang)
     i18n.changeLanguage(lang)
@@ -105,16 +104,17 @@ function Header() {
       icon: 'support',
       sub: [
         { id: '1', name: t('Header_DROPDOWN.CreateNew'), path: '/user/ticket/createnew' },
-        { id: '2', name: t('Header_DROPDOWN.Tickets'), path: '/user/support-ticket' }
+        { id: '2', name: t('Header_DROPDOWN.Tickets'), path: '/user/support-ticket' },
+        { id: '3', name: t('Header_DROPDOWN.Chat'), path: '/user/support/chat' }
       ]
     },
     {
       id: 4,
       name: t('Header_NAV.Profile'),
-      path: '/user/profile/profile-setting',
+      path: `/user/profile/profile-setting/${UserInfo.id || ''}`,
       icon: 'user',
       sub: [
-        { id: '1', name: t('Header_DROPDOWN.Profile'), path: '/user/profile/profile-setting' },
+        { id: '1', name: t('Header_DROPDOWN.Profile'), path: `/user/profile/profile-setting/${UserInfo.id || ''}` },
         { id: '2', name: t('Header_DROPDOWN.ChangePassword'), path: '/user/change-password' }
       ]
     }
@@ -123,8 +123,12 @@ function Header() {
   const Buytikets = () => {
     return (
       <Link to='/buytickets' className='flex items-center gap-2'>
-        <button className='flex items-center gap-2 bg-[#1ba000] text-[#fff] px-4 py-2 rounded-lg hover:bg-[#1ba000]/80 transition-all duration-300'>
-          <span className='text-[13px]'>{t('Header_BUTTON.BuyTicket')}</span>
+        <button className='cursor-pointer flex justify-center items-center rounded-xl font-semibold overflow-hidden relative z-100 border border-[#1ba000]  group px-4 py-2'>
+          <span className='relative z-10   text-green-600 group-hover:text-[#fff] text-xl duration-500 text-[13px]'>
+            {t('Header_BUTTON.BuyTicket')} !
+          </span>
+          <span className='absolute rounded-xl w-full h-full bg-[#1ba000] -left-32 top-0 -rotate-45 group-hover:rotate-0 group-hover:left-0 duration-500' />
+          <span className='absolute rounded-xl w-full h-full bg-[#1ba000] -right-32 top-0 -rotate-45 group-hover:rotate-0 group-hover:right-0 duration-500' />
         </button>
       </Link>
     )
@@ -212,6 +216,11 @@ function Header() {
   }
 
   const Nav = () => {
+    // const pathlink = ['/user/dashboard']
+    // const sosanh = pathlink.some(
+    //   (path) => location.pathname === path || location.pathname.startsWith(path)
+    // )
+    //
     return (
       <nav className='flex gap-5'>
         {userInfo && userInfo.email && clickhome
@@ -286,7 +295,7 @@ function Header() {
         <Header />
       </div>
 
-      <div className=' max-[1800px]:px-[5%]   max-[450px]:pr-10  px-[20%] sticky top-0 z-80 h-20 w-full   flex justify-between items-center bg-[#ffffff] shadow-md'>
+      <div className=' max-[1800px]:px-[5%]   max-[450px]:pr-10  px-[20%] sticky -top-1 z-80 h-20 w-full   flex justify-between items-center bg-[#ffffff] shadow-md'>
         <Link to='/' className='flex  gap-2'>
           <img className=' max-[450px]:pl-0 max-[450px]:w-30 w-40 h-22 pl-10 pt-2 object-cover' src={logo} alt='' />
         </Link>

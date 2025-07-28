@@ -1,25 +1,27 @@
 import { useParams, useNavigate } from 'react-router-dom'
 import { useState } from 'react'
-import Background from '../../assets/background.jpg'
+import Background from '../../../assets/background.jpg'
 import Box from '@mui/material/Box'
 import TextField from '@mui/material/TextField'
 import { useMediaQuery } from '@mui/material'
 
-export default function InformationGuestUser() {
+export default function InformationUser() {
   const { id } = useParams<{ id: string }>()
   const { name } = useParams<{ name: string }>()
+  const UserList = JSON.parse(localStorage.getItem('userList') || '[]')
+  const user = UserList.find((user: any) => user.id === parseInt(name || '0'))
   const navigate = useNavigate()
   // LẤY NĂM HIỆN TẠI
   const currentYear = new Date().getFullYear()
 
   const [formData, setFormData] = useState({
-    fullName: '',
-    phone: '',
-    email: '',
-    cccd: '',
-    birthday: `${currentYear}-01-01`
+    fullName: user?.name || '',
+    phone: user?.phone || '',
+    email: user?.email || '',
+    cccd: user?.cccd || '',
+    birthday: user?.birthday || `${currentYear}-01-01`
   })
-  // Hàm xử lý thay đổi thông tin
+  // Hàm xử lý thay đổi thông tin và update nếu thông tin chưa có
   const handleChange = (e: any) => {
     const { name, value } = e.target
     setFormData((prev) => ({
@@ -28,37 +30,27 @@ export default function InformationGuestUser() {
     }))
   }
 
+  // Hàm xử lý submit form lưu thông tin người dùng mới up vào push thêm userList
   const handleSubmit = (e: any) => {
     e.preventDefault()
-
-    const raw = localStorage.getItem('guestUserInfo')
+    const raw = localStorage.getItem('userList')
     if (!raw) return alert('Không tìm thấy dữ liệu')
 
-    let guestList: any[] = []
+    console.log('userList', UserList)
 
-    try {
-      const parsed = JSON.parse(raw)
-      guestList = Array.isArray(parsed) ? parsed : []
-    } catch (err) {
-      console.error('Lỗi parse guestUserInfo:', err)
-      return alert('Dữ liệu không hợp lệ')
-    }
-
-    // Tìm index khách có id khớp
-    const index = guestList.findIndex((guest) => String(guest.id) === String(name))
-    if (index === -1) return alert('Không tìm thấy khách')
-
-    // Cập nhật thông tin khách
-    guestList[index] = {
-      ...guestList[index],
-      ...formData,
-      ticket: guestList[index].ticket, // giữ nguyên vé
-      id: guestList[index].id // giữ nguyên id
+    // Tìm index người dùng có id khớp
+    const index = UserList.findIndex((user: any) => user.id === parseInt(name || '0'))
+    if (index === -1) return alert('Không tìm thấy người dùng')
+    // Cập nhật thông tin người dùng
+    UserList[index] = {
+      ...UserList[index], // giữ nguyên thông tin cũ
+      ...formData, // cập nhật thông tin mới
+      ticket: UserList[index].ticket, // giữ nguyên vé
+      id: UserList[index].id // giữ nguyên id
     }
 
     // Lưu lại vào localStorage dạng mảng []
-    localStorage.setItem('guestUserInfo', JSON.stringify(guestList))
-
+    localStorage.setItem('userList', JSON.stringify(UserList))
     // Điều hướng đến trang thanh toán
     navigate(`/user/payment/${id}`)
   }
@@ -159,7 +151,7 @@ export default function InformationGuestUser() {
 
         <button
           type='submit'
-          className='bg-green-500 text-[#fff] px-6 py-2 rounded-lg hover:bg-green-600 w-full text-sm md:text-2xl '
+          className='bg-green-500 text-[#fff] px-6 py-2 rounded-lg hover:bg-green-600 w-full text-sm md:text-xl '
         >
           Tiếp tục thanh toán
         </button>

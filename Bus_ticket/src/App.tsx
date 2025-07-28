@@ -8,7 +8,7 @@ import Contact from './Page/Contact'
 import Buyticket from './Page/Buytickets/Buytickets'
 import Ticket from './Page/Buytickets/Buyticket'
 import Page404 from './Page/page404'
-import LoadingPage from './Page/Loding'
+// import LoadingPage from './Page/Loding'
 import Signin from './Component/auth/Signin'
 import Signup from './Component/auth/Signup'
 import PrivacyPolicy from './Page/viserbus/policy/PrivacyPolicy'
@@ -23,7 +23,10 @@ import ProfileSetting from './features/user/Page/ProfileSetting'
 import Changepassword from './features/user/Page/Changepassword'
 import ChatSupportUser from './features/user/Page/Support/ChatSupport'
 import Payment from './Page/Buytickets/Payment'
-import InformationGuestUser from  './Page/GuestUser/Information'
+import InformationGuestUser from './Page/GuestUser/Information'
+import Chatlayout from './features/user/Page/Support/Chatlayout'
+import Chatlist from './features/user/Page/Support/Listchat'
+import InformationUser from './features/user/Page/Information'
 
 // admin
 import ProtectedRouteAmin from './services/ProtectedRouteAmin'
@@ -48,32 +51,42 @@ import ScrollToTop from './services/ScrollToTop'
 // import ScrollToShow from './services/ScrollToShow'
 import { ExpiredTickets } from './services/Expiredtickets'
 import './App.css'
-import { BrowserRouter, HashRouter, Routes, Route } from 'react-router-dom'
+import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import Dashboard from './features/user/Dashboard'
 
 // import Callapi from './Page/CallAPI'
 import { useLocation } from 'react-router-dom'
-import { useEffect, useState } from 'react'
-import Icon from './icons/Icon'
+import { useEffect } from 'react'
+// import Icon from './icons/Icon'
+import { useMediaQuery } from 'react-responsive'
 
 function AppRoutes() {
   const location = useLocation()
- 
-  const hideHeaderFooter = ['/signin', '/signup', '/admin',  '/user/payment/', '/user/information-guest-user/']
-  // loading mỗi khi chuyển trang
-  const [loading, setLoading] = useState(true)
-  useEffect(() => {
-    setLoading(true)
-    const timer = setTimeout(() => {
-      setLoading(false)
-    }, 1500) // Thay đổi thời gian nếu cần
 
-    return () => clearTimeout(timer)
-  }, [location.pathname])
+  const hideHeaderFooter = [
+    '/signin',
+    '/signup',
+    '/admin',
+    '/user/payment/',
+    '/user/information-guest-user/',
+    '/user/support/chat'
+  ]
+  // loading mỗi khi chuyển trang
+  // const [loading, setLoading] = useState(true)
+  // useEffect(() => {
+  //   setLoading(true)
+  //   const timer = setTimeout(() => {
+  //     setLoading(false)
+  //   }, 1500) // Thay đổi thời gian nếu cần
+
+  //   return () => clearTimeout(timer)
+  // }, [location.pathname])
   // Kiểm tra xem đường dẫn hiện tại có nằm trong danh sách cần ẩn header và footer không
-const shouldHideHeaderFooter = hideHeaderFooter.some((path) =>
-  location.pathname === path || location.pathname.startsWith(path)
-)
+  const shouldHideHeaderFooter = hideHeaderFooter.some(
+    (path) => location.pathname === path || location.pathname.startsWith(path)
+  )
+
+  const isMdUp = useMediaQuery({ minWidth: 768 })
   return (
     <>
       {/* {loading && (
@@ -81,7 +94,7 @@ const shouldHideHeaderFooter = hideHeaderFooter.some((path) =>
           <LoadingPage />
         </div>
       )} */}
-     {!shouldHideHeaderFooter && <Header />}
+      {!shouldHideHeaderFooter && <Header />}
       <ScrollToTop />
       <Routes>
         <Route path='/' element={<Home />} />
@@ -94,7 +107,6 @@ const shouldHideHeaderFooter = hideHeaderFooter.some((path) =>
         <Route path='/signin' element={<Signin />} />
         <Route path='/signup' element={<Signup />} />
 
-
         <Route
           path='/user/dashboard'
           element={
@@ -104,7 +116,7 @@ const shouldHideHeaderFooter = hideHeaderFooter.some((path) =>
           }
         />
         <Route
-          path='/user/profile/profile-setting'
+          path='/user/profile/profile-setting/:id'
           element={
             <ProtectedRoute>
               <ProfileSetting />
@@ -136,14 +148,39 @@ const shouldHideHeaderFooter = hideHeaderFooter.some((path) =>
             </ProtectedRoute>
           }
         />
-        <Route
-          path='/user/support/chat/:id/:name'
-          element={
-            <ProtectedRoute>
-              <ChatSupportUser />
-            </ProtectedRoute>
-          }
-        />
+
+        {isMdUp ? (
+          <Route
+            path='/user/support/chat/'
+            element={
+              <ProtectedRoute>
+                <Chatlayout />
+              </ProtectedRoute>
+            }
+          >
+            <Route path=':id/:name' element={<ChatSupportUser />} />
+          </Route>
+        ) : (
+          <>
+            <Route
+              path='/user/support/chat'
+              element={
+                <ProtectedRoute>
+                  <Chatlist />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path='/user/support/chat/:id/:name'
+              element={
+                <ProtectedRoute>
+                  <ChatSupportUser />
+                </ProtectedRoute>
+              }
+            />
+          </>
+        )}
+
         <Route
           path='/user/change-password'
           element={
@@ -152,19 +189,20 @@ const shouldHideHeaderFooter = hideHeaderFooter.some((path) =>
             </ProtectedRoute>
           }
         />
-         <Route path='/user/information-guest-user/:id/:name' element={<InformationGuestUser />} />
+        <Route
+          path='/user/information-user/:id/:name'
+          element={
+            <ProtectedRoute>
+              <InformationUser />
+            </ProtectedRoute>
+          }
+        />
+        <Route path='/user/information-guest-user/:id/:name' element={<InformationGuestUser />} />
         <Route path='viserbus/policy/privacy-policy' element={<PrivacyPolicy />} />
         <Route path='viserbus/policy/terms-of-service' element={<TermsOfService />} />
         <Route path='viserbus/policy/ticket-policy' element={<TicketPolicy />} />
         <Route path='viserbus/policy/refund-policy' element={<RefundPolicy />} />
-        <Route
-          path='/user/payment/:id'
-          element={
-            
-              <Payment />
-           
-          }
-        />
+        <Route path='/user/payment/:id' element={<Payment />} />
         <Route path='*' element={<Page404 />} />
       </Routes>
       {!shouldHideHeaderFooter && <Footer />}

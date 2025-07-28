@@ -1,16 +1,23 @@
 import { useParams } from 'react-router-dom'
 import Icon from '../../../../icons/Icon'
-import { useState } from 'react'
-
+import { useState, useEffect, useRef } from 'react'
+import { Link } from 'react-router-dom'
 export default function ChatSupport() {
   const { id } = useParams<{ id: string }>()
-
-  const chats = JSON.parse(localStorage.getItem('chats') || '[]')
+  const UserList = JSON.parse(localStorage.getItem('userList') || '[]')
+  const UserInfo = JSON.parse(localStorage.getItem('userInfo') || '{}')
+  const user = UserList.find((item: any) => item.id === UserInfo.id)
+  const chats = user?.chats || []
   const chat = chats.filter((item: any) => item.id === parseInt(id || '0'))
   const messages = chat.length > 0 ? chat[0].messages : []
 
-  //  hàm xử lý gửi tin nhắn
   const [message, setMessage] = useState('')
+  const messageEndRef = useRef<HTMLDivElement | null>(null)
+
+  useEffect(() => {
+    messageEndRef.current?.scrollIntoView({ behavior: 'smooth' })
+  }, [messages])
+
   const handleSendMessage = () => {
     if (!message.trim()) return alert('Vui lòng nhập tin nhắn')
     const newMessage = {
@@ -19,69 +26,99 @@ export default function ChatSupport() {
       text: message,
       timestamp: new Date().toLocaleString()
     }
+
     const updatedChat = {
       ...chat[0],
       messages: [...chat[0].messages, newMessage],
       lastMessage: message,
       status: 1
     }
+
     const updatedChats = chats.map((item: any) => (item.id === chat[0].id ? updatedChat : item))
-    localStorage.setItem('chats', JSON.stringify(updatedChats))
+
+    localStorage.setItem(
+      'userList',
+      JSON.stringify(UserList.map((u: any) => (u.id === UserInfo.id ? { ...u, chats: updatedChats } : u)))
+    )
     setMessage('')
   }
 
   return (
-    <>
-      <div className=' flex flex-col  px-2 w-full py-4  pt-2 '>
-        <div className='py-3 flex justify-between px-3 items-center text-center w-full shadow-md bg-[#fff] rounded-lg  '>
-          {chat.map((item: any) => {
-            const name = item.description
-            return (
-              <h1 key={item.id} className='text-3xl font-bold text-gray-700'>
-                {name}
-              </h1>
-            )
-          })}
+    <div className='flex flex-col w-full    bg-[#fff]  h-screen'>
+      {/* Header */}
+      <div className='flex items-center justify-between px-4 py-3 border-b border-gray-400 bg-[#e6f4ea] sticky top-0 z-10 shadow-sm'>
+        <div className='flex'>
+          <Link
+            to={`/user/support/chat`}
+            className='flex items-center mr-2 px-3 py-1 border rounded-full bg-[#fff] text-green-600 hover:bg-[#f0f0f0] md:hidden'
+          >
+            <Icon name='arrowleft' />
+            <span className='text-sm pl-2 font-medium'>Trở về</span>
+          </Link>
+          <h1 className='text-xl font-semibold text-green-700 truncate'>{chat[0]?.description || 'Chat hỗ trợ'}</h1>
         </div>
-
-        <div className=' w-full flex  flex-col rounded-lg p-4 m-1 bg-gray-100 shadow-md  '>
-          <div className='  w-full flex  flex-col rounded-lg p-4 m-2 bg-gray-100  overflow-y-auto h-[440px] '>
-            {messages.length > 0
-              ? messages.map((item: any, index: number) => (
-                  <div
-                    key={index}
-                    className={`flex items-center mb-4 ${item.id === 2 ? 'justify-end' : 'justify-start'}`}
-                  >
-                    <div
-                      className={`max-w-xs px-4 py-2 rounded-lg ${
-                        item.id === 2 ? 'bg-green-500 text-[#fff]' : 'bg-gray-300 text-gray-800'
-                      }`}
-                    >
-                      <p className='text-sm'>{item.text}</p>
-                    </div>
-                    <span className='text-xs items-center text-gray-500 ml-2'>{item.timestamp}</span>
-                  </div>
-                ))
-              : '2'}
-          </div>
-
-          <div className='flex items-center mt-4'>
-            <input
-              type='text'
-              placeholder='Nhập tin nhắn...'
-              className='flex-1 px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500'
-              value={message}
-              onChange={(e) => setMessage(e.target.value)}
-            />
-            <button
-              onClick={handleSendMessage}
-              className='ml-2 px-4 py-2 bg-green-500 text-[#fff] rounded-lg hover:bg-green-600'
-            >
-              <Icon name='send' />
-            </button>
-          </div>
+        <div>
+          {chat.map((item: any, index: any) => (
+            <div key={index} className='text-xs text-gray-500 flex items-center'>
+              Mức độ:
+              {item.priority === 1 ? (
+                <span className='text-xs ml-1 text-green-500 bg-green-100 border px-2 py-1 rounded-full'>
+                  Quan trọng
+                </span>
+              ) : item.priority === 2 ? (
+                <span className='text-xs ml-1 text-green-500 bg-green-100 border px-2 py-1 rounded-full'>
+                  Bình thường
+                </span>
+              ) : (
+                <span className='text-xs ml-1 text-green-500 bg-green-100 border px-2 py-1 rounded-full'>Thấp</span>
+              )}
+            </div>
+          ))}
         </div>
       </div>
-    </>
+
+      {/* Chat messages */}
+      <div className='flex-1 overflow-y-auto px-4 py-4 bg-gray-100  '>
+        {messages.map((item: any, index: number) => (
+          <div key={index} className={`flex mb-4 ${item.id === 2 ? 'justify-end' : 'justify-start'}`}>
+            <div className='max-w-[70%]'>
+              <div
+                className={`px-4 py-2 rounded-2xl text-sm shadow-md ${
+                  item.id === 2
+                    ? 'bg-green-500 text-[#fff] rounded-br-none'
+                    : 'bg-[#fff] text-gray-800 rounded-bl-none border'
+                }`}
+              >
+                {item.text}
+              </div>
+              <p className={`text-[11px] text-gray-500 mt-1 ${item.id === 2 ? 'text-right' : ''}`}>
+                {item.timestamp.split(' ')[0].slice(0, -3)}
+              </p>
+            </div>
+          </div>
+        ))}
+        <div ref={messageEndRef} />
+      </div>
+
+      {/* Input box */}
+      <div className='border-t bg-[#fff] px-4 py-3 flex items-center gap-3 sticky bottom-0'>
+        <input
+          type='text'
+          placeholder='Nhập tin nhắn...'
+          className='flex-1 px-4 py-2 border border-gray-300 rounded-full focus:outline-none focus:ring-2 focus:ring-green-500'
+          value={message}
+          onChange={(e) => setMessage(e.target.value)}
+          onKeyDown={(e) => {
+            if (e.key === 'Enter') handleSendMessage()
+          }}
+        />
+        <button
+          onClick={handleSendMessage}
+          className='p-3 bg-green-500 rounded-full text-[#fff] hover:bg-green-600 transition'
+        >
+          <Icon name='send' />
+        </button>
+      </div>
+    </div>
   )
 }

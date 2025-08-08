@@ -135,7 +135,7 @@ const handlePrevClick = () => {
     return (
         <>
       <section className="flex  max-[770px]:flex-col-reverse flex-direction: column-reverse;  mt-10 w-full pl-[5%]  max-[1450px]:pl-0 max-[770px]:pl-0 max-[770px]:pr-0 h-full max-[1450px]:h-125 max-[1030px]:h-100 max-[770px]:h-full max-[770px]:w-full">
-        <div className="bg-[#fff] w-[30%] max-[770px]:w-full flex max-[770px]:h-55">
+        <div className="bg-[#fff] w-[30%] max-[770px]:w-full flex max-[770px]:h-55 mr-2">
           <div className={`w-full pl-10  max-[1450px]:py-0 max-[1030px]:px-4 gap-3 max-[1450px]:gap-0.5 flex flex-col min-h-full transition-all duration-800 `}>
             <div className={`${iscuisinesChange ? "opacity-40" : "opacity-100 transition-all duration-500"}`}>
               <h1 className="text-[60px] font-medium mt-10 max-[1030px]:mt-3 max-[1450px]:text-[34px] text-[#764E2A] max-[770px]:text-[24px] ">{t('cuisines')}</h1>

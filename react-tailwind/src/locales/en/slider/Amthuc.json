@@ -3,13 +3,13 @@
     "Lux Restaurant": {
         "name": "Lux Restaurant",
         "description": "Luxury and elegance",
-        "longDescription": "Take your taste buds on a journey through culinary cultures around the world. Lux Restaurant offers a diverse menu from authentic Asian flavors to classic European dishes. Located on the 2nd floor of the hotel, the restaurant’s luxurious space is where you can enjoy a lavish meal prepared by talented chefs while admiring the night view of the coastal city."
+        "longDescription": "Lux Restaurant offers a diverse menu from pure Asian flavors to authentic European dishe"
     },
     "Maybar": {
-        "longDescription": "Enjoy the city view at night from May Bar, an amazing experience on the 21st floor of the hotel."
+        "longDescription": "Watching the city at night from May Bar is a wonderful experience on the 21st floor of the hotel."
     },
     "May Lounge": {
         "description": "Luxury and coziness",
-        "longDescription": "May Lounge is designed in a modern and sophisticated style, perfectly combining luxury and coziness."
+        "longDescription": "May Lounge is designed with a modern and sophisticated style, perfectly combining elegance and coziness"
     }
 }

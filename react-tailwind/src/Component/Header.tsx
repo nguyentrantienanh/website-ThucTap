@@ -268,7 +268,7 @@ const handleToggle = () => {
                       {Nav.sub && Nav.sub.length > 0 && (
                         <div className=' border-t-2 hover:border-transparent transition duration-400 cursor-pointer divide-y-1 divide-gray-300'>
                         {Nav.sub && Nav.sub.map((subItem, index) => (
-                          <li key={index} className=' bg-amber-300 max-[1310px]:py-1 py-2 px-1 hover:bg-yellow-800 transition duration-300 text-gray-700 hover:text-yellow-50 hover:border-none'>
+                          <li key={index} className=' bg-gray-200 max-[1310px]:py-1 py-2 px-1 hover:bg-yellow-800 transition duration-300 text-gray-700 hover:text-yellow-50 hover:border-none'>
                             <a className=" pl-1  text-[30px] max-[1450px]:text-[15px] max-[1310px]:text-[12px]  max-[1025px]:text-sm" href={subItem.link}>{subItem.title}</a>
                           </li>
                         ))}

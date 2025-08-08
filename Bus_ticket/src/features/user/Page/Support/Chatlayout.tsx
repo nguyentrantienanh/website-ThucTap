@@ -3,8 +3,8 @@ import Listchat from './Listchat'
 export default function Chatlayout() {
   return (
     <>
-      <div className='flex w-full  '>
-        <div className='   w-1/5  max-xl:w-2/5   '>
+      <div className='flex gap-1 w-full  '>
+        <div className='   w-1/5 shadow-2xl  max-xl:w-2/5   '>
           <Listchat />
         </div>
 

@@ -13,7 +13,8 @@
     "Dashboard": "Dashboard",
     "Booking": "Booking",
     "SupportTicket": "Support Ticket",
-    "Profile": "Profile"
+    "Profile": "Profile",
+    "TicketSearch": "Ticket Search"
     },
   "Header_BUTTON":{
     "BuyTicket": "Buy Ticket"
@@ -21,12 +22,13 @@
   "Header_DROPDOWN": {
     "BuyTicket": "Buy Ticket",
     "BookingHistory": "Booking History",
-    "CreateNew": "Create New",
-    "Tickets": "Tickets",
+    "CreateNew":  "Create New Support Chat",
+    "Tickets":  "Support Tickets",
     "Profile": "Profile",
     "ChangePassword": "Change Password",
     "Chat": "Chat"
   },
+  
   "Header_LANG": {
     "Vietnamese": "Vietnamese",
     "English": "English"

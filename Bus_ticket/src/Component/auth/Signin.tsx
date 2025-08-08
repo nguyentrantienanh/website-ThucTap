@@ -1,29 +1,15 @@
-import logo from '../../assets/logo/Bus_Ticket_Header.png'
-import background from '../../assets/auth/background-login.jpg'
+import logo from '@assets/logo/Bus_Ticket_Header.png'
+import background from '@assets/auth/background-login.jpg'
 import Icon from '../../icons/Icon'
 import { useGoogleLogin } from '@react-oauth/google'
+
 import { useState, useEffect } from 'react'
-// import ReCAPTCHA from 'react-google-recaptcha'
+import ReCAPTCHA from 'react-google-recaptcha'
 // import FacebookLoginButton from '../../services/FacebookLoginButton'
 import axios from 'axios'
-import { useNavigate } from 'react-router-dom'
-
-type UserInfo = {
-  id: number
-  email: string
-  firstname: string
-  status: number
-  username?: string
-  password?: string
-  address?: string
-  lastname: string
-  googleId?: string
-  imageUrl: string
-  name: string
-  ticket: any[]
-  chats: any[]
-  type: number
-}
+import { Link, useNavigate } from 'react-router-dom'
+// Signin.tsx - import với relative path
+import type { UserInfo } from '../../types/userInfo'
 
 export default function Signin() {
   const [userInfo, setUserInfo] = useState<UserInfo | null>(null)
@@ -69,16 +55,13 @@ export default function Signin() {
       localStorage.setItem('userInfo', JSON.stringify(user))
 
       // Chuyển hướng sang dashboard
-      window.location.href = '/user/dashboard'
+      navigate('/user/dashboard') // React Router
     } catch (error) {
       console.error('Lỗi đăng nhập Google:', error)
     }
   }
-
   // Hàm xử lý đăng nhập thất bại với Google
-  const handleGoogleLoginError = () => {
-    console.error('Google Login Failed')
-  }
+  const handleGoogleLoginError = () => {}
   // Sử dụng hook useGoogleLogin để đăng nhập với Google
   const login = useGoogleLogin({
     onSuccess: handleGoogleLogin,
@@ -86,15 +69,14 @@ export default function Signin() {
   })
 
   // Hàm xử lý captcha
-  // const [captchaValue, setCaptchaValue] = useState(false)
-  // const handleCaptchaChange = (value: string | null) => {
-  //   setCaptchaValue(!!value) // Chuyển đổi giá trị thành boolean
-  // }
+  const [captchaValue, setCaptchaValue] = useState(false)
+  const handleCaptchaChange = (value: string | null) => {
+    setCaptchaValue(!!value) // Chuyển đổi giá trị thành boolean
+  }
 
-  // const handleFacebookLogin = (user: any) => {
+  // const handleFacebookLogin = ( ) => {
   //   // Xử lý đăng nhập với Facebook
   // }
-
   // luu thông tin người dùng vào localStorage
   useEffect(() => {
     if (userInfo) {
@@ -109,6 +91,7 @@ export default function Signin() {
     }
   }, [])
 
+  const [message, setMessage] = useState('')
   const [useremail, setUseremail] = useState('')
   const [password, setPassword] = useState('')
 
@@ -121,40 +104,68 @@ export default function Signin() {
     })
   }, [])
 
+  const [islogin, setlogin] = useState(false)
   const handleLogin = (e: any) => {
     e.preventDefault()
-    try {
-      // Lấy danh sách user đã lưu
-      const userList: UserInfo[] = JSON.parse(localStorage.getItem('userList') || '[]')
-
-      // Tìm người dùng có email và mật khẩu khớp
-      const user = userList.find((u) => u.email === useremail && u.password === password)
-      if (user) {
-        // Lưu thông tin người dùng vào localStorage
-        localStorage.setItem('userInfo', JSON.stringify(user))
-        alert('Đăng nhập thành công!')
-        // Sử dụng navigate thay vì window.location.href
-        navigate('/user/dashboard')
-      } else {
-        alert('Tên đăng nhập hoặc mật khẩu không đúng.')
-      }
-    } catch (error) {
-      console.error('Lỗi đăng nhập:', error)
-      alert('Đã xảy ra lỗi trong quá trình đăng nhập. Vui lòng thử lại sau.')
+    if (!captchaValue) {
+      setMessage('Vui lòng xác nhận captcha trước khi đăng nhập.')
+      return
     }
+    if (!useremail || !password) {
+      setMessage('Vui lòng điền đầy đủ thông tin đăng nhập.')
+      return
+    }
+
+    setlogin(true)
+    setTimeout(() => {
+      try {
+        // Lấy danh sách user đã lưu
+        const userList: UserInfo[] = JSON.parse(localStorage.getItem('userList') || '[]')
+
+        // Tìm người dùng có email và mật khẩu khớp
+        const user = userList.find((u) => u.email === useremail && u.password === password)
+        if (user) {
+          if (user.status === 0) {
+            setMessage('Tài khoản của bạn đã bị khóa. Vui lòng liên hệ quản trị viên.')
+            setlogin(false)
+            return
+          }
+          // Lưu thông tin người dùng vào localStorage
+          localStorage.setItem('userInfo', JSON.stringify(user))
+          alert('Đăng nhập thành công!')
+          // Sử dụng navigate thay vì window.location.href
+          navigate('/user/dashboard')
+        } else {
+          setMessage('email hoặc mật khẩu không đúng.')
+        }
+      } catch (error) {
+        console.error('Lỗi đăng nhập:', error)
+        alert('Đã xảy ra lỗi trong quá trình đăng nhập. Vui lòng thử lại sau.')
+      }
+      setlogin(false)
+    }, 3000)
   }
 
   return (
     <div className='flex flex-col md:flex-row  min-h-screen  bg-gray-100'>
       <div className='w-full md:w-2/4  '>
-        <img src={background} alt='Background' className='       object-cover object-left h-full w-full  ' />
+        <img src={background} alt='Background' className=' object-cover object-left h-full w-full  ' />
       </div>
 
-      <div className='  flex flex-col items-center justify-start w-full md:w-2/4 min-h-screen bg-[#fff] py-8 px-4 overflow-y-auto'>
-        <img src={logo} alt='Bus Ticket Logo' className='w-32 h-32 object-contain mb-6' />
+      <div className='  flex flex-col items-center justify-start w-full md:w-2/4 max-h-screen bg-[#fff] py-4 px-4 overflow-y-auto'>
+        <div
+          onClick={() => navigate('/')}
+          className=' cursor-pointer mr-auto ml-0 md:ml-4  text-gray-500  font-semibold  '
+        >
+          <i className='text-[12px]'>
+            <Icon name='arrowleft' />
+          </i>
+          <span className='text-[12px] font-bold'> Quay lại</span>
+        </div>
+        <img src={logo} alt='Bus Ticket Logo' className='w-32 h-32 object-contain md:mb-6' />
         {/* hiệu email người đăng nhập */}
 
-        <div className='w-full max-w-md'>
+        <div className='  w-full max-w-md'>
           <div className='gap-4 flex flex-col  '>
             <div
               onClick={() => login()}
@@ -165,21 +176,34 @@ export default function Signin() {
               </i>
               <span className='text-[12px]'>Login With Google</span>
             </div>
+
             {/* <FacebookLoginButton onLogin={handleFacebookLogin} /> */}
-            <div className='flex items-center justify-center p-1 rounded-[10px] gap-2 border-1 border-[#8b8b8b] w-full  '>
+            {/* <div className='flex items-center justify-center p-1 rounded-[10px] gap-2 border-1 border-[#8b8b8b] w-full  '>
               <i>
                 <Icon name='linkedin' />
               </i>
               <span className='text-[12px]'> Login With Google</span>
-            </div>
+            </div> */}
           </div>
-          <div className='flex items-center justify-center my-4'>
+          <div className='flex items-center justify-center my-2 md:my-4'>
             <div className='flex-grow border-t border-dashed border-gray-400'></div>
             <span className='mx-2 text-gray-500 text-sm'>OR</span>
             <div className='flex-grow border-t border-dashed border-gray-400'></div>
           </div>
+          {message && (
+            <div className='text-red-500 text-sm mb-4 md:mb-6 border border-red-50 p-1 rounded-lg bg-red-100 flex justify-between'>
+              <div>
+                <strong className='text-[13px] '>Chú ý: </strong>
+                <span className='text-[12px] text-nowrap'>{message}</span>
+              </div>
+              <i className=' cursor-pointer text-[12px] text-red-500 hover:text-red-700' onClick={() => setMessage('')}>
+                {' '}
+                <Icon name='close' />
+              </i>
+            </div>
+          )}
 
-          <div>
+          <div className=''>
             <form className='flex flex-col gap-4'>
               <div>
                 <label htmlFor='username' className='block text-sm font-medium text-gray-700'>
@@ -209,36 +233,47 @@ export default function Signin() {
                   placeholder='Enter Your password'
                 />
               </div>
-              {/* <div className=' flex  '>
+              <div className=' flex  '>
                 <ReCAPTCHA
-                  sitekey='6LfaJl8rAAAAAJJD6pV-vSh9tV8gvUeEFU6B6B5k' // Thay bằng site key của bạn
+                  sitekey={import.meta.env.VITE_RECAPTCHA_KEY} // Thay bằng site key của bạn
                   onChange={handleCaptchaChange}
                 />
-              </div> */}
-              <div className='flex justify-between items-center mt-2'>
+              </div>
+              <div className='   flex justify-between items-center mt-2'>
                 <div className='flex items-center'>
-                  <input type='checkbox' id='rememberme' />
-                  <label htmlFor='rememberme' className='ml-2 text-sm text-gray-700'>
+                  <input className='cursor-pointer' type='checkbox' id='rememberme' />
+                  <label htmlFor='rememberme' className=' cursor-pointer ml-2 text-[15px] text-gray-700'>
                     Remember me
                   </label>
                 </div>
-                <div>
-                  <p>Forgot Password?</p>
-                </div>
+                <Link to='/forgot-password' className='text-[15px] text-gray-500'>
+                  <div>
+                    <p className=' cursor-pointer text-[15px] text-gray-500'>Forgot Password?</p>
+                  </div>
+                </Link>
               </div>
 
               <button
                 onClick={handleLogin}
-                className={`bg-[#23ff52] h-10 w-full mt-2  `}
-                // disabled={!captchaValue}
+                className={`bg-[#23ff52] h-10 w-full mt-1 ${
+                  captchaValue && !islogin ? 'hover:bg-[#00ff37] cursor-pointer' : 'opacity-50 cursor-not-allowed'
+                }   text-black font-semibold rounded`}
+                disabled={!captchaValue || islogin}
               >
-                Đăng nhập
+                {islogin ? (
+                  <div className='flex items-center justify-center'>
+                    <i className='fa-solid fa-spinner animate-spin mr-2'></i>
+                    <span>Đang đăng nhập...</span>
+                  </div>
+                ) : (
+                  'Login'
+                )}
               </button>
 
               <div>
-                <p className='text-sm text-gray-500 mt-2 mb-20'>
+                <p className='text-sm text-gray-500 mt-2 mb-10'>
                   Don't have an account?{' '}
-                  <a href='/signup' className='text-blue-500 hover:underline'>
+                  <a href='/signup' className={`text-blue-500 hover:underline    `}>
                     Sign Up
                   </a>
                 </p>

@@ -1,17 +1,17 @@
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import Icon from '../../../../icons/Icon'
+import emailjs from 'emailjs-com'
 
 const UserList = JSON.parse(localStorage.getItem('userList') || '[]')
 const veData = UserList.map((user: any) => user.ticket).flat()
 
 const GuestUser = JSON.parse(localStorage.getItem('guestUserInfo') || '[]')
-const GuestUserTicket = GuestUser.map((user: any) => user.ticket).flat()
+const GuestUserTickets = GuestUser.map((user: any) => user.ticket).flat()
 // hàm gộp UserList và GuestUser
 
 // hàm để gộp dữ liệu vé đã đặt của người dùng đã đăng nhập và khách
-const ve = [...veData, ...GuestUserTicket]
-console.log(ve)
+const ve = [...veData, ...GuestUserTickets]
 
 function TicketPending() {
   // hiện thị vé đã được duyệt
@@ -33,7 +33,7 @@ function TicketPending() {
   const thongtinve = JSON.parse(localStorage.getItem('thongtinve') || '{}')
 
   // hàm xử lý xác nhận vé xách nhận status === 1   lấy id
-  const handleConfirm = (id: number) => {
+  const handleConfirm = async (id: number) => {
     const isRegisteredUser = UserList.some((user: any) => user.ticket?.some((t: any) => t.id === id))
 
     if (isRegisteredUser) {
@@ -62,11 +62,62 @@ function TicketPending() {
       })
       localStorage.setItem('guestUserInfo', JSON.stringify(updatedGuestList))
     }
+
+    // gửi email xác nhận
+    const ticket = veData.filter((item: any) => item.id === id)
+    const guestUserTicket = GuestUserTickets.filter((item: any) => item.id === id)
+    const userinfo = JSON.parse(localStorage.getItem('userInfo') || '{}')
+    const USERID = (userinfo.name ? UserList : GuestUser).find((user: any) =>
+      user.ticket?.some((t: any) => t.id === id)
+    )
+
+    try {
+      const currentTicket = ticket[0] || guestUserTicket[0]
+
+      const templateParams = {
+        order_id: ticket[0]?.id || guestUserTicket[0]?.id,
+        start_time: ticket[0]?.starttime || guestUserTicket[0]?.starttime,
+        departure_location: t(currentTicket?.diemDi) || currentTicket?.diemDi,
+        travel_time: ticket[0]?.timetogo || guestUserTicket[0]?.timetogo,
+        end_time: ticket[0]?.endtime || guestUserTicket[0]?.endtime,
+        destination_location: t(currentTicket?.diemDen) || guestUserTicket[0]?.diemDen,
+        ticket_id: ticket[0]?.id || guestUserTicket[0]?.id,
+        departure_date: ticket[0]?.dateStart || guestUserTicket[0]?.dateStart,
+        bus_type: ticket[0]?.type || guestUserTicket[0]?.type,
+        seat_layout: ticket[0]?.seatLayout || guestUserTicket[0]?.seatLayout,
+        seat_numbers: (ticket[0]?.seats || guestUserTicket[0]?.seats).map((s: any) => s.name).join(', '),
+        ticket_quantity: (ticket[0]?.seats || guestUserTicket[0]?.seats).length,
+        passenger_name: USERID.fullName,
+        passenger_email: USERID.email,
+        passenger_phone: USERID.phone,
+        passenger_id: USERID.cccd,
+        total_amount: (ticket[0]?.price || guestUserTicket[0]?.price).toLocaleString() + ' VNĐ',
+        payment_status: 'Đã thanh toán',
+        support_phone: import.meta.env.VITE_SUPPORT_PHONE,
+        support_email: import.meta.env.VITE_SUPPORT_EMAIL,
+        website_url: import.meta.env.VITE_WEBSITE_URL,
+        email: `${USERID.email}, ${import.meta.env.VITE_SUPPORT_EMAIL}`
+      }
+      const result = await emailjs.send(
+        import.meta.env.VITE_EMAILJS_SERVICE_ID,
+        import.meta.env.VITE_EMAILJS_TEMPLATE_TICKET_ID,
+        templateParams,
+        import.meta.env.VITE_EMAILJS_PUBLIC_KEY
+      )
+
+      console.log('Email sent successfully:', result.text)
+      alert('Thanh toán thành công! Vé của bạn đã được gửi qua email.')
+      window.location.href = '/buytickets'
+    } catch (error) {
+      console.error('Error sending email:', error)
+      alert('Lỗi khi gửi vé qua email. Vui lòng thử lại sau.')
+    }
+
     window.location.reload()
   }
 
   // hàm xử lý hủy vé status === 2
-  const handleCancel = (id: string) => {
+  const handleCancel = async (id: string) => {
     const isRegisteredUser = UserList.some((user: any) => user.ticket?.some((t: any) => t.id === id))
 
     if (isRegisteredUser) {
@@ -95,14 +146,56 @@ function TicketPending() {
       })
       localStorage.setItem('guestUserInfo', JSON.stringify(updatedGuestList))
     }
+    // gửi email xác nhận
+    const ticket = veData.filter((item: any) => item.id === id)
+    const guestUserTicket = GuestUserTickets.filter((item: any) => item.id === id)
+    const userinfo = JSON.parse(localStorage.getItem('userInfo') || '{}')
+    const USERID = (userinfo.name ? UserList : GuestUser).find((user: any) =>
+      user.ticket?.some((t: any) => t.id === id)
+    )
+    try {
+      const currentTicket = ticket[0] || guestUserTicket[0]
+
+      const templateParams = {
+        diemDi: t(currentTicket?.diemDi) || currentTicket?.diemDi,
+
+        start_time: ticket[0]?.starttime || guestUserTicket[0]?.starttime,
+        diemDen: t(currentTicket?.diemDen) || guestUserTicket[0]?.diemDen,
+        ticket_id: ticket[0]?.id || guestUserTicket[0]?.id,
+        departure_date: ticket[0]?.dateStart || guestUserTicket[0]?.dateStart,
+        bus_type: ticket[0]?.type || guestUserTicket[0]?.type,
+        seat_layout: ticket[0]?.seatLayout || guestUserTicket[0]?.seatLayout,
+        seat_numbers: (ticket[0]?.seats || guestUserTicket[0]?.seats).map((s: any) => s.name).join(', '),
+        passenger_name: USERID.fullName,
+
+        passenger_phone: USERID.phone,
+
+        total_amount: (ticket[0]?.price || guestUserTicket[0]?.price).toLocaleString() + ' VNĐ',
+
+        support_phone: import.meta.env.VITE_SUPPORT_PHONE,
+
+        website_url: import.meta.env.VITE_WEBSITE_URL,
+        email: `${USERID.email}, ${import.meta.env.VITE_SUPPORT_EMAIL}`
+      }
+      await emailjs.send(
+        import.meta.env.VITE_EMAILJS_SERVICE_ID,
+        import.meta.env.VITE_EMAILJS_TEMPLATE_ID,
+        templateParams,
+        import.meta.env.VITE_EMAILJS_PUBLIC_KEY
+      )
+      alert('Hủy vé thành công! Vé của bạn đã được gửi qua email.')
+    } catch (error) {
+      alert('Lỗi khi gửi vé qua email. Vui lòng thử lại sau.')
+    }
+
     window.location.reload()
   }
 
   return (
     <>
-      <div className='bg-yellow-50 px-10 py-6 min-h-screen'>
+      <div className='bg-yellow-50 md:px-10 py-6 min-h-screen'>
         <div className='overflow-x-auto'>
-          <table className='min-w-full bg-yellow-500 rounded-t-2xl text-[13px]'>
+          <table className='min-w-full bg-yellow-500 md:rounded-t-2xl text-[13px]'>
             <thead>
               <tr className='text-[#fff] space-nowrap text-nowrap'>
                 <th className='py-2 px-2 text-left w-[90px]'>ID</th>
@@ -140,7 +233,7 @@ function TicketPending() {
                       </span>
                     </td>
                     <td className='py-2 px-2 text-indigo-600 font-semibold'>
-                      ${item.price} <span className='text-xs'>USD</span>
+                      ${item.price.toLocaleString()} <span className='text-xs'> VNĐ</span>
                     </td>
                     <td className='py-2 px-2 text-center'>
                       <button
@@ -225,7 +318,7 @@ function TicketPending() {
                 </div>
                 <div className='flex justify-between px-4'>
                   <h1 className='font-extrabold text-gray-400 text-[17px]'>Giá</h1>
-                  <p className='font-mono text-gray-600 text-[17px] '>{item.price} USD</p>
+                  <p className='font-mono text-gray-600 text-[17px] '>{item.price.toLocaleString()} VNĐ</p>
                 </div>
                 <div className='flex justify-between px-4'>
                   <h1 className='font-extrabold text-gray-400 text-[17px]'>Trạng thái</h1>
@@ -278,8 +371,8 @@ export default function Pending() {
 
   return (
     <>
-      <div className=' bg-yellow-50 flex flex-col  px-2 w-full py-4  pt-2 '>
-        <div className='py-3 flex justify-between px-3 items-center text-center w-full shadow-md bg-[#fff] rounded-lg  '>
+      <div className=' bg-yellow-50 flex flex-col  md:px-2 w-full py-4  pt-2 '>
+        <div className='py-3 flex justify-between px-3 items-center text-center w-full shadow-md bg-[#fff] md:rounded-lg  '>
           <h1 className=' text-1xl sm:text-3xl font-bold text-gray-700'>Vé chờ duyệt</h1>
           <div className='  flex justify-between px-2 items-center  w-15  sm:w-30 h-full rounded-lg   m-2 bg-yellow-500 shadow-md'>
             <i className='  text-[14px]  sm:text-4xl text-[#fff]/20'>

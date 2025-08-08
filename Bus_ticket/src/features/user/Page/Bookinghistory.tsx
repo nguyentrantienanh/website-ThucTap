@@ -10,6 +10,7 @@ export function Booking() {
 
   const ve = currentUser.ticket || []
   const { t } = useTranslation('Home')
+  const { t: tBooking } = useTranslation('Bookinghistory')
 
   const seats = ve
     .map((item: any) => item.seats)
@@ -18,9 +19,9 @@ export function Booking() {
     })
   // hàm xử lý trạng thái ghế Total Booked Ticket, Total Rejected Ticket, Total Pending Ticket
   const Status = [
-    { id: 1, name: 'Confirmed', colors: '#00d40e', bg: '#00ff2636' },
-    { id: 2, name: 'Rejected', colors: '#f00', bg: '#ff000036' },
-    { id: 3, name: 'Pending', colors: '#eeea00', bg: '#d5fb2b2d' }
+    { id: 1, name: tBooking('status.confirmed'), colors: '#00d40e', bg: '#00ff2636' },
+    { id: 2, name: tBooking('status.rejected'), colors: '#f00', bg: '#ff000036' },
+    { id: 3, name: tBooking('status.pending'), colors: '#eeea00', bg: '#d5fb2b2d' }
   ]
   // click thông tin vé
   const [informationticket, setinformationticket] = useState(false)
@@ -33,21 +34,21 @@ export function Booking() {
   const test = UserList.find((user: any) => user.ticket?.some((t: any) => t.id === thongtinve[0]?.id))
   return (
     <>
-      <div className='bg-[#fff] px-2 sm:px-4 md:px-10 py-6'>
+      <div className='bg-[#fff]  px-0 md:px-10 py-6'>
         <div className='overflow-x-auto'>
           <table className='min-w-full text-sm md:text-[13px]'>
             <thead>
               <tr className='bg-[#1ba000] text-[#fff] text-nowrap'>
-                <th className='py-2 px-2 text-left w-[60px]  '>ID</th>
-                <th className='py-2 px-2 text-left hidden md:table-cell'>AC / Non-AC</th>
-                <th className='py-2 px-2 text-left w-[120px]'>Start</th>
-                <th className='py-2 px-2 text-left w-[120px]'>Drop</th>
-                <th className='py-2 px-2 text-left w-[100px]'>Date</th>
-                <th className='py-2 px-2 text-left w-[80px]'>Time</th>
-                <th className='py-2 px-2 text-left w-[120px]'>Seats</th>
-                <th className='py-2 px-2 text-left w-[100px]'>Status</th>
-                <th className='py-2 px-2 text-left w-[100px] hidden md:table-cell'>Fare</th>
-                <th className='py-2 px-2 text-center'>Info</th>
+                <th className='py-2 px-2 text-left w-[60px]  '>{tBooking('table.headers.id')}</th>
+                <th className='py-2 px-2 text-left hidden md:table-cell'>{tBooking('table.headers.acNonAc')}</th>
+                <th className='py-2 px-2 text-left w-[120px]'>{tBooking('table.headers.start')}</th>
+                <th className='py-2 px-2 text-left w-[120px]'>{tBooking('table.headers.drop')}</th>
+                <th className='py-2 px-2 text-left w-[100px]'>{tBooking('table.headers.date')}</th>
+                <th className='py-2 px-2 text-left w-[80px]'>{tBooking('table.headers.time')}</th>
+                <th className='py-2 px-2 text-left w-[120px]'>{tBooking('table.headers.seats')}</th>
+                <th className='py-2 px-2 text-left w-[100px]'>{tBooking('table.headers.status')}</th>
+                <th className='py-2 px-2 text-left w-[100px] hidden md:table-cell'>{tBooking('table.headers.fare')}</th>
+                <th className='py-2 px-2 text-center'>{tBooking('table.headers.info')}</th>
               </tr>
             </thead>
 
@@ -76,7 +77,7 @@ export function Booking() {
                       )}
                     </td>
                     <td className='py-2 px-2 text-[#1645ff] hidden md:table-cell'>
-                      ${item.price} <span className='text-xs'>USD</span>
+                      {item.price.toLocaleString()} <span className='text-xs'> {tBooking('table.currency')}</span>
                     </td>
                     <td className='py-2 px-2 text-center  '>
                       <button
@@ -96,7 +97,7 @@ export function Booking() {
               ) : (
                 <tr>
                   <td colSpan={11} className='text-center text-gray-500 py-4 bg-gray-200'>
-                    No tickets booked yet.
+                    {tBooking('table.noTickets')}
                   </td>
                 </tr>
               )}
@@ -107,10 +108,10 @@ export function Booking() {
 
       {informationticket && (
         <div>
-          <div className='bg-black fixed top-0 z-90 opacity-30 h-full w-full ' onClick={isclick}></div>
+          <div className='bg-black fixed top-0 left-0 z-100 opacity-30 w-screen h-screen' onClick={isclick}></div>
 
           <div
-            className={` fixed top-1/9   left-1/2 transform -translate-x-1/2  rounded z-900
+            className={` fixed top-1/9  md:w-[600px] left-1/2 transform -translate-x-1/2  rounded z-900
           
           
           `}
@@ -119,16 +120,16 @@ export function Booking() {
             }}
           >
             {thongtinve.map((item: any) => (
-              <div className='  w-150 rounded-3xl py-4 flex flex-col gap-5 divide-y-2 divide-gray-200'>
+              <div className='  w-full rounded-3xl py-4 flex flex-col gap-5 divide-y-2 divide-gray-200'>
                 <div
                   key={item.id}
                   className='bg-[#fff]   rounded-xl p-4 shadow space-y-2
                   '
                 >
                   <div className='flex justify-between px-2 py-2  border-b-2  '>
-                    <h1 className='font-extrabold text-gray-600 text-[17px] flex items-center'>
-                      Ticket Booking History{' '}
-                      <p className='font-mono px-2 text-gray-600 text-[14px] '>
+                    <h1 className='font-extrabold text-gray-600 text-nowrap text-[13px] md:text-[17px] flex max-md:flex-col items-center'>
+                      {tBooking('ticketDetails.title')}{' '}
+                      <p className='font-mono px-2 text-gray-600 text-[10px] max-md:mr-auto max-md:px-0 max-md:py-1 md:text[14px] '>
                         {Status.map((status) => {
                           if (item.status === status.id) {
                             return (
@@ -142,7 +143,7 @@ export function Booking() {
                           }
                           return
                         })}
-                      </p>{' '}
+                      </p>
                     </h1>
 
                     <div className='flex justify-between px-4'></div>
@@ -152,54 +153,71 @@ export function Booking() {
                       </i>
                     </span>
                   </div>
-                  <div className='flex justify-between items-center'>
-                    <span className='text-sm text-gray-500'>Số vé/code: {item.id}</span>
-                    <span className='bg-green-100 text-green-800 px-2 py-1 rounded-full text-xs font-semibold'>
-                      Chiều đi
+                  <div className='flex max-md:flex-col justify-between items-center'>
+                    <span className='  text-[11px] md:text-sm text-gray-500'>
+                      {tBooking('ticketDetails.ticketCode')}: {item.id}
                     </span>
+                    <div>
+                      <span className='bg-green-100 text-green-800 px-2 py-1 rounded-full text-[11px] text-xs text-nowrap font-semibold  '>
+                        {' '}
+                        <strong>{tBooking('ticketDetails.departureDate')}: </strong>
+                        <span className='pl-1'>{item.dateStart}</span>
+                      </span>
+                      <span className='bg-green-100 text-green-800 px-2 py-1 rounded-full text-[11px] text-xs text-nowrap font-semibold'>
+                        {tBooking('ticketDetails.oneWay')}
+                      </span>
+                    </div>
                   </div>
 
-                  <div className='text-xl font-bold'>
+                  <div className=' text-[13px] md:text-xl font-bold'>
                     {item.type} - {t(item.diemDi)} - {t(item.diemDen)}{' '}
                   </div>
-                  <p className='text-[11px] text-gray-500'>Sơ đồ ghế: {item.seatLayout}</p>
+                  <p className='text-[11px] text-gray-500'>
+                    {tBooking('ticketDetails.seatLayout')}: {item.seatLayout}
+                  </p>
 
                   <div className='flex justify-between items-center text-center border-t border-b py-2 border-dashed'>
                     <div>
-                      <div className='text-xl font-bold'>{item.starttime}</div>
-                      <div className='text-sm font-medium'>{t(item.diemDi)}</div>
+                      <div className='text-[14px] font-medium '>{tBooking('ticketDetails.departureTime')}</div>
+                      <div className='text-[13px] md:text-xl font-bold'>{item.starttime}</div>
+                      <div className='text-[13px] md:text-sm font-medium'>{t(item.diemDi)}</div>
                     </div>
                     <div>
-                      <i className='text-green-600 border-b pl-4 pr-1'>
+                      <i className='text-green-600 max-md:text-[13px] border-b pl-4 pr-1'>
                         ...
                         <Icon name='bus-go' />
                       </i>
-                      <div className='text-xs text-gray-500'>
-                        {item.timetogo?.slice(0, 2)} giờ {item.timetogo?.slice(3, 5)} phút
+                      <div className='text-[10px] md:text-xs text-gray-500'>
+                        {item.timetogo?.slice(0, 2)} {tBooking('ticketDetails.travelTime')} {item.timetogo?.slice(3, 5)}{' '}
+                        {tBooking('ticketDetails.minute')}
                       </div>
                     </div>
 
                     <div>
-                      <div className='text-xl font-bold'>{item.endtime}</div>
-                      <div className='text-sm font-medium'>{t(item.diemDen)}</div>
+                      <div className='text-[14px] font-medium '>{tBooking('ticketDetails.arrivalTime')}</div>
+                      <div className='text-[13px] md:text-xl font-bold'>{item.endtime}</div>
+                      <div className='text-[13px] md:text-sm font-medium'>{t(item.diemDen)}</div>
                     </div>
                   </div>
 
                   <div className='bg-gray-100 p-3 rounded-lg text-sm'>
-                    <div className='font-semibold  '>{test.fullName || test.name}</div>
+                    <div className='font-semibold max-md:text-[13px] '>{test.fullName || test.name}</div>
                     <div className='text-xs text-gray-600 '>
-                      CMND: <span className='font-normal'>{test.cccd || ''} </span>{' '}
+                      {tBooking('ticketDetails.idNote')}:{' '}
+                      <span className='font-normal max-md:text-[12px]'>{test.cccd || ''} </span>{' '}
                     </div>
-                    <div className='text-xs text-gray-600 '> Ghi chú: Mang CMND/Hộ chiếu</div>
+                    <div className='text-xs text-gray-600 max-md:text-[10px] '> {tBooking('ticketDetails.note')}</div>
                     <div className='mt-2 border-t pt-2 flex justify-between'>
                       <div className=' '>
                         {' '}
-                        <strong>Ghế:</strong>{' '}
+                        <strong>{tBooking('ticketDetails.seat')}:</strong>{' '}
                         <span className='text-blue-600 font-medium '>
                           {item.seats.map((s: any) => s.name).join(', ')}
                         </span>{' '}
                       </div>
-                      <div className='font-bold text-green-600'>{item.price.toLocaleString()}đ</div>
+                      <div className='font-bold text-green-600'>
+                        {item.price.toLocaleString()} {tBooking('table.currency')}
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -235,6 +253,7 @@ export function Booking() {
 }
 
 export default function Bookinghistory() {
+  const { t } = useTranslation('Bookinghistory')
   return (
     <>
       <div
@@ -242,7 +261,7 @@ export default function Bookinghistory() {
         style={{ backgroundImage: `url(${backgruond})`, backgroundSize: 'cover', backgroundPosition: 'center' }}
       >
         <div className='w-full h-full flex items-center justify-center bg-[#00000041]  '>
-          <h1 className='text-4xl font-bold mb-4 text-[#fff]  '> Booking History</h1>
+          <h1 className='text-4xl font-bold mb-4 text-[#fff]  '>{t('title')}</h1>
         </div>
       </div>
       <Booking />

@@ -146,7 +146,7 @@ function Icon(props: { name: string }) {
     // Dấu chấm tròn bên trái
     return <i className='fa-regular fa-circle-left'></i>
   } else if (props.name == 'arrowleft') {
-    // Mũi tên bên nhọn
+    // Mũi tên bên nhọn trái
     return <i className='fa-solid fa-arrow-left'></i>
   } else if (props.name == 'logout') {
     // Đăng xuất
@@ -207,6 +207,12 @@ function Icon(props: { name: string }) {
   } else if (props.name == 'upload') {
     // Biểu tượng tải lên
     return <i className='fa-solid fa-cloud-arrow-up'></i>
+  } else if (props.name == 'loading') {
+    // Biểu tượng đang tải
+    return <i className='fa-solid fa-spinner animate-spin'></i>
+  } else if (props.name == 'Dashboard') {
+    // Biểu tượng bảng điều khiển
+    return <i className='fa-solid fa-tachometer-alt'></i>
   }
 }
 

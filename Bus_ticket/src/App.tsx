@@ -27,6 +27,8 @@ import InformationGuestUser from './Page/GuestUser/Information'
 import Chatlayout from './features/user/Page/Support/Chatlayout'
 import Chatlist from './features/user/Page/Support/Listchat'
 import InformationUser from './features/user/Page/Information'
+import Ticketsearch from './Page/Ticketsearch/Ticket-search'
+import ForgotPassword from './Component/auth/ForgotPassword'
 
 // admin
 import ProtectedRouteAmin from './services/ProtectedRouteAmin'
@@ -57,9 +59,11 @@ import Dashboard from './features/user/Dashboard'
 // import Callapi from './Page/CallAPI'
 import { useLocation } from 'react-router-dom'
 import { useEffect } from 'react'
+// import { useState } from 'react'
 // import Icon from './icons/Icon'
 import { useMediaQuery } from 'react-responsive'
-
+// test api
+import CallApiTicket from './Page/Callapiticket'
 function AppRoutes() {
   const location = useLocation()
 
@@ -69,7 +73,9 @@ function AppRoutes() {
     '/admin',
     '/user/payment/',
     '/user/information-guest-user/',
-    '/user/support/chat'
+    '/user/information-user/',
+    '/user/support/chat',
+    '/forgot-password'
   ]
   // loading mỗi khi chuyển trang
   // const [loading, setLoading] = useState(true)
@@ -97,6 +103,9 @@ function AppRoutes() {
       {!shouldHideHeaderFooter && <Header />}
       <ScrollToTop />
       <Routes>
+        <Route path='/call-api-ticket' element={<CallApiTicket />} />
+
+        {/* Các route khác */}
         <Route path='/' element={<Home />} />
         <Route path='/about' element={<About />} />
         <Route path='/faqs' element={<FAQ />} />
@@ -104,9 +113,12 @@ function AppRoutes() {
         <Route path='/contact' element={<Contact />} />
         <Route path='/buytickets' element={<Buyticket />} />
         <Route path='/buytickets/:id/:name' element={<Ticket />} />
+        <Route path='/user/buytickets' element={<Buyticket />} />
+        <Route path='/user/buytickets/:id/:name' element={<Ticket />} />
         <Route path='/signin' element={<Signin />} />
         <Route path='/signup' element={<Signup />} />
-
+        <Route path='/ticket-search' element={<Ticketsearch />} />
+        <Route path='/forgot-password' element={<ForgotPassword />} />
         <Route
           path='/user/dashboard'
           element={

@@ -6,6 +6,7 @@ import my from '../assets/languageimg/my.png'
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Link } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom' // ✅ Import thêm
 
 function Header() {
   const { t } = useTranslation()
@@ -83,17 +84,18 @@ function Header() {
     { id: 2, name: t('Header_NAV.About'), path: '/about', icon: 'about' },
     { id: 3, name: t('Header_NAV.Faqs'), path: '/faqs', icon: 'faqs' },
     { id: 4, name: t('Header_NAV.Blog'), path: '/blog', icon: 'blog' },
-    { id: 5, name: t('Header_NAV.Contact'), path: '/contact', icon: 'contact' }
+    { id: 5, name: t('Header_NAV.Contact'), path: '/contact', icon: 'contact' },
+    { id: 6, name: t('Header_NAV.TicketSearch'), path: '/ticket-search', icon: 'search' }
   ]
   const navbardashboard = [
-    { id: 1, name: t('Header_NAV.Dashboard'), path: '/user/dashboard', icon: 'home' },
+    { id: 1, name: t('Header_NAV.Dashboard'), path: '/user/dashboard', icon: 'Dashboard' },
     {
       id: 2,
       name: t('Header_NAV.Booking'),
-      path: '/buytickets',
+      path: '/user/buytickets',
       icon: 'ticket',
       sub: [
-        { id: '1', name: t('Header_DROPDOWN.BuyTicket'), path: '/buytickets' },
+        { id: '1', name: t('Header_DROPDOWN.BuyTicket'), path: '/user/buytickets' },
         { id: '2', name: t('Header_DROPDOWN.BookingHistory'), path: '/user/booked-ticket/history' }
       ]
     },
@@ -116,6 +118,13 @@ function Header() {
       sub: [
         { id: '1', name: t('Header_DROPDOWN.Profile'), path: `/user/profile/profile-setting/${UserInfo.id || ''}` },
         { id: '2', name: t('Header_DROPDOWN.ChangePassword'), path: '/user/change-password' }
+        //         // đăng xuất
+        // { id: '3', name: 'Đăng xuất', path: '/signin', action: () => {
+        //           localStorage.removeItem('userInfo')
+        //           localStorage.removeItem('userthongtin')
+        //           window.location.reload()
+        //         }
+        // }
       ]
     }
   ]
@@ -124,7 +133,7 @@ function Header() {
     return (
       <Link to='/buytickets' className='flex items-center gap-2'>
         <button className='cursor-pointer flex justify-center items-center rounded-xl font-semibold overflow-hidden relative z-100 border border-[#1ba000]  group px-4 py-2'>
-          <span className='relative z-10   text-green-600 group-hover:text-[#fff] text-xl duration-500 text-[13px]'>
+          <span className='relative z-10 text-nowrap  text-green-600 group-hover:text-[#fff] text-xl duration-500 text-[13px]'>
             {t('Header_BUTTON.BuyTicket')} !
           </span>
           <span className='absolute rounded-xl w-full h-full bg-[#1ba000] -left-32 top-0 -rotate-45 group-hover:rotate-0 group-hover:left-0 duration-500' />
@@ -142,10 +151,19 @@ function Header() {
   // kiểm tra người dùng đã đăng nhập hay chưa
   const userInfo = JSON.parse(localStorage.getItem('userInfo') || '{}')
   const user = JSON.parse(localStorage.getItem('userthongtin') || '{}')
-  const [clickhome, setclickhome] = useState(false)
+  const navigate = useNavigate()
+
+  const clickhome = location.pathname.startsWith('/user/')
+  console.log('pathname', location.pathname)
+
   const handleclickhome = () => {
-    setclickhome(!clickhome)
+    if (clickhome) {
+      navigate('/')
+    } else {
+      navigate('/user/dashboard')
+    }
   }
+
   const Header = () => {
     return (
       <header className='  max-[1800px]:px-[10%] h-8 flex  px-[20%] max-[900px]:px-[1%] max-[900px]:w-full max-[900px]:justify-start max-[430px]:flex-col max-[350px]:items-start items-center  justify-between   p-2 gap-2 text-gray-700 text-[14px]'>
@@ -170,43 +188,63 @@ function Header() {
             <LanguageSwitch />
           </div>
           {userInfo && userInfo.email ? (
-            <div className=' flex  '>
-              <div className=' border-x-2  border-gray-400 px-3'>
-                <span>
-                  {t('Header_LOGIN.Hello')}: {user.name ? user.name : userInfo.name ? userInfo.name : '???'}
-                </span>
-              </div>
-              <div className=' border-r-2 px-3 border-gray-400'>
+            <div className='flex items-center   '>
+              {/* Avatar + Tên */}
+              <Link
+                to={`/user/profile/profile-setting/${UserInfo.id}`}
+                className='flex items-center px-3 gap-2 border-x-1  border-gray-400'
+              >
+                <img
+                  src={
+                    user.imageUrl
+                      ? user.imageUrl
+                      : userInfo.imageUrl
+                        ? userInfo.imageUrl
+                        : `https://ui-avatars.com/api/?name=${encodeURIComponent(
+                            user.name ? user.name : userInfo.name
+                          )}&background=30fd4f&color=fff`
+                  }
+                  alt=''
+                  className='w-6 h-6 rounded-full'
+                />
+                <span className='   '>{user.name ? user.name : userInfo.name ? userInfo.name : '???'}</span>
+              </Link>
+
+              {/* Home / Dashboard */}
+              <div className='flex items-center px-3 gap-1'>
                 {clickhome ? (
                   <Link to={'/'}>
+                    <i className='text-[#1ba000] text-lg'>
+                      <Icon name='home' />
+                    </i>
                     <span onClick={handleclickhome}>{t('Header_NAV.Home')}</span>
                   </Link>
                 ) : (
                   <Link to={'/user/dashboard'}>
+                    <i className='text-[#1ba000] text-lg'>
+                      <Icon name='Dashboard' />
+                    </i>
                     <span onClick={handleclickhome}>{t('Header_NAV.Dashboard')}</span>
                   </Link>
                 )}
               </div>
             </div>
           ) : (
-            <div className='flex gap-2'>
-              <Link to={'/signin'}>
-                <span className=''>
-                  <i className='px-2 max-[350px]:px-0  text-[#1ba000]'>
-                    <Icon name='signin' />
-                  </i>
-                  {t('Header_LOGIN.SingIn')}
-                </span>
+            <div className='flex items-center gap-2'>
+              <Link to={'/signin'} className='flex items-center gap-1'>
+                <i className='text-[#1ba000]'>
+                  <Icon name='signin' />
+                </i>
+                <span className='max-[350px]:hidden'>{t('Header_LOGIN.SingIn')}</span>
               </Link>
 
-              <div className='px-3'>/</div>
-              <Link to={'/signup'}>
-                <span>
-                  <i className='px-2 text-[#1ba000]'>
-                    <Icon name='signup' />
-                  </i>
-                  {t('Header_LOGIN.SignUp')}
-                </span>
+              <span>/</span>
+
+              <Link to={'/signup'} className='flex items-center gap-1'>
+                <i className='text-[#1ba000]'>
+                  <Icon name='signup' />
+                </i>
+                <span className='max-[350px]:hidden'>{t('Header_LOGIN.SignUp')}</span>
               </Link>
             </div>
           )}
@@ -223,24 +261,32 @@ function Header() {
     //
     return (
       <nav className='flex gap-5'>
-        {userInfo && userInfo.email && clickhome
+        {clickhome //
           ? navbardashboard.map((item, index) => (
               <div key={index} className='relative group'>
                 <Link
                   to={item.path}
-                  className={`text-[16px] font-semibold hover:text-[#1ba000] transition-all duration-300 ${
+                  className={`text-[16px]  font-semibold   hover:text-[#1ba000] transition-all duration-300 ${
                     location.pathname === item.path
-                      ? 'text-[#1ba000]'
+                      ? 'text-[#1ba000]  '
                       : location.pathname.startsWith(item.path)
-                        ? 'text-[#1ba000]'
-                        : 'text-gray-700'
+                        ? 'text-[#1ba000]  '
+                        : 'text-gray-700 '
                   }`}
                 >
-                  <div className='flex items-center gap-2 p-2 hover:bg-gray-100 rounded w-full'>
+                  <div
+                    className={`flex items-center gap-2 p-2   border-b-3  rounded-2xl    hover:border-green-500    w-full${
+                      location.pathname === item.path
+                        ? 'text-[#1ba000]   '
+                        : location.pathname.startsWith(item.path)
+                          ? 'text-[#1ba000]  '
+                          : 'text-gray-700 border-transparent '
+                    }`}
+                  >
                     <span className='text-[#1ba000]'>
                       <Icon name={item.icon} />
                     </span>
-                    <span>{item.name}</span>
+                    <span className='text-nowrap'>{item.name}</span>
                   </div>
                 </Link>
                 {item.sub && item.sub.length > 0 && (
@@ -258,6 +304,21 @@ function Header() {
                           </Link>
                         </li>
                       ))}
+                      {item.id === 4 && (
+                        <li key='logout'>
+                          <Link
+                            to='/signin'
+                            className=' min-w-max block text-[15px] px-4 py-2 text-sm text-red-700 hover:bg-[#1ba000] hover:text-[#fff] hover:pr-auto  transition-all duration-300 ease-in '
+                            onClick={() => {
+                              localStorage.removeItem('userInfo')
+                              localStorage.removeItem('userthongtin')
+                              navigate('/signin')
+                            }}
+                          >
+                            Đăng xuất <Icon name='logout' />
+                          </Link>
+                        </li>
+                      )}
                     </ul>
                   </div>
                 )}
@@ -267,21 +328,21 @@ function Header() {
               <Link
                 key={index}
                 to={item.path}
-                className={`text-[16px] font-semibold hover:text-[#1ba000] transition-all duration-300 ${
+                className={`text-[16px] font-semibold  border-b-3 rounded-2xl    hover:border-green-500  hover:text-[#1ba000] transition-all duration-300 ${
                   item.path === '/'
                     ? location.pathname === '/'
-                      ? 'text-[#1ba000]'
-                      : 'text-gray-700'
+                      ? 'text-[#1ba000]  '
+                      : 'text-gray-700 border-transparent'
                     : location.pathname.startsWith(item.path)
                       ? 'text-[#1ba000]'
-                      : 'text-gray-700'
+                      : 'text-gray-700 border-transparent'
                 }`}
               >
-                <div className='flex items-center gap-2 p-2 hover:bg-gray-100 rounded w-full'>
+                <div className='flex items-center gap-2 p-2  transition duration-700 rounded-2xl w-full'>
                   <span className='text-[#1ba000]'>
                     <Icon name={item.icon} />
                   </span>
-                  <span>{item.name}</span>
+                  <span className='text-nowrap'>{item.name}</span>
                 </div>
               </Link>
             ))}
@@ -302,12 +363,12 @@ function Header() {
         <div className='max-[900px]:hidden '>
           <Nav />
         </div>
-        <div className='flex gap-5 '>
+        <div className='flex pl-2 gap-5 '>
           <div className='max-[450px]:hidden'>
             <Buytikets />
           </div>
           <div className='max-[900px]:flex hidden gap-2  '>
-            <div className='   text-[24px] text-[#1ba000] cursor-pointer' onClick={toggleMenu}>
+            <div className='   text-[24px]  text-[#1ba000] cursor-pointer' onClick={toggleMenu}>
               <i>{isMenuOpen ? <Icon name='close' /> : <Icon name='menu' />}</i>
             </div>
           </div>
@@ -317,26 +378,25 @@ function Header() {
       {isMenuOpen && (
         <div>
           <div
-            className='fixed bg-black opacity-30 z-90 top-0 w-full h-full '
+            className='fixed bg-black opacity-30 z-79 top-0 w-full h-full '
             onClick={() => setIsMenuOpen(false)}
           ></div>
-          <div className=' min-[900px]:hidden  fixed  top-0   items-start  w-full z-90 flex mt-1  '>
+          <div className=' min-[900px]:hidden  fixed  top-17 items-start  w-full z-90 flex mt-1  '>
             <div
-              className='relative   bg-[#ffffff] flex flex-col shadow-lg  w-full  justify-between p-6 animate-slideDown'
-              style={{ animation: 'slideDown 0.3s ease' }}
+              className='relative   bg-[#ffffff] flex flex-col shadow-lg  w-full   justify-between p-6 animate-slideDown'
+              style={{ animation: 'slideDown 0.4s ease-in-out' }}
               onClick={(e) => e.stopPropagation()}
             >
-              <div className='   flex flex-wrap gap-4 text-sm text-gray-700 justify-between max-[400px]:flex-col'>
-                <div className='flex flex-wrap gap-4 text-sm text-gray-700 justify-start max-[400px]:flex-col'>
-                  <div className='flex   gap-2'>
+              {/* --- Thông tin liên hệ + user --- */}
+              <div className='flex flex-wrap items-center gap-3 text-sm text-gray-700 border-b pb-3 max-sm:flex-col justify-center   '>
+                <div className='flex flex-wrap items-center gap-4 justify-center pb-2 '>
+                  <div className='flex items-center gap-2'>
                     <span className='text-[#1ba000]'>
                       <Icon name='phone' />
                     </span>
                     <span>+84 972364028</span>
                   </div>
-
-                  <div className='max-[400px]:hidden'>|</div>
-                  <div className='flex   gap-2'>
+                  <div className='flex items-center gap-2'>
                     <span className='text-[#1ba000]'>
                       <Icon name='email' />
                     </span>
@@ -344,128 +404,170 @@ function Header() {
                   </div>
                 </div>
 
-                <div className=''>
+                <div className='flex items-center justify-center w-full'>
                   {userInfo && userInfo.email ? (
-                    <div className=' flex max-[450px]:flex-col max-[450px]:gap-5   '>
-                      <div className=' border-x-2 max-[450px]:border-none  px-3 max-[450px]:px-0  border-gray-400  '>
-                        <span>
-                          {t('Header_LOGIN.Hello')}: {user.name ? user.name : userInfo.name ? userInfo.name : '???'}
-                        </span>
-                      </div>
-                      <div className=' border-r-2 max-[450px]:border-none px-3 max-[450px]:px-0  border-gray-400'>
+                    <div className='flex items-center justify-center gap-4 max-[450px]:flex-col max-[450px]:gap-2'>
+                      <Link to={`/user/profile/profile-setting/${UserInfo.id}`}>
+                        <div className='flex items-center gap-3 px-2'>
+                          <img
+                            src={
+                              user.imageUrl
+                                ? user.imageUrl
+                                : userInfo.imageUrl
+                                  ? userInfo.imageUrl
+                                  : `https://ui-avatars.com/api/?name=${encodeURIComponent(
+                                      user.name ? user.name : userInfo.name
+                                    )}&background=30fd4f&color=fff`
+                            }
+                            alt=''
+                            className='w-8 h-8 rounded-full object-cover'
+                          />
+                          <span className=' text-sm font-medium truncate'>
+                            {user.name ? user.name : userInfo.name ? userInfo.name : '???'}
+                          </span>
+                        </div>
+                      </Link>
+
+                      <div className='flex items-center gap-3 px-2'>
                         {clickhome ? (
-                          <Link to={'/'}>
-                            <span onClick={handleclickhome}>{t('Header_NAV.Home')}</span>
+                          <Link to={'/'} className='flex items-center gap-2'>
+                            <span className='text-[#1ba000] text-lg'>
+                              <Icon name='home' />
+                            </span>
+                            <span onClick={handleclickhome} className='text-sm'>
+                              {' '}
+                              {t('Header_NAV.Home')}
+                            </span>
                           </Link>
                         ) : (
-                          <Link to={'/user/dashboard'}>
-                            <span onClick={handleclickhome}>{t('Header_NAV.Dashboard')}</span>
+                          <Link to={'/user/dashboard'} className='flex items-center gap-2'>
+                            <span className='text-[#1ba000] text-lg'>
+                              <Icon name='Dashboard' />
+                            </span>
+                            <span onClick={handleclickhome} className='text-sm'>
+                              {' '}
+                              {t('Header_NAV.Dashboard')}
+                            </span>
                           </Link>
                         )}
                       </div>
                     </div>
                   ) : (
-                    <div className='flex gap-2 '>
-                      <Link to={'/signin'}>
-                        <span className=''>
-                          <i className='pr-2    text-[#1ba000]'>
-                            <Icon name='signin' />
-                          </i>
-                          {t('Header_LOGIN.SingIn')}
+                    <div className='flex items-center justify-center gap-4   max-[450px]:gap-2'>
+                      <Link to={'/signin'} className='flex items-center gap-2 text-[#1ba000] px-2'>
+                        <span className='text-lg'>
+                          <Icon name='signin' />
                         </span>
+                        <span className='text-sm'> {t('Header_LOGIN.SingIn')}</span>
                       </Link>
 
-                      <div className='px-3'>/</div>
-                      <Link to={'/signup'}>
-                        <span>
-                          <i className='px-2 text-[#1ba000]'>
-                            <Icon name='signup' />
-                          </i>
-                          {t('Header_LOGIN.SignUp')}
+                      <div className='text-sm text-gray-400'>|</div>
+
+                      <Link to={'/signup'} className='flex items-center gap-2 text-[#1ba000] px-2'>
+                        <span className='text-lg'>
+                          <Icon name='signup' />
                         </span>
+                        <span className='text-sm'> {t('Header_LOGIN.SignUp')}</span>
                       </Link>
                     </div>
                   )}
                 </div>
+
                 <div>
                   <LanguageSwitch />
                 </div>
               </div>
 
-              <div className='space-y-2  '>
-                {userInfo && userInfo.email && clickhome
-                  ? navbardashboard.map((item, index) => (
-                      <div key={index} className='relative group  '>
-                        <div
+              <div className='max-[350px]:h-55 overflow-y-auto h-[calc(100vh-200px)]'>
+                <div className='space-y-2 '>
+                  {userInfo && userInfo.email && clickhome
+                    ? navbardashboard.map((item, index) => (
+                        <div key={index} className='relative group'>
+                          <div
+                            className={`text-[16px] font-semibold hover:text-[#1ba000] transition-all duration-300 ${
+                              location.pathname === item.path
+                                ? 'text-[#1ba000]'
+                                : location.pathname.startsWith(item.path)
+                                  ? 'text-[#1ba000]'
+                                  : 'text-gray-700'
+                            }`}
+                          >
+                            <div className='flex items-center justify-between gap-2 py-2 hover:bg-gray-100 rounded w-full'>
+                              <Link to={item.path}>
+                                <div className='flex items-center gap-2'>
+                                  <span className='text-[#1ba000]'>
+                                    <Icon name={item.icon} />
+                                  </span>
+                                  <span>{item.name}</span>
+                                </div>
+                              </Link>
+                              {item.sub && item.sub.length > 0 && (
+                                <span onClick={() => toggleClick(item.id)} className='text-[#1ba000]'>
+                                  <Icon name={isopenclick === item.id ? 'up' : 'dow'} />
+                                </span>
+                              )}
+                            </div>
+                          </div>
+                          <div
+                            className={`left-0 top-full overflow-hidden bg-[#ffffff] transition-all duration-500 ease-in-out rounded shadow-md divide-y invisible opacity-0 group-hover:opacity-100 group-hover:visible ${
+                              isopenclick === item.id ? 'visible max-h-40 opacity-100' : 'max-h-0 opacity-0'
+                            }`}
+                          >
+                            {item.sub && item.sub.length > 0 && (
+                              <ul className='divide-y divide-gray-300 flex flex-col'>
+                                {item.sub.map((subItem) => (
+                                  <li key={subItem.id}>
+                                    <Link
+                                      to={subItem.path}
+                                      className={`min-w-max block text-[15px] px-4 py-2 text-sm hover:bg-[#1ba000] hover:text-[#fff] transition-all duration-300 ease-in ${
+                                        location.pathname === subItem.path ? 'text-[#1ba000]' : 'text-gray-700'
+                                      }`}
+                                    >
+                                      {subItem.name}
+                                    </Link>
+                                  </li>
+                                ))}
+                                {item.id === 4 && (
+                                  <span
+                                    className='text-red-700 min-w-max block text-[15px] px-4 py-2 text-sm hover:bg-[#1ba000] hover:text-[#fff] transition-all duration-300 ease-in'
+                                    onClick={() => {
+                                      localStorage.removeItem('userInfo')
+                                      localStorage.removeItem('userthongtin')
+                                      navigate('/signin')
+                                    }}
+                                  >
+                                    Đăng xuất
+                                    <Icon name='logout' />
+                                  </span>
+                                )}
+                              </ul>
+                            )}
+                          </div>
+                        </div>
+                      ))
+                    : navbar.map((item, index) => (
+                        <Link
+                          key={index}
+                          to={item.path}
                           className={`text-[16px] font-semibold hover:text-[#1ba000] transition-all duration-300 ${
-                            location.pathname === item.path
-                              ? 'text-[#1ba000]'
+                            item.path === '/'
+                              ? location.pathname === '/'
+                                ? 'text-[#1ba000]'
+                                : 'text-gray-700'
                               : location.pathname.startsWith(item.path)
                                 ? 'text-[#1ba000]'
                                 : 'text-gray-700'
                           }`}
                         >
-                          <div className='flex items-center justify-between gap-2 py-2   hover:bg-gray-100 rounded w-full'>
-                            <Link to={item.path}>
-                              <div className='flex items-center gap-2'>
-                                <span className='text-[#1ba000]'>
-                                  <Icon name={item.icon} />
-                                </span>
-
-                                <span>{item.name}</span>
-                              </div>
-                            </Link>
-                            {item.sub && item.sub.length > 0 && (
-                              <span onClick={() => toggleClick(item.id)} className='text-[#1ba000]'>
-                                <Icon name={isopenclick === item.id ? 'up' : 'dow'} />
-                              </span>
-                            )}
+                          <div className='flex items-center gap-2 py-2 hover:bg-gray-100 rounded w-full'>
+                            <span className='text-[#1ba000]'>
+                              <Icon name={item.icon} />
+                            </span>
+                            <span>{item.name}</span>
                           </div>
-                        </div>
-                        <div
-                          className={`  left-0 top-full overflow-hidden bg-[#ffffff] transition-all duration-500 ease-in-out rounded  shadow-md divide-y invisible  opacity-0 group-hover:opacity-100   group-hover:visible ${isopenclick === item.id ? 'visible max-h-40  opacity-100' : '  max-h-0 opacity-0'}`}
-                        >
-                          {item.sub && item.sub.length > 0 && (
-                            <ul className='   divide-y-1  divide-gray-300 flex flex-col '>
-                              {item.sub.map((subItem) => (
-                                <li key={subItem.id}>
-                                  <Link
-                                    to={subItem.path}
-                                    className={` min-w-max block text-[15px] px-4 py-2 text-sm hover:bg-[#1ba000] hover:text-[#fff] hover:pr-auto  transition-all duration-300 ease-in   ${
-                                      location.pathname === subItem.path ? 'text-[#1ba000]' : 'text-gray-700'
-                                    }`}
-                                  >
-                                    {subItem.name}
-                                  </Link>
-                                </li>
-                              ))}
-                            </ul>
-                          )}
-                        </div>
-                      </div>
-                    ))
-                  : navbar.map((item, index) => (
-                      <Link
-                        key={index}
-                        to={item.path}
-                        className={`text-[16px] font-semibold hover:text-[#1ba000] transition-all duration-300 ${
-                          item.path === '/'
-                            ? location.pathname === '/'
-                              ? 'text-[#1ba000]'
-                              : 'text-gray-700'
-                            : location.pathname.startsWith(item.path)
-                              ? 'text-[#1ba000]'
-                              : 'text-gray-700'
-                        }`}
-                      >
-                        <div className='flex items-center gap-2 py-2 hover:bg-gray-100 rounded w-full'>
-                          <span className='text-[#1ba000]'>
-                            <Icon name={item.icon} />
-                          </span>
-                          <span>{item.name}</span>
-                        </div>
-                      </Link>
-                    ))}
+                        </Link>
+                      ))}
+                </div>
               </div>
             </div>
             <style>
@@ -475,7 +577,7 @@ function Header() {
                 100% { transform: translateY(0); opacity: 1; }
               }
             `}
-            </style>{' '}
+            </style>
             <div></div>
           </div>
         </div>

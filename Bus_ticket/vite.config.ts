@@ -18,7 +18,14 @@ export default defineConfig({
   },
   resolve: {
     alias: {
-      '~': path.resolve(__dirname, './src')
+      '@': path.resolve(__dirname, './src'),
+      '@assets': path.resolve(__dirname, './src/assets'),
+      '@types': path.resolve(__dirname, './src/types'),
     }
+  },
+  preview: {
+    port: 4173,
+    host: true,
+    allowedHosts: ['bus-ticket-79by.onrender.com']
   }
 })
